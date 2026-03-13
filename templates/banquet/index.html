@@ -23,7 +23,6 @@
             max-width: 1200px;
             position: relative;
         }
-
         .banner-wrapper > svg {
             display: block;
             width: 100%;
@@ -33,19 +32,15 @@
         /* ─── "Annual Banquet" text ─── */
         .text-bg {
             position: absolute;
-            left: 4%;
-            top: 36%;
-            width: 20%;
-            height: 28%;
+            left: 4%; top: 36%;
+            width: 20%; height: 28%;
             background: rgba(180, 210, 185, 0.22);
             border-radius: 4px;
             pointer-events: none;
         }
-
         .text-overlay {
             position: absolute;
-            left: 6%;
-            top: 50%;
+            left: 6%; top: 50%;
             transform: translateY(-50%);
             font-family: 'Great Vibes', cursive;
             font-size: clamp(26px, 4.8vw, 56px);
@@ -55,71 +50,67 @@
             z-index: 10;
         }
 
-        /* ─── Envelope card — the 3-D floating element ─── */
+        /* ══════════════════════════════════════════════════
+           ENVELOPE CARD — 3-D float + shine
+           ══════════════════════════════════════════════════ */
         .envelope-card {
             position: absolute;
-
-            /* Centre the card over the right portion of the banner */
-            left: 42%;
-            top: 50%;
+            left: 42%; top: 50%;
             width: 52%;
 
-            /* The transform-origin must sit at the visual centre of the card */
-            transform-origin: center center;
-
-            /*
-             * THE 3-D EFFECT:
-             *   perspective()  — creates the depth field (lower = more dramatic)
-             *   rotateX()      — tilt top edge away from viewer
-             *   rotateY()      — swing left edge toward viewer
-             *   rotateZ()      — slight clockwise lean
-             */
+            /* Default tilt — overridden by JS on mousemove */
             transform: translateY(-50%)
                        perspective(900px)
                        rotateX(6deg)
                        rotateY(-10deg)
                        rotateZ(-2deg);
 
-            /* Shadow cast by the "lifted" card */
-            filter: drop-shadow(12px 18px 28px rgba(80, 60, 20, 0.28))
-                    drop-shadow(4px 6px 10px rgba(80, 60, 20, 0.15));
+            /* Cast shadow */
+            filter: drop-shadow(12px 20px 30px rgba(80, 60, 20, 0.30))
+                    drop-shadow(3px  6px  10px rgba(80, 60, 20, 0.16));
 
-            /* Smooth un-tilt on hover */
-            transition: transform 0.45s cubic-bezier(0.25, 0.8, 0.25, 1),
-                        filter 0.45s ease;
+            /* Smooth return-to-rest transition (active only on mouse-leave) */
+            transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1),
+                        filter   0.5s ease;
+
             cursor: pointer;
             z-index: 20;
-        }
-
-        /* Hover: card flattens and lifts slightly */
-        .envelope-card:hover {
-            transform: translateY(-54%)
-                       perspective(900px)
-                       rotateX(0deg)
-                       rotateY(0deg)
-                       rotateZ(0deg);
-            filter: drop-shadow(0px 28px 40px rgba(80, 60, 20, 0.30))
-                    drop-shadow(0px 8px 14px rgba(80, 60, 20, 0.18));
         }
 
         .envelope-card svg {
             display: block;
             width: 100%;
             height: auto;
-            overflow: visible; /* branches / flap may bleed outside card rect */
+            overflow: visible; /* flap + branches bleed outside */
+        }
+
+        /* ──────────────────────────────────────
+           SWEEP SHINE — diagonal light on hover
+           ────────────────────────────────────── */
+        @keyframes shine-sweep {
+            from { transform: translateX(-500px); }
+            to   { transform: translateX(1000px); }
+        }
+
+        /* The sweep rect sits in SVG and is targeted via class */
+        .sweep-overlay {
+            /* Off-screen left by default */
+            transform: translateX(-500px);
+        }
+        .envelope-card:hover .sweep-overlay {
+            /* Slide across once, stay off-screen right */
+            animation: shine-sweep 0.75s cubic-bezier(0.4, 0, 0.2, 1) 1 forwards;
+            animation-delay: 0.05s;
         }
     </style>
 </head>
 <body>
 <div class="banner-wrapper">
 
-    <!-- ════════════════════════════════════════════
-         LAYER 1 — background SVG (blossoms + text bg)
-         ════════════════════════════════════════════ -->
+    <!-- ══ LAYER 1 — background (blossoms only) ══ -->
     <svg viewBox="0 0 900 360" xmlns="http://www.w3.org/2000/svg"
          preserveAspectRatio="xMidYMid meet">
         <defs>
-            <!-- Cherry-blossom symbol, centred at origin -->
             <g id="blossom">
                 <path d="M0,0 C-8,-3 -9,-14 -4,-19 Q-1,-23 0,-21 Q1,-23 4,-19 C9,-14 8,-3 0,0Z"
                       fill="#f4b8c8" stroke="#e090a8" stroke-width="0.4" transform="rotate(0)"/>
@@ -145,7 +136,6 @@
             </g>
         </defs>
 
-        <!-- Background fill -->
         <rect width="900" height="360" fill="#e8eba8"/>
 
         <!-- Cherry blossoms — TOP RIGHT -->
@@ -201,118 +191,214 @@
         <circle cx="148" cy="242" r="3"   fill="#f8c8d0" opacity="0.75"/>
     </svg>
 
-    <!-- ════════════════════════════════════════════
-         LAYER 2 — "Annual Banquet" text
-         ════════════════════════════════════════════ -->
+    <!-- ══ LAYER 2 — text ══ -->
     <div class="text-bg"></div>
     <div class="text-overlay">Annual<br>Banquet</div>
 
-    <!-- ════════════════════════════════════════════
-         LAYER 3 — 3-D ENVELOPE CARD
-         The CSS `transform: perspective() rotateX() rotateY() rotateZ()`
-         on this div is what creates the floating-ticket illusion.
-         ════════════════════════════════════════════ -->
-    <div class="envelope-card">
-        <!--
-            This SVG contains only the envelope.
-            overflow="visible" lets the open flap triangle and branch
-            tips bleed outside the SVG bounding box naturally.
-            viewBox "0 0 460 300":
-              • envelope body  : (20, 90) → (440, 285)
-              • flap apex      : (230, 8)
-              • orchid centre  : ~(230, 175)
-              • branch         : y ≈ 258, x from -50 to 510  (overflows)
-        -->
+    <!-- ══════════════════════════════════════════════════
+         LAYER 3 — 3-D ENVELOPE CARD with shine effects
+         ══════════════════════════════════════════════════ -->
+    <div class="envelope-card" id="envelopeCard">
         <svg viewBox="0 0 460 300" xmlns="http://www.w3.org/2000/svg"
              overflow="visible">
+            <defs>
+                <!--
+                    SHINE GRADIENTS
+                    ────────────────
+                    1. shine-radial  — mouse-tracking spotlight (JS updates cx/cy)
+                    2. shine-sweep   — diagonal band for the hover-sweep effect
+                -->
 
-            <!-- ── Solid cream background (gives the card its body) ── -->
-            <rect x="20" y="90" width="420" height="195" rx="3"
-                  fill="#faf7f0" stroke="#a0a0d0" stroke-width="1.4"/>
+                <!-- 1. Radial spotlight — centre tracks the mouse -->
+                <radialGradient id="shine-radial" cx="50%" cy="50%" r="55%"
+                                gradientUnits="objectBoundingBox">
+                    <stop offset="0%"   stop-color="#fffff0" stop-opacity="0.55"/>
+                    <stop offset="35%"  stop-color="#fffff0" stop-opacity="0.18"/>
+                    <stop offset="100%" stop-color="#fffff0" stop-opacity="0"/>
+                </radialGradient>
 
-            <!-- ── Open flap (triangle above body) ── -->
+                <!-- 2. Diagonal sweep band -->
+                <linearGradient id="shine-sweep" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%"   stop-color="white" stop-opacity="0"/>
+                    <stop offset="35%"  stop-color="white" stop-opacity="0"/>
+                    <stop offset="47%"  stop-color="white" stop-opacity="0.55"/>
+                    <stop offset="50%"  stop-color="white" stop-opacity="0.75"/>
+                    <stop offset="53%"  stop-color="white" stop-opacity="0.55"/>
+                    <stop offset="65%"  stop-color="white" stop-opacity="0"/>
+                    <stop offset="100%" stop-color="white" stop-opacity="0"/>
+                </linearGradient>
+
+                <!-- Clip to envelope body shape (body + flap area) -->
+                <clipPath id="envelope-clip">
+                    <polygon points="20,90 230,8 440,90"/>
+                    <rect x="20" y="88" width="420" height="197"/>
+                </clipPath>
+            </defs>
+
+            <!-- ── Card background (gives the card its solid ivory body) ── -->
+            <!-- Flap -->
             <polygon points="20,90 230,8 440,90"
-                     fill="#f5f2eb" stroke="#a0a0d0" stroke-width="1.4"/>
+                     fill="#faf7f0" stroke="#b0a8d0" stroke-width="1.4"/>
+            <!-- Body -->
+            <rect x="20" y="88" width="420" height="197" rx="0"
+                  fill="#faf7f0" stroke="#b0a8d0" stroke-width="1.4"/>
+            <!-- Subtle inner warmth gradient on body -->
+            <rect x="20" y="88" width="420" height="197"
+                  fill="url(#body-warm)" opacity="0.4"/>
 
             <!-- ── Bottom fold V ── -->
-            <line x1="20"  y1="285" x2="230" y2="205" stroke="#a0a0d0" stroke-width="1.1"/>
-            <line x1="440" y1="285" x2="230" y2="205" stroke="#a0a0d0" stroke-width="1.1"/>
+            <line x1="20"  y1="285" x2="230" y2="205" stroke="#b0a8d0" stroke-width="1.0"/>
+            <line x1="440" y1="285" x2="230" y2="205" stroke="#b0a8d0" stroke-width="1.0"/>
 
-            <!-- ── Orchid / lily sketch ── -->
+            <!-- ── Orchid sketch ── -->
             <g stroke="#8B1800" stroke-width="1.7" fill="none"
                stroke-linecap="round" stroke-linejoin="round">
-                <!-- Stem -->
                 <path d="M230,200 C228,186 229,172 227,158 C226,144 225,130 226,116 C226,108 227,100 226,92"/>
-                <!-- Left outer petal -->
                 <path d="M226,126 C208,118 197,106 192,95 C187,84 189,76 193,72
                           C200,77 204,88 210,100 C216,113 222,121 225,126"/>
-                <!-- Right outer petal -->
                 <path d="M228,126 C246,118 257,106 262,95 C267,84 265,76 261,72
                           C254,77 250,88 244,100 C238,113 232,121 230,126"/>
-                <!-- Centre top petal -->
                 <path d="M228,122 C221,107 222,92 224,80 C225,72 227,67 229,66
                           C231,67 233,72 234,80 C236,92 237,107 230,122"/>
-                <!-- Left leaf -->
                 <path d="M228,162 C212,151 200,137 192,123 C186,112 186,103 190,97"/>
-                <!-- Right leaf -->
                 <path d="M230,164 C246,153 258,139 266,125 C272,114 272,105 268,99"/>
-                <!-- Petal veins -->
                 <path d="M225,118 C218,106 216,94 218,84"  stroke-width="0.9" stroke="#a02000"/>
                 <path d="M229,118 C229,104 229,92  228,82"  stroke-width="0.9" stroke="#a02000"/>
                 <path d="M232,118 C239,106 241,94  239,84"  stroke-width="0.9" stroke="#a02000"/>
-                <!-- Leaf veins -->
                 <path d="M218,154 C207,143 199,131 196,119" stroke-width="0.9" stroke="#a02000"/>
                 <path d="M241,156 C252,145 260,133 264,121" stroke-width="0.9" stroke="#a02000"/>
             </g>
 
-            <!-- ── Branch with buds (overflows the card edges intentionally) ── -->
+            <!-- ── Branch with buds ── -->
             <g stroke="#8B1800" stroke-width="1.4" fill="none" stroke-linecap="round">
-                <!-- Main branch — runs edge-to-edge and beyond -->
                 <path d="M-50,258 C10,249 70,244 120,247 C160,249 200,253 240,260
                          C280,267 320,267 360,263 C395,259 425,263 460,267 C480,269 500,266 520,260"/>
-
-                <!-- Twig clusters -->
-                <!-- cluster ~x80 -->
                 <path d="M82,246 C74,232 67,219 62,208"/>
                 <path d="M82,246 C84,230 86,216 88,205"/>
                 <path d="M82,246 C88,233 94,221 98,211"/>
                 <ellipse cx="60"  cy="205" rx="3"   ry="5.5" fill="#a02000" stroke="none" transform="rotate(-16,60,205)"/>
                 <ellipse cx="87"  cy="202" rx="3"   ry="5.5" fill="#a02000" stroke="none" transform="rotate(4,87,202)"/>
                 <ellipse cx="100" cy="208" rx="3"   ry="5.5" fill="#a02000" stroke="none" transform="rotate(16,100,208)"/>
-
-                <!-- cluster ~x190 -->
                 <path d="M190,251 C182,237 175,224 170,213"/>
                 <path d="M190,251 C192,235 194,221 196,210"/>
                 <path d="M190,251 C196,237 202,225 206,215"/>
                 <ellipse cx="168" cy="210" rx="3"   ry="5.5" fill="#a02000" stroke="none" transform="rotate(-13,168,210)"/>
                 <ellipse cx="195" cy="207" rx="3"   ry="5.5" fill="#a02000" stroke="none" transform="rotate(4,195,207)"/>
                 <ellipse cx="208" cy="212" rx="3"   ry="5.5" fill="#a02000" stroke="none" transform="rotate(14,208,212)"/>
-
-                <!-- cluster ~x320 -->
                 <path d="M320,263 C312,248 305,235 300,224"/>
                 <path d="M320,263 C321,247 322,232 323,220"/>
                 <ellipse cx="298" cy="221" rx="3"   ry="5.5" fill="#a02000" stroke="none" transform="rotate(-11,298,221)"/>
                 <ellipse cx="322" cy="217" rx="3"   ry="5.5" fill="#a02000" stroke="none" transform="rotate(3,322,217)"/>
-
-                <!-- cluster ~x425 -->
                 <path d="M425,265 C417,250 410,237 405,226"/>
                 <path d="M425,265 C426,249 427,234 428,222"/>
                 <ellipse cx="403" cy="223" rx="3"   ry="5.5" fill="#a02000" stroke="none" transform="rotate(-11,403,223)"/>
                 <ellipse cx="427" cy="219" rx="3"   ry="5.5" fill="#a02000" stroke="none" transform="rotate(3,427,219)"/>
             </g>
 
-            <!-- ── Lavender rectangle (event details placeholder) ── -->
+            <!-- ── Lavender rectangle ── -->
             <rect x="100" y="165" width="222" height="68"
                   fill="#c4b0e4" rx="3" opacity="0.88"/>
 
-            <!-- ── RSVP arrow ── -->
+            <!-- ── RSVP ── -->
             <line x1="326" y1="199" x2="408" y2="199" stroke="#2a6e2a" stroke-width="2.1"/>
             <polygon points="406,194 420,199 406,204" fill="#2a6e2a"/>
             <text x="424" y="204" font-family="Arial, sans-serif"
                   font-size="13" fill="#2a4a2a" font-weight="600">RSVP</text>
+
+            <!-- ══════════════════════════════════════════
+                 SHINE LAYERS — rendered above all content
+                 ══════════════════════════════════════════ -->
+
+            <!-- 1. Mouse-tracking radial gloss (JS updates cx/cy on shine-radial) -->
+            <rect id="gloss-overlay"
+                  x="20" y="8" width="420" height="277"
+                  fill="url(#shine-radial)"
+                  clip-path="url(#envelope-clip)"
+                  pointer-events="none"/>
+
+            <!--
+                2. Hover-sweep diagonal band.
+                   The rect is wide (500px) and skewed so it looks like a
+                   diagonal light flash. CSS animation slides it across.
+                   .sweep-overlay targets the CSS animation.
+            -->
+            <rect class="sweep-overlay"
+                  x="-60" y="8" width="500" height="277"
+                  fill="url(#shine-sweep)"
+                  clip-path="url(#envelope-clip)"
+                  transform="skewX(-18)"
+                  pointer-events="none"/>
         </svg>
     </div><!-- /.envelope-card -->
 
 </div><!-- /.banner-wrapper -->
+
+<script>
+/*
+ * Two interactive effects on the envelope card:
+ *
+ *  1. DYNAMIC TILT  — card rotates toward wherever the mouse is
+ *     (replaces the static CSS transform while hovering)
+ *
+ *  2. RADIAL GLOSS  — a warm spotlight follows the cursor,
+ *     implemented by updating the SVG radialGradient cx/cy in real time
+ */
+(function () {
+    const card       = document.getElementById('envelopeCard');
+    const shineGrad  = document.getElementById('shine-radial');
+
+    /* Default transform used when not hovering */
+    const DEFAULT_TRANSFORM =
+        'translateY(-50%) perspective(900px) rotateX(6deg) rotateY(-10deg) rotateZ(-2deg)';
+    const SMOOTH_TRANSITION =
+        'transform 0.5s cubic-bezier(0.25,0.8,0.25,1), filter 0.5s ease';
+
+    card.addEventListener('mouseenter', function () {
+        /* During tracking we want instant response, so remove the transition */
+        card.style.transition = 'filter 0.12s ease';
+    });
+
+    card.addEventListener('mousemove', function (e) {
+        const rect  = card.getBoundingClientRect();
+        const xRatio = (e.clientX - rect.left)  / rect.width;   // 0 → 1
+        const yRatio = (e.clientY - rect.top)   / rect.height;  // 0 → 1
+
+        /* ── 1. Dynamic tilt ──
+           Mouse on the right edge  → more rotateY (right tilts away)
+           Mouse on the bottom edge → more rotateX (bottom tilts away)     */
+        const rotY = -10 + (xRatio - 0.5) * -18;  // approx −19 to −1 °
+        const rotX =   6 + (yRatio - 0.5) *  12;  // approx   0 to 12 °
+        card.style.transform =
+            `translateY(-50%) perspective(900px) ` +
+            `rotateX(${rotY.toFixed(1)}deg) ` +
+            `rotateY(${rotX.toFixed(1)}deg) ` +
+            `rotateZ(-2deg)`;
+
+        /* ── 2. Radial gloss — move the spotlight ── */
+        shineGrad.setAttribute('cx', (xRatio * 100).toFixed(1) + '%');
+        shineGrad.setAttribute('cy', (yRatio * 100).toFixed(1) + '%');
+
+        /* Intensify the shadow slightly toward the bottom to follow tilt */
+        const shadowY = 20 + yRatio * 16;
+        const shadowX = 12 + xRatio * 10;
+        card.style.filter =
+            `drop-shadow(${shadowX}px ${shadowY}px 32px rgba(80,60,20,0.32)) ` +
+            `drop-shadow(3px 6px 10px rgba(80,60,20,0.16))`;
+    });
+
+    card.addEventListener('mouseleave', function () {
+        /* Re-enable smooth transition and snap back to the resting pose */
+        card.style.transition = SMOOTH_TRANSITION;
+        card.style.transform  = DEFAULT_TRANSFORM;
+        card.style.filter     =
+            'drop-shadow(12px 20px 30px rgba(80,60,20,0.30)) ' +
+            'drop-shadow(3px 6px 10px rgba(80,60,20,0.16))';
+
+        /* Reset spotlight to centre */
+        shineGrad.setAttribute('cx', '50%');
+        shineGrad.setAttribute('cy', '50%');
+    });
+}());
+</script>
 </body>
 </html>

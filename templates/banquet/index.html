@@ -17,20 +17,31 @@
             align-items: center;
         }
 
-        /* ── Banner ── */
+        /* ─── Banner wrapper ─── */
         .banner-wrapper {
             width: 100%;
             max-width: 1200px;
             position: relative;
         }
 
-        .banner-wrapper svg {
+        .banner-wrapper > svg {
             display: block;
             width: 100%;
             height: auto;
         }
 
-        /* "Annual Banquet" sits over the SVG using absolute positioning */
+        /* ─── "Annual Banquet" text ─── */
+        .text-bg {
+            position: absolute;
+            left: 4%;
+            top: 36%;
+            width: 20%;
+            height: 28%;
+            background: rgba(180, 210, 185, 0.22);
+            border-radius: 4px;
+            pointer-events: none;
+        }
+
         .text-overlay {
             position: absolute;
             left: 6%;
@@ -44,207 +55,264 @@
             z-index: 10;
         }
 
-        .text-bg {
+        /* ─── Envelope card — the 3-D floating element ─── */
+        .envelope-card {
             position: absolute;
-            left: 4%;
-            top: 36%;
-            width: 20%;
-            height: 28%;
-            background: rgba(180, 210, 185, 0.22);
-            border-radius: 4px;
+
+            /* Centre the card over the right portion of the banner */
+            left: 42%;
+            top: 50%;
+            width: 52%;
+
+            /* The transform-origin must sit at the visual centre of the card */
+            transform-origin: center center;
+
+            /*
+             * THE 3-D EFFECT:
+             *   perspective()  — creates the depth field (lower = more dramatic)
+             *   rotateX()      — tilt top edge away from viewer
+             *   rotateY()      — swing left edge toward viewer
+             *   rotateZ()      — slight clockwise lean
+             */
+            transform: translateY(-50%)
+                       perspective(900px)
+                       rotateX(6deg)
+                       rotateY(-10deg)
+                       rotateZ(-2deg);
+
+            /* Shadow cast by the "lifted" card */
+            filter: drop-shadow(12px 18px 28px rgba(80, 60, 20, 0.28))
+                    drop-shadow(4px 6px 10px rgba(80, 60, 20, 0.15));
+
+            /* Smooth un-tilt on hover */
+            transition: transform 0.45s cubic-bezier(0.25, 0.8, 0.25, 1),
+                        filter 0.45s ease;
+            cursor: pointer;
+            z-index: 20;
+        }
+
+        /* Hover: card flattens and lifts slightly */
+        .envelope-card:hover {
+            transform: translateY(-54%)
+                       perspective(900px)
+                       rotateX(0deg)
+                       rotateY(0deg)
+                       rotateZ(0deg);
+            filter: drop-shadow(0px 28px 40px rgba(80, 60, 20, 0.30))
+                    drop-shadow(0px 8px 14px rgba(80, 60, 20, 0.18));
+        }
+
+        .envelope-card svg {
+            display: block;
+            width: 100%;
+            height: auto;
+            overflow: visible; /* branches / flap may bleed outside card rect */
         }
     </style>
 </head>
 <body>
-    <div class="banner-wrapper">
+<div class="banner-wrapper">
 
-        <!-- Subtle tint behind the text -->
-        <div class="text-bg"></div>
-
-        <svg viewBox="0 0 900 360" xmlns="http://www.w3.org/2000/svg"
-             preserveAspectRatio="xMidYMid meet">
-            <defs>
-                <!--
-                    Cherry-blossom flower, centred at origin.
-                    Each petal: base at 0,0 pointing "up" (−y), then rotated 72° × 5.
-                    Notched tip gives the authentic cherry-blossom look.
-                -->
-                <g id="blossom">
-                    <path d="M0,0 C-8,-3 -9,-14 -4,-19 Q-1,-23 0,-21 Q1,-23 4,-19 C9,-14 8,-3 0,0Z"
-                          fill="#f4b8c8" stroke="#e090a8" stroke-width="0.4" transform="rotate(0)"/>
-                    <path d="M0,0 C-8,-3 -9,-14 -4,-19 Q-1,-23 0,-21 Q1,-23 4,-19 C9,-14 8,-3 0,0Z"
-                          fill="#f0aec2" stroke="#e090a8" stroke-width="0.4" transform="rotate(72)"/>
-                    <path d="M0,0 C-8,-3 -9,-14 -4,-19 Q-1,-23 0,-21 Q1,-23 4,-19 C9,-14 8,-3 0,0Z"
-                          fill="#f8c8d4" stroke="#e090a8" stroke-width="0.4" transform="rotate(144)"/>
-                    <path d="M0,0 C-8,-3 -9,-14 -4,-19 Q-1,-23 0,-21 Q1,-23 4,-19 C9,-14 8,-3 0,0Z"
-                          fill="#f4b8c8" stroke="#e090a8" stroke-width="0.4" transform="rotate(216)"/>
-                    <path d="M0,0 C-8,-3 -9,-14 -4,-19 Q-1,-23 0,-21 Q1,-23 4,-19 C9,-14 8,-3 0,0Z"
-                          fill="#f0b4c2" stroke="#e090a8" stroke-width="0.4" transform="rotate(288)"/>
-                    <!-- Centre -->
-                    <circle r="4.5" fill="#f090a8"/>
-                    <!-- 5 stamens -->
-                    <line x1="0"    y1="-4.5" x2="0"    y2="-10"  stroke="#c04860" stroke-width="0.7"/>
-                    <circle cx="0"    cy="-10"  r="1.2" fill="#c04860"/>
-                    <line x1="4.3"  y1="-1.4" x2="9.5"  y2="-3.1" stroke="#c04860" stroke-width="0.7"/>
-                    <circle cx="9.5"  cy="-3.1" r="1.2" fill="#c04860"/>
-                    <line x1="2.6"  y1="3.6"  x2="5.9"  y2="8"    stroke="#c04860" stroke-width="0.7"/>
-                    <circle cx="5.9"  cy="8"    r="1.2" fill="#c04860"/>
-                    <line x1="-2.6" y1="3.6"  x2="-5.9" y2="8"    stroke="#c04860" stroke-width="0.7"/>
-                    <circle cx="-5.9" cy="8"    r="1.2" fill="#c04860"/>
-                    <line x1="-4.3" y1="-1.4" x2="-9.5" y2="-3.1" stroke="#c04860" stroke-width="0.7"/>
-                    <circle cx="-9.5" cy="-3.1" r="1.2" fill="#c04860"/>
-                </g>
-            </defs>
-
-            <!-- ═══════════ BACKGROUND ═══════════ -->
-            <rect width="900" height="360" fill="#e8eba8"/>
-
-            <!-- ═══════════ CHERRY BLOSSOMS — TOP RIGHT ═══════════ -->
-            <g stroke="#7a3010" stroke-width="1.2" fill="none" stroke-linecap="round">
-                <path d="M900,0  C875,15  855,35  840,55  C825,75  810,85  790,95"/>
-                <path d="M900,22 C875,36  858,54  845,70  C835,82  820,90  808,97"/>
-                <path d="M855,40 C870,30  888,18  900,8"/>
-                <path d="M840,57 C850,42  862,28  872,14"/>
-                <path d="M790,95  C778,113 766,130 752,142"/>
-                <path d="M790,95  C802,112 814,124 822,140"/>
-                <path d="M752,142 C740,154 729,164 718,174"/>
+    <!-- ════════════════════════════════════════════
+         LAYER 1 — background SVG (blossoms + text bg)
+         ════════════════════════════════════════════ -->
+    <svg viewBox="0 0 900 360" xmlns="http://www.w3.org/2000/svg"
+         preserveAspectRatio="xMidYMid meet">
+        <defs>
+            <!-- Cherry-blossom symbol, centred at origin -->
+            <g id="blossom">
+                <path d="M0,0 C-8,-3 -9,-14 -4,-19 Q-1,-23 0,-21 Q1,-23 4,-19 C9,-14 8,-3 0,0Z"
+                      fill="#f4b8c8" stroke="#e090a8" stroke-width="0.4" transform="rotate(0)"/>
+                <path d="M0,0 C-8,-3 -9,-14 -4,-19 Q-1,-23 0,-21 Q1,-23 4,-19 C9,-14 8,-3 0,0Z"
+                      fill="#f0aec2" stroke="#e090a8" stroke-width="0.4" transform="rotate(72)"/>
+                <path d="M0,0 C-8,-3 -9,-14 -4,-19 Q-1,-23 0,-21 Q1,-23 4,-19 C9,-14 8,-3 0,0Z"
+                      fill="#f8c8d4" stroke="#e090a8" stroke-width="0.4" transform="rotate(144)"/>
+                <path d="M0,0 C-8,-3 -9,-14 -4,-19 Q-1,-23 0,-21 Q1,-23 4,-19 C9,-14 8,-3 0,0Z"
+                      fill="#f4b8c8" stroke="#e090a8" stroke-width="0.4" transform="rotate(216)"/>
+                <path d="M0,0 C-8,-3 -9,-14 -4,-19 Q-1,-23 0,-21 Q1,-23 4,-19 C9,-14 8,-3 0,0Z"
+                      fill="#f0b4c2" stroke="#e090a8" stroke-width="0.4" transform="rotate(288)"/>
+                <circle r="4.5" fill="#f090a8"/>
+                <line x1="0"    y1="-4.5" x2="0"    y2="-10"  stroke="#c04860" stroke-width="0.7"/>
+                <circle cx="0"    cy="-10"  r="1.2" fill="#c04860"/>
+                <line x1="4.3"  y1="-1.4" x2="9.5"  y2="-3.1" stroke="#c04860" stroke-width="0.7"/>
+                <circle cx="9.5"  cy="-3.1" r="1.2" fill="#c04860"/>
+                <line x1="2.6"  y1="3.6"  x2="5.9"  y2="8"    stroke="#c04860" stroke-width="0.7"/>
+                <circle cx="5.9"  cy="8"    r="1.2" fill="#c04860"/>
+                <line x1="-2.6" y1="3.6"  x2="-5.9" y2="8"    stroke="#c04860" stroke-width="0.7"/>
+                <circle cx="-5.9" cy="8"    r="1.2" fill="#c04860"/>
+                <line x1="-4.3" y1="-1.4" x2="-9.5" y2="-3.1" stroke="#c04860" stroke-width="0.7"/>
+                <circle cx="-9.5" cy="-3.1" r="1.2" fill="#c04860"/>
             </g>
-            <use href="#blossom" transform="translate(847,33)  scale(1.2)"/>
-            <use href="#blossom" transform="translate(875,54)  scale(1.0)"/>
-            <use href="#blossom" transform="translate(818,60)  scale(1.1)"/>
-            <use href="#blossom" transform="translate(854,78)  scale(0.9)"/>
-            <use href="#blossom" transform="translate(897,70)  scale(0.85)"/>
-            <use href="#blossom" transform="translate(828,90)  scale(1.0)"/>
-            <use href="#blossom" transform="translate(812,110) scale(0.9)"/>
-            <use href="#blossom" transform="translate(770,127) scale(1.1)"/>
-            <use href="#blossom" transform="translate(800,134) scale(0.85)"/>
-            <use href="#blossom" transform="translate(750,150) scale(0.9)"/>
-            <use href="#blossom" transform="translate(722,170) scale(1.0)"/>
-            <!-- Stray buds -->
-            <circle cx="838" cy="48" r="4"   fill="#f0b0c0" opacity="0.85"/>
-            <circle cx="864" cy="38" r="3"   fill="#f8c8d0" opacity="0.80"/>
-            <circle cx="810" cy="80" r="3.5" fill="#f0b0c0" opacity="0.80"/>
+        </defs>
 
-            <!-- ═══════════ CHERRY BLOSSOMS — BOTTOM LEFT ═══════════ -->
-            <g stroke="#7a3010" stroke-width="1.2" fill="none" stroke-linecap="round">
-                <path d="M0,360 C18,338 40,318 62,300 C82,284 108,268 132,255"/>
-                <path d="M0,344 C26,322 52,305 78,292 C98,282 118,272 138,265"/>
-                <path d="M42,314 C30,292 22,270 24,250"/>
-                <path d="M62,300 C48,282 38,260 40,240"/>
-                <path d="M132,255 C144,238 157,224 170,212"/>
-                <path d="M132,255 C118,238 108,220 112,204"/>
-                <path d="M102,277 C92,258 88,238 90,222"/>
-            </g>
-            <use href="#blossom" transform="translate(30,340)  scale(1.2)"/>
-            <use href="#blossom" transform="translate(57,320)  scale(1.0)"/>
-            <use href="#blossom" transform="translate(18,308)  scale(0.9)"/>
-            <use href="#blossom" transform="translate(80,300)  scale(1.1)"/>
-            <use href="#blossom" transform="translate(50,290)  scale(0.9)"/>
-            <use href="#blossom" transform="translate(112,274) scale(1.0)"/>
-            <use href="#blossom" transform="translate(82,264)  scale(0.85)"/>
-            <use href="#blossom" transform="translate(140,260) scale(1.0)"/>
-            <use href="#blossom" transform="translate(124,244) scale(0.9)"/>
-            <use href="#blossom" transform="translate(158,227) scale(0.95)"/>
-            <use href="#blossom" transform="translate(170,212) scale(0.85)"/>
-            <use href="#blossom" transform="translate(97,284)  scale(0.8)"/>
-            <!-- Stray buds -->
-            <circle cx="44"  cy="304" r="4"   fill="#f0b0c0" opacity="0.85"/>
-            <circle cx="67"  cy="287" r="3"   fill="#f8c8d0" opacity="0.80"/>
-            <circle cx="104" cy="260" r="3.5" fill="#f0b0c0" opacity="0.80"/>
-            <circle cx="148" cy="242" r="3"   fill="#f8c8d0" opacity="0.75"/>
+        <!-- Background fill -->
+        <rect width="900" height="360" fill="#e8eba8"/>
 
-            <!-- ═══════════ ENVELOPE ═══════════ -->
-            <!-- Body -->
-            <rect x="420" y="118" width="395" height="218"
-                  fill="rgba(255,255,255,0.06)" stroke="#8888c0" stroke-width="1.5"/>
-            <!-- Open flap (triangle pointing up) -->
-            <polygon points="420,118 617,30 815,118"
-                     fill="rgba(240,240,255,0.08)" stroke="#8888c0" stroke-width="1.5"/>
-            <!-- Bottom-fold V lines -->
-            <line x1="420" y1="336" x2="617" y2="242" stroke="#8888c0" stroke-width="1.2"/>
-            <line x1="815" y1="336" x2="617" y2="242" stroke="#8888c0" stroke-width="1.2"/>
+        <!-- Cherry blossoms — TOP RIGHT -->
+        <g stroke="#7a3010" stroke-width="1.2" fill="none" stroke-linecap="round">
+            <path d="M900,0  C875,15  855,35  840,55  C825,75  810,85  790,95"/>
+            <path d="M900,22 C875,36  858,54  845,70  C835,82  820,90  808,97"/>
+            <path d="M855,40 C870,30  888,18  900,8"/>
+            <path d="M840,57 C850,42  862,28  872,14"/>
+            <path d="M790,95  C778,113 766,130 752,142"/>
+            <path d="M790,95  C802,112 814,124 822,140"/>
+            <path d="M752,142 C740,154 729,164 718,174"/>
+        </g>
+        <use href="#blossom" transform="translate(847,33)  scale(1.2)"/>
+        <use href="#blossom" transform="translate(875,54)  scale(1.0)"/>
+        <use href="#blossom" transform="translate(818,60)  scale(1.1)"/>
+        <use href="#blossom" transform="translate(854,78)  scale(0.9)"/>
+        <use href="#blossom" transform="translate(897,70)  scale(0.85)"/>
+        <use href="#blossom" transform="translate(828,90)  scale(1.0)"/>
+        <use href="#blossom" transform="translate(812,110) scale(0.9)"/>
+        <use href="#blossom" transform="translate(770,127) scale(1.1)"/>
+        <use href="#blossom" transform="translate(800,134) scale(0.85)"/>
+        <use href="#blossom" transform="translate(750,150) scale(0.9)"/>
+        <use href="#blossom" transform="translate(722,170) scale(1.0)"/>
+        <circle cx="838" cy="48" r="4"   fill="#f0b0c0" opacity="0.85"/>
+        <circle cx="864" cy="38" r="3"   fill="#f8c8d0" opacity="0.80"/>
+        <circle cx="810" cy="80" r="3.5" fill="#f0b0c0" opacity="0.80"/>
 
-            <!-- ═══════════ ORCHID SKETCH (inside envelope) ═══════════ -->
-            <g stroke="#8B1800" stroke-width="1.8" fill="none"
+        <!-- Cherry blossoms — BOTTOM LEFT -->
+        <g stroke="#7a3010" stroke-width="1.2" fill="none" stroke-linecap="round">
+            <path d="M0,360 C18,338 40,318 62,300 C82,284 108,268 132,255"/>
+            <path d="M0,344 C26,322 52,305 78,292 C98,282 118,272 138,265"/>
+            <path d="M42,314 C30,292 22,270 24,250"/>
+            <path d="M62,300 C48,282 38,260 40,240"/>
+            <path d="M132,255 C144,238 157,224 170,212"/>
+            <path d="M132,255 C118,238 108,220 112,204"/>
+            <path d="M102,277 C92,258 88,238 90,222"/>
+        </g>
+        <use href="#blossom" transform="translate(30,340)  scale(1.2)"/>
+        <use href="#blossom" transform="translate(57,320)  scale(1.0)"/>
+        <use href="#blossom" transform="translate(18,308)  scale(0.9)"/>
+        <use href="#blossom" transform="translate(80,300)  scale(1.1)"/>
+        <use href="#blossom" transform="translate(50,290)  scale(0.9)"/>
+        <use href="#blossom" transform="translate(112,274) scale(1.0)"/>
+        <use href="#blossom" transform="translate(82,264)  scale(0.85)"/>
+        <use href="#blossom" transform="translate(140,260) scale(1.0)"/>
+        <use href="#blossom" transform="translate(124,244) scale(0.9)"/>
+        <use href="#blossom" transform="translate(158,227) scale(0.95)"/>
+        <use href="#blossom" transform="translate(170,212) scale(0.85)"/>
+        <use href="#blossom" transform="translate(97,284)  scale(0.8)"/>
+        <circle cx="44"  cy="304" r="4"   fill="#f0b0c0" opacity="0.85"/>
+        <circle cx="67"  cy="287" r="3"   fill="#f8c8d0" opacity="0.80"/>
+        <circle cx="104" cy="260" r="3.5" fill="#f0b0c0" opacity="0.80"/>
+        <circle cx="148" cy="242" r="3"   fill="#f8c8d0" opacity="0.75"/>
+    </svg>
+
+    <!-- ════════════════════════════════════════════
+         LAYER 2 — "Annual Banquet" text
+         ════════════════════════════════════════════ -->
+    <div class="text-bg"></div>
+    <div class="text-overlay">Annual<br>Banquet</div>
+
+    <!-- ════════════════════════════════════════════
+         LAYER 3 — 3-D ENVELOPE CARD
+         The CSS `transform: perspective() rotateX() rotateY() rotateZ()`
+         on this div is what creates the floating-ticket illusion.
+         ════════════════════════════════════════════ -->
+    <div class="envelope-card">
+        <!--
+            This SVG contains only the envelope.
+            overflow="visible" lets the open flap triangle and branch
+            tips bleed outside the SVG bounding box naturally.
+            viewBox "0 0 460 300":
+              • envelope body  : (20, 90) → (440, 285)
+              • flap apex      : (230, 8)
+              • orchid centre  : ~(230, 175)
+              • branch         : y ≈ 258, x from -50 to 510  (overflows)
+        -->
+        <svg viewBox="0 0 460 300" xmlns="http://www.w3.org/2000/svg"
+             overflow="visible">
+
+            <!-- ── Solid cream background (gives the card its body) ── -->
+            <rect x="20" y="90" width="420" height="195" rx="3"
+                  fill="#faf7f0" stroke="#a0a0d0" stroke-width="1.4"/>
+
+            <!-- ── Open flap (triangle above body) ── -->
+            <polygon points="20,90 230,8 440,90"
+                     fill="#f5f2eb" stroke="#a0a0d0" stroke-width="1.4"/>
+
+            <!-- ── Bottom fold V ── -->
+            <line x1="20"  y1="285" x2="230" y2="205" stroke="#a0a0d0" stroke-width="1.1"/>
+            <line x1="440" y1="285" x2="230" y2="205" stroke="#a0a0d0" stroke-width="1.1"/>
+
+            <!-- ── Orchid / lily sketch ── -->
+            <g stroke="#8B1800" stroke-width="1.7" fill="none"
                stroke-linecap="round" stroke-linejoin="round">
                 <!-- Stem -->
-                <path d="M619,220 C617,206 618,192 616,178 C615,164 614,150 615,136 C615,128 616,120 615,112"/>
+                <path d="M230,200 C228,186 229,172 227,158 C226,144 225,130 226,116 C226,108 227,100 226,92"/>
                 <!-- Left outer petal -->
-                <path d="M615,146 C597,138 586,126 581,115 C576,104 578,96 582,92
-                          C589,97 593,108 599,120 C605,133 611,141 614,146"/>
+                <path d="M226,126 C208,118 197,106 192,95 C187,84 189,76 193,72
+                          C200,77 204,88 210,100 C216,113 222,121 225,126"/>
                 <!-- Right outer petal -->
-                <path d="M617,146 C635,138 646,126 651,115 C656,104 654,96 650,92
-                          C643,97 639,108 633,120 C627,133 621,141 619,146"/>
+                <path d="M228,126 C246,118 257,106 262,95 C267,84 265,76 261,72
+                          C254,77 250,88 244,100 C238,113 232,121 230,126"/>
                 <!-- Centre top petal -->
-                <path d="M617,142 C610,127 611,112 613,100 C614,92 616,87 618,86
-                          C620,87 622,92 623,100 C625,112 626,127 619,142"/>
+                <path d="M228,122 C221,107 222,92 224,80 C225,72 227,67 229,66
+                          C231,67 233,72 234,80 C236,92 237,107 230,122"/>
                 <!-- Left leaf -->
-                <path d="M617,182 C601,171 589,157 581,143 C575,132 575,123 579,117"/>
+                <path d="M228,162 C212,151 200,137 192,123 C186,112 186,103 190,97"/>
                 <!-- Right leaf -->
-                <path d="M619,184 C635,173 647,159 655,145 C661,134 661,125 657,119"/>
+                <path d="M230,164 C246,153 258,139 266,125 C272,114 272,105 268,99"/>
                 <!-- Petal veins -->
-                <path d="M614,138 C607,126 605,114 607,104" stroke-width="0.9" stroke="#a02000"/>
-                <path d="M618,138 C618,124 618,112 617,102" stroke-width="0.9" stroke="#a02000"/>
-                <path d="M621,138 C628,126 630,114 628,104" stroke-width="0.9" stroke="#a02000"/>
+                <path d="M225,118 C218,106 216,94 218,84"  stroke-width="0.9" stroke="#a02000"/>
+                <path d="M229,118 C229,104 229,92  228,82"  stroke-width="0.9" stroke="#a02000"/>
+                <path d="M232,118 C239,106 241,94  239,84"  stroke-width="0.9" stroke="#a02000"/>
                 <!-- Leaf veins -->
-                <path d="M607,174 C596,163 588,151 585,139" stroke-width="0.9" stroke="#a02000"/>
-                <path d="M630,176 C641,165 649,153 653,141" stroke-width="0.9" stroke="#a02000"/>
+                <path d="M218,154 C207,143 199,131 196,119" stroke-width="0.9" stroke="#a02000"/>
+                <path d="M241,156 C252,145 260,133 264,121" stroke-width="0.9" stroke="#a02000"/>
             </g>
 
-            <!-- ═══════════ BRANCH WITH BUDS ═══════════ -->
-            <g stroke="#8B1800" stroke-width="1.5" fill="none" stroke-linecap="round">
-                <!-- Main branch — extends left beyond envelope -->
-                <path d="M255,304 C310,295 365,290 415,293 C455,295 495,300 535,307
-                         C575,314 615,314 655,310 C695,306 733,310 772,314
-                         C798,316 822,313 842,306"/>
-                <!-- Left tail beyond envelope -->
-                <path d="M255,304 C228,300 202,298 178,302 C158,305 142,307 125,304"/>
+            <!-- ── Branch with buds (overflows the card edges intentionally) ── -->
+            <g stroke="#8B1800" stroke-width="1.4" fill="none" stroke-linecap="round">
+                <!-- Main branch — runs edge-to-edge and beyond -->
+                <path d="M-50,258 C10,249 70,244 120,247 C160,249 200,253 240,260
+                         C280,267 320,267 360,263 C395,259 425,263 460,267 C480,269 500,266 520,260"/>
 
-                <!-- Twig cluster ~x350 -->
-                <path d="M352,293 C344,279 337,266 332,255"/>
-                <path d="M352,293 C354,278 356,264 358,253"/>
-                <path d="M352,293 C358,280 364,268 368,257"/>
-                <ellipse cx="330" cy="252" rx="3.5" ry="6"   fill="#a02000" stroke="none" transform="rotate(-16,330,252)"/>
-                <ellipse cx="357" cy="250" rx="3.5" ry="6"   fill="#a02000" stroke="none" transform="rotate(4,357,250)"/>
-                <ellipse cx="370" cy="254" rx="3.5" ry="6"   fill="#a02000" stroke="none" transform="rotate(16,370,254)"/>
+                <!-- Twig clusters -->
+                <!-- cluster ~x80 -->
+                <path d="M82,246 C74,232 67,219 62,208"/>
+                <path d="M82,246 C84,230 86,216 88,205"/>
+                <path d="M82,246 C88,233 94,221 98,211"/>
+                <ellipse cx="60"  cy="205" rx="3"   ry="5.5" fill="#a02000" stroke="none" transform="rotate(-16,60,205)"/>
+                <ellipse cx="87"  cy="202" rx="3"   ry="5.5" fill="#a02000" stroke="none" transform="rotate(4,87,202)"/>
+                <ellipse cx="100" cy="208" rx="3"   ry="5.5" fill="#a02000" stroke="none" transform="rotate(16,100,208)"/>
 
-                <!-- Twig cluster ~x478 -->
-                <path d="M478,298 C470,283 463,270 458,258"/>
-                <path d="M478,298 C480,282 482,268 484,256"/>
-                <path d="M478,298 C485,283 491,270 495,259"/>
-                <ellipse cx="456" cy="255" rx="3"   ry="5.5" fill="#a02000" stroke="none" transform="rotate(-13,456,255)"/>
-                <ellipse cx="483" cy="253" rx="3"   ry="5.5" fill="#a02000" stroke="none" transform="rotate(4,483,253)"/>
-                <ellipse cx="497" cy="256" rx="3"   ry="5.5" fill="#a02000" stroke="none" transform="rotate(14,497,256)"/>
+                <!-- cluster ~x190 -->
+                <path d="M190,251 C182,237 175,224 170,213"/>
+                <path d="M190,251 C192,235 194,221 196,210"/>
+                <path d="M190,251 C196,237 202,225 206,215"/>
+                <ellipse cx="168" cy="210" rx="3"   ry="5.5" fill="#a02000" stroke="none" transform="rotate(-13,168,210)"/>
+                <ellipse cx="195" cy="207" rx="3"   ry="5.5" fill="#a02000" stroke="none" transform="rotate(4,195,207)"/>
+                <ellipse cx="208" cy="212" rx="3"   ry="5.5" fill="#a02000" stroke="none" transform="rotate(14,208,212)"/>
 
-                <!-- Twig cluster ~x605 -->
-                <path d="M604,312 C596,297 588,284 582,272"/>
-                <path d="M604,312 C605,296 606,281 607,269"/>
-                <ellipse cx="580" cy="269" rx="3"   ry="5.5" fill="#a02000" stroke="none" transform="rotate(-11,580,269)"/>
-                <ellipse cx="606" cy="266" rx="3"   ry="5.5" fill="#a02000" stroke="none" transform="rotate(3,606,266)"/>
+                <!-- cluster ~x320 -->
+                <path d="M320,263 C312,248 305,235 300,224"/>
+                <path d="M320,263 C321,247 322,232 323,220"/>
+                <ellipse cx="298" cy="221" rx="3"   ry="5.5" fill="#a02000" stroke="none" transform="rotate(-11,298,221)"/>
+                <ellipse cx="322" cy="217" rx="3"   ry="5.5" fill="#a02000" stroke="none" transform="rotate(3,322,217)"/>
 
-                <!-- Twig cluster ~x722 -->
-                <path d="M724,312 C716,297 708,284 702,272"/>
-                <path d="M724,312 C725,296 726,281 727,269"/>
-                <ellipse cx="700" cy="269" rx="3"   ry="5.5" fill="#a02000" stroke="none" transform="rotate(-11,700,269)"/>
-                <ellipse cx="726" cy="266" rx="3"   ry="5.5" fill="#a02000" stroke="none" transform="rotate(3,726,266)"/>
+                <!-- cluster ~x425 -->
+                <path d="M425,265 C417,250 410,237 405,226"/>
+                <path d="M425,265 C426,249 427,234 428,222"/>
+                <ellipse cx="403" cy="223" rx="3"   ry="5.5" fill="#a02000" stroke="none" transform="rotate(-11,403,223)"/>
+                <ellipse cx="427" cy="219" rx="3"   ry="5.5" fill="#a02000" stroke="none" transform="rotate(3,427,219)"/>
             </g>
 
-            <!-- ═══════════ PURPLE RECTANGLE (event details placeholder) ═══════════ -->
-            <rect x="482" y="212" width="238" height="74"
+            <!-- ── Lavender rectangle (event details placeholder) ── -->
+            <rect x="100" y="165" width="222" height="68"
                   fill="#c4b0e4" rx="3" opacity="0.88"/>
 
-            <!-- ═══════════ RSVP ARROW ═══════════ -->
-            <line x1="724" y1="249" x2="808" y2="249" stroke="#2a6e2a" stroke-width="2.2"/>
-            <polygon points="806,244 820,249 806,254" fill="#2a6e2a"/>
-            <text x="824" y="254" font-family="Arial, sans-serif"
+            <!-- ── RSVP arrow ── -->
+            <line x1="326" y1="199" x2="408" y2="199" stroke="#2a6e2a" stroke-width="2.1"/>
+            <polygon points="406,194 420,199 406,204" fill="#2a6e2a"/>
+            <text x="424" y="204" font-family="Arial, sans-serif"
                   font-size="13" fill="#2a4a2a" font-weight="600">RSVP</text>
         </svg>
+    </div><!-- /.envelope-card -->
 
-        <!-- "Annual Banquet" — rendered in HTML so the Google Font works -->
-        <div class="text-overlay">
-            Annual<br>Banquet
-        </div>
-
-    </div><!-- /.banner-wrapper -->
+</div><!-- /.banner-wrapper -->
 </body>
 </html>

@@ -68,7 +68,7 @@
         .envelope-card {
             position: relative;
             width: 100%;
-            max-width: 720px;
+            max-width: 680px;
             z-index: 10;
 
             /* Resting tilt */
@@ -162,22 +162,18 @@
     <!-- ─── 3-D Shiny Envelope Card ─── -->
     <div class="envelope-card" id="envelopeCard">
         <!--
-            SVG viewBox  0 0 720 410
-            ─────────────────────────────────────────────────
-            Left stub    x  0 – 68   (ticket perforated edge)
-            Main body    x 68 – 720
-            Flap         top triangle, apex at (394, 162)
-            Fold lines   bottom V, meeting at (394, 248)
-            Content zone y 175 – 390
+            Card SVG 720 × 720 (square to match the user's 1024×1024 envelope art).
+            The artwork fills the card; text + shine layers float above.
         -->
-        <svg viewBox="0 0 720 410" xmlns="http://www.w3.org/2000/svg" overflow="visible">
+        <svg viewBox="0 0 720 720" xmlns="http://www.w3.org/2000/svg"
+             xmlns:xlink="http://www.w3.org/1999/xlink" overflow="visible">
             <defs>
 
                 <!-- Mouse-tracking radial gloss -->
                 <radialGradient id="shine-radial" cx="50%" cy="50%" r="55%"
                                 gradientUnits="objectBoundingBox">
-                    <stop offset="0%"   stop-color="#fffff5" stop-opacity="0.60"/>
-                    <stop offset="38%"  stop-color="#fffff5" stop-opacity="0.18"/>
+                    <stop offset="0%"   stop-color="#fffff5" stop-opacity="0.55"/>
+                    <stop offset="38%"  stop-color="#fffff5" stop-opacity="0.16"/>
                     <stop offset="100%" stop-color="#fffff5" stop-opacity="0"/>
                 </radialGradient>
 
@@ -185,214 +181,105 @@
                 <linearGradient id="sweep-grad" x1="0%" y1="0%" x2="100%" y2="0%">
                     <stop offset="0%"   stop-color="white" stop-opacity="0"/>
                     <stop offset="43%"  stop-color="white" stop-opacity="0"/>
-                    <stop offset="50%"  stop-color="white" stop-opacity="0.70"/>
+                    <stop offset="50%"  stop-color="white" stop-opacity="0.65"/>
                     <stop offset="57%"  stop-color="white" stop-opacity="0"/>
                     <stop offset="100%" stop-color="white" stop-opacity="0"/>
                 </linearGradient>
 
                 <!-- Static diagonal gloss (always-on laminate sheen) -->
                 <linearGradient id="gloss-static" x1="0%" y1="0%" x2="90%" y2="100%">
-                    <stop offset="0%"   stop-color="white" stop-opacity="0.18"/>
+                    <stop offset="0%"   stop-color="white" stop-opacity="0.20"/>
                     <stop offset="40%"  stop-color="white" stop-opacity="0.06"/>
                     <stop offset="55%"  stop-color="white" stop-opacity="0.01"/>
                     <stop offset="100%" stop-color="black" stop-opacity="0.04"/>
                 </linearGradient>
 
-                <!-- Clip entire card -->
+                <!-- Clip the entire card to a rounded rectangle -->
                 <clipPath id="card-clip">
-                    <rect x="0" y="0" width="720" height="410" rx="9"/>
+                    <rect x="0" y="0" width="720" height="720" rx="16"/>
                 </clipPath>
 
-                <!-- Clip to envelope body (excl. stub) for inner border -->
-                <clipPath id="body-clip">
-                    <rect x="68" y="0" width="652" height="410"/>
-                </clipPath>
             </defs>
 
-            <!-- ══════════════ CARD BASE ══════════════ -->
-
-            <!-- Left stub (warm parchment) -->
-            <rect x="0" y="0" width="68" height="410" fill="#ede8de"
-                  clip-path="url(#card-clip)"/>
-
-            <!-- Main body (ivory) -->
-            <rect x="68" y="0" width="652" height="410" fill="#faf8f2"
-                  clip-path="url(#card-clip)"/>
-
-            <!-- Full rounded border -->
-            <rect x="0" y="0" width="720" height="410" rx="9"
-                  fill="none" stroke="#c6bcb0" stroke-width="1.6"/>
-
-            <!-- Inner dashed border (body only) -->
-            <rect x="80" y="10" width="630" height="390" rx="5"
-                  fill="none" stroke="#d4ccbe" stroke-width="0.6"
-                  stroke-dasharray="3,6"
-                  clip-path="url(#body-clip)"/>
-
-            <!-- ══════════════ PERFORATED STUB EDGE ══════════════ -->
-            <!-- Top notch cut-out -->
-            <circle cx="68" cy="0"   r="15" fill="#f0ece3"/>
-            <!-- Bottom notch cut-out -->
-            <circle cx="68" cy="410" r="15" fill="#f0ece3"/>
-            <!-- Perforation dashes -->
-            <line x1="68" y1="15" x2="68" y2="395"
-                  stroke="#c0b8a8" stroke-width="1.1" stroke-dasharray="5,4.5"/>
-
-            <!-- ══════════════ STUB TEXT ══════════════ -->
-            <text transform="rotate(-90) translate(-200, 34)"
-                  text-anchor="middle"
-                  font-family="'Courier New', monospace" font-size="8"
-                  fill="#a09080" letter-spacing="2.5">0 0 0 0 0 0 1</text>
-
-            <text transform="rotate(-90) translate(-205, 34)"
-                  dy="-130"
-                  text-anchor="middle"
-                  font-family="'Courier New', monospace" font-size="9"
-                  fill="#7a6a58" letter-spacing="3">ADMIT ONE</text>
-
-            <text transform="rotate(-90) translate(-340, 34)"
-                  text-anchor="middle"
-                  font-family="'Courier New', monospace" font-size="7.5"
-                  fill="#a09080" letter-spacing="2">APR · 2026</text>
-
-            <!-- ══════════════ ENVELOPE FLAP ══════════════ -->
-            <!-- Flap fill (slightly warmer than body) -->
-            <polygon points="68,0 720,0 394,162"
-                     fill="#f2ede3" clip-path="url(#card-clip)"/>
-            <!-- Flap fold edge lines -->
-            <polyline points="68,0 394,162 720,0"
-                      fill="none" stroke="#c6bcb0" stroke-width="1.2"/>
-
-            <!-- ══════════════ EMBOSSED FLORAL ON FLAP ══════════════ -->
+            <!-- ══════════════ ARTWORK ══════════════ -->
             <!--
-                All paths are drawn in a tone just slightly off from the flap fill
-                to create a subtle embossed / letterpress look.
+                The user's 1024×1024 envelope/border illustration,
+                scaled to fill the 720×720 card and clipped to rounded corners.
             -->
-            <g fill="none" stroke="#d8d0c2" stroke-width="0.95"
-               stroke-linecap="round" stroke-linejoin="round" opacity="0.9">
-
-                <!-- Centre flower at flap apex -->
-                <path d="M394,18 Q391,30 389,44 Q387,54 391,59 Q393,62 394,59 Q395,62 397,59 Q401,54 399,44 Q397,30 394,18"/>
-                <circle cx="394" cy="64" r="5" fill="#e6dfd4" stroke="#ccc4b8" stroke-width="0.8"/>
-
-                <!-- Stem down from flower -->
-                <path d="M394,69 Q392,76 390,83 Q388,92 394,96 Q400,92 398,83 Q396,76 394,69"/>
-
-                <!-- Left main branch -->
-                <path d="M388,58 C374,54 358,60 342,54 C326,48 316,36 320,27
-                          C324,18 336,18 342,25 C348,32 344,44 352,48 C360,52 372,50 382,55"/>
-                <!-- Left branch detail leaves -->
-                <path d="M342,54 Q335,43 339,34"/>
-                <path d="M328,46 Q320,39 323,30"/>
-                <path d="M352,48 Q354,37 363,33"/>
-                <!-- Left far scroll -->
-                <path d="M320,27 C309,22 298,27 292,21 C286,15 288,6 296,4
-                          C305,2 312,9 310,18 C308,25 300,27 298,22"/>
-                <path d="M292,21 Q287,13 292,6"/>
-                <path d="M300,22 Q295,16 298,10"/>
-                <!-- Extra left leaf -->
-                <path d="M360,52 Q354,44 356,36"/>
-                <path d="M368,54 Q365,45 370,38"/>
-
-                <!-- Right main branch (mirror) -->
-                <path d="M400,58 C414,54 430,60 446,54 C462,48 472,36 468,27
-                          C464,18 452,18 446,25 C440,32 444,44 436,48 C428,52 416,50 406,55"/>
-                <!-- Right branch detail leaves -->
-                <path d="M446,54 Q453,43 449,34"/>
-                <path d="M460,46 Q468,39 465,30"/>
-                <path d="M436,48 Q434,37 425,33"/>
-                <!-- Right far scroll -->
-                <path d="M468,27 C479,22 490,27 496,21 C502,15 500,6 492,4
-                          C483,2 476,9 478,18 C480,25 488,27 490,22"/>
-                <path d="M496,21 Q501,13 496,6"/>
-                <path d="M488,22 Q493,16 490,10"/>
-                <!-- Extra right leaf -->
-                <path d="M428,52 Q434,44 432,36"/>
-                <path d="M420,54 Q423,45 418,38"/>
-
-                <!-- Lower left tendrils -->
-                <path d="M374,60 Q366,68 360,78 Q355,86 358,92"/>
-                <path d="M362,80 Q354,82 350,90"/>
-                <!-- Lower right tendrils -->
-                <path d="M414,60 Q422,68 428,78 Q433,86 430,92"/>
-                <path d="M426,80 Q434,82 438,90"/>
-            </g>
-
-            <!-- ══════════════ BOTTOM FOLD LINES ══════════════ -->
-            <line x1="68"  y1="410" x2="394" y2="248"
-                  stroke="#cec6b8" stroke-width="1.0"/>
-            <line x1="720" y1="410" x2="394" y2="248"
-                  stroke="#cec6b8" stroke-width="1.0"/>
+            <image href="{% static 'banquet/envelope.svg' %}"
+                   x="0" y="0" width="720" height="720"
+                   preserveAspectRatio="xMidYMid meet"
+                   clip-path="url(#card-clip)"/>
 
             <!-- ══════════════ EVENT DETAILS ══════════════ -->
 
             <!-- Top accent rule -->
-            <line x1="210" y1="184" x2="578" y2="184"
-                  stroke="#c8c0b0" stroke-width="0.7"/>
-            <circle cx="394" cy="184" r="3" fill="#c8c0b0"/>
+            <line x1="180" y1="310" x2="540" y2="310"
+                  stroke="#c0b4a4" stroke-width="0.8"/>
+            <circle cx="360" cy="310" r="3.5" fill="#c0b4a4"/>
 
-            <!-- "SASE Banquet" — main script title -->
-            <text x="394" y="234" text-anchor="middle"
+            <!-- Main script title -->
+            <text x="360" y="368" text-anchor="middle"
                   font-family="'Great Vibes', cursive"
-                  font-size="50" fill="#2c2018">SASE Banquet</text>
+                  font-size="52" fill="#2c2018">SASE Banquet</text>
 
-            <!-- "Friendship Gardens" — script subtitle in blue -->
-            <text x="394" y="275" text-anchor="middle"
+            <!-- Script subtitle in dusty blue -->
+            <text x="360" y="413" text-anchor="middle"
                   font-family="'Great Vibes', cursive"
-                  font-size="32" fill="#4a6e8a">Friendship Gardens</text>
+                  font-size="34" fill="#4a6e8a">Friendship Gardens</text>
 
             <!-- Diamond divider -->
-            <line x1="240" y1="292" x2="378" y2="292"
-                  stroke="#c8c0b0" stroke-width="0.7"/>
-            <path d="M394,287 L400,292 L394,297 L388,292 Z" fill="#c8c0b0"/>
-            <line x1="410" y1="292" x2="548" y2="292"
-                  stroke="#c8c0b0" stroke-width="0.7"/>
+            <line x1="210" y1="432" x2="346" y2="432"
+                  stroke="#c0b4a4" stroke-width="0.7"/>
+            <path d="M360,427 L366,432 L360,437 L354,432 Z" fill="#c0b4a4"/>
+            <line x1="374" y1="432" x2="510" y2="432"
+                  stroke="#c0b4a4" stroke-width="0.7"/>
 
             <!-- Location -->
-            <text x="394" y="316" text-anchor="middle"
+            <text x="360" y="458" text-anchor="middle"
                   font-family="'Cormorant Garamond', Georgia, serif"
-                  font-size="14" fill="#5c4a38">
+                  font-size="14.5" fill="#4a3828">
                 Student Pavilion · Senita Ballroom BC
             </text>
 
             <!-- Date + Time -->
-            <text x="394" y="338" text-anchor="middle"
+            <text x="360" y="482" text-anchor="middle"
                   font-family="'Cormorant Garamond', Georgia, serif"
-                  font-size="14" fill="#5c4a38">
+                  font-size="14.5" fill="#4a3828">
                 April 18<tspan baseline-shift="super" font-size="9">th</tspan>,
                 2026 &nbsp;·&nbsp; 5:00 – 8:00 PM
             </text>
 
             <!-- Dress + RSVP -->
-            <text x="394" y="360" text-anchor="middle"
+            <text x="360" y="506" text-anchor="middle"
                   font-family="'Cormorant Garamond', Georgia, serif"
-                  font-size="12.5" font-style="italic" fill="#8a7a68">
+                  font-size="13" font-style="italic" fill="#7a6a58">
                 Semi-formal &nbsp;·&nbsp; Must RSVP
             </text>
 
             <!-- Bottom accent rule -->
-            <line x1="210" y1="376" x2="578" y2="376"
-                  stroke="#c8c0b0" stroke-width="0.7"/>
-            <circle cx="394" cy="376" r="3" fill="#c8c0b0"/>
+            <line x1="180" y1="524" x2="540" y2="524"
+                  stroke="#c0b4a4" stroke-width="0.8"/>
+            <circle cx="360" cy="524" r="3.5" fill="#c0b4a4"/>
 
             <!-- ══════════════ SHINE LAYERS ══════════════ -->
 
             <!-- 1. Always-on diagonal laminate sheen -->
-            <rect x="0" y="0" width="720" height="410"
+            <rect x="0" y="0" width="720" height="720"
                   fill="url(#gloss-static)"
                   clip-path="url(#card-clip)"
                   pointer-events="none"/>
 
             <!-- 2. Mouse-tracking radial spotlight (JS updates cx/cy) -->
             <rect id="gloss-overlay"
-                  x="0" y="0" width="720" height="410"
+                  x="0" y="0" width="720" height="720"
                   fill="url(#shine-radial)"
                   clip-path="url(#card-clip)"
                   pointer-events="none"/>
 
             <!-- 3. Hover sweep (CSS animation) -->
             <rect class="sweep-rect"
-                  x="0" y="0" width="720" height="410"
+                  x="0" y="0" width="720" height="720"
                   fill="url(#sweep-grad)"
                   clip-path="url(#card-clip)"
                   pointer-events="none"/>
@@ -428,31 +315,23 @@
         'transform 0.55s cubic-bezier(0.25,0.8,0.25,1), filter 0.55s ease';
 
     card.addEventListener('mouseenter', function () {
-        /* Remove transition while tracking for instant response */
         card.style.transition = 'filter 0.12s ease';
     });
 
     card.addEventListener('mousemove', function (e) {
         const r = card.getBoundingClientRect();
-        const x = (e.clientX - r.left) / r.width;   // 0–1
-        const y = (e.clientY - r.top)  / r.height;  // 0–1
+        const x = (e.clientX - r.left) / r.width;
+        const y = (e.clientY - r.top)  / r.height;
 
-        /*
-         * Tilt toward the mouse:
-         *   rotateX  — positive = top tilts away  (when mouse at bottom)
-         *   rotateY  — positive = right tilts toward (when mouse at right)
-         */
         const rX = (5  + (y - 0.5) * -12).toFixed(1);
         const rY = (-8 + (x - 0.5) *  20).toFixed(1);
 
         card.style.transform =
             `perspective(1100px) rotateX(${rX}deg) rotateY(${rY}deg) rotateZ(-1deg)`;
 
-        /* Shine spotlight follows cursor */
         shine.setAttribute('cx', (x * 100).toFixed(1) + '%');
         shine.setAttribute('cy', (y * 100).toFixed(1) + '%');
 
-        /* Shadow shifts opposite to tilt (light source stays fixed) */
         const sX = (8  + x * 20).toFixed(0);
         const sY = (14 + y * 18).toFixed(0);
         card.style.filter =
@@ -461,7 +340,6 @@
     });
 
     card.addEventListener('mouseleave', function () {
-        /* Re-enable slow transition and snap back to rest pose */
         card.style.transition = SLOW_TRANSITION;
         card.style.transform  = REST_TRANSFORM;
         card.style.filter     = REST_FILTER;

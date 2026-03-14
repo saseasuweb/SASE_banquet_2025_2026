@@ -190,16 +190,16 @@
             will-change: transform;
         }
 
-        /* ── Lacy invitation card ── */
+        /* ── Lacy invitation card  (LEFT) ── */
         .lacy-card {
             position: absolute;
-            left: 50%;
+            left: 5%;
             top: 50%;
-            transform: translate3d(-60%, -50%, 0);
-            width: clamp(230px, 27vw, 350px);
+            transform: translate3d(0, -50%, 0) rotate(-2deg);
+            width: clamp(200px, 24vw, 320px);
             z-index: 3;
             will-change: transform;
-            filter: drop-shadow(0 22px 48px rgba(60, 40, 20, 0.16))
+            filter: drop-shadow(0 22px 48px rgba(60, 40, 20, 0.18))
                     drop-shadow(0 4px 12px rgba(60, 40, 20, 0.10));
         }
         .lacy-img {
@@ -208,20 +208,20 @@
             display: block;
         }
 
-        /* ── Polaroid ── */
+        /* ── Polaroid  (RIGHT, in front of camera) ── */
         .polaroid {
             position: absolute;
-            left: 9%;
-            top: 50%;
-            transform: translate3d(0, -46%, 0) rotate(-5deg);
+            right: 32%;
+            top: 44%;
+            transform: translate3d(0, -50%, 0) rotate(-8deg);
             will-change: transform;
-            width: clamp(170px, 20vw, 260px);
+            width: clamp(200px, 26vw, 340px);
             background: #fefdf9;
-            padding: 8px 8px 28px;
+            padding: 10px 10px 36px;
             box-shadow:
-                3px 6px 26px rgba(60, 40, 20, 0.18),
-                0 0 0 1px rgba(200, 192, 180, 0.22);
-            z-index: 4;
+                4px 8px 32px rgba(60, 40, 20, 0.22),
+                0 0 0 1px rgba(200, 192, 180, 0.25);
+            z-index: 5;
         }
         .polaroid-photo {
             width: 100%;
@@ -238,35 +238,35 @@
         }
         .polaroid-cap {
             font-family: 'Cormorant Garamond', Georgia, serif;
-            font-size: 10px;
+            font-size: 11px;
             font-style: italic;
             color: #9a8a78;
             text-align: center;
-            margin-top: 9px;
+            margin-top: 10px;
             letter-spacing: 0.03em;
         }
 
-        /* ── Digital Camera ── */
+        /* ── Camera  (RIGHT, behind polaroid) ── */
         .camera-wrap {
             position: absolute;
-            right: 9%;
-            top: 46%;
-            transform: translate3d(0, -50%, 0) rotate(5deg);
+            right: 3%;
+            top: 50%;
+            transform: translate3d(0, -50%, 0) rotate(8deg);
             will-change: transform;
-            width: clamp(160px, 22vw, 300px);
+            width: clamp(220px, 32vw, 440px);
             z-index: 4;
         }
         .camera-svg {
             width: 100%;
             height: auto;
-            filter: drop-shadow(4px 10px 24px rgba(60, 40, 20, 0.14));
+            filter: drop-shadow(6px 14px 32px rgba(60, 40, 20, 0.18));
         }
 
         /* ── Responsive: stack on small screens ── */
         @media (max-width: 640px) {
-            .lacy-card   { left: 50%; width: 78vw; }
-            .polaroid    { left: 5%; top: 30%; }
-            .camera-wrap { right: 4%; top: 68%; }
+            .lacy-card   { left: 4%; width: 62vw; top: 50%; }
+            .polaroid    { right: 4%; top: 32%; width: 52vw; }
+            .camera-wrap { right: 2%; top: 65%; width: 58vw; }
         }
     </style>
 </head>
@@ -556,12 +556,12 @@
         /* BG layer — 12% of scroll speed (nearly stationary) */
         const bgY = -(scrolled * 0.12);
         watermark.style.transform = `translate3d(-50%, calc(-50% + ${bgY.toFixed(1)}px), 0)`;
-        lacy.style.transform      = `translate3d(-60%, calc(-50% + ${bgY.toFixed(1)}px), 0)`;
+        lacy.style.transform      = `translate3d(0, calc(-50% + ${bgY.toFixed(1)}px), 0) rotate(-2deg)`;
 
         /* FG layer — 40% of scroll speed (drifts upward noticeably) */
         const polY = -(scrolled * 0.40);
-        polaroid.style.transform  = `translate3d(0, calc(-46% + ${polY.toFixed(1)}px), 0) rotate(-5deg)`;
-        camera.style.transform    = `translate3d(0, calc(-50% + ${polY.toFixed(1)}px), 0) rotate(5deg)`;
+        polaroid.style.transform  = `translate3d(0, calc(-50% + ${polY.toFixed(1)}px), 0) rotate(-8deg)`;
+        camera.style.transform    = `translate3d(0, calc(-50% + ${polY.toFixed(1)}px), 0) rotate(8deg)`;
     }
 
     function onScroll() {

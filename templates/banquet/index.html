@@ -199,95 +199,13 @@
             width: clamp(230px, 27vw, 350px);
             z-index: 3;
             will-change: transform;
+            filter: drop-shadow(0 22px 48px rgba(60, 40, 20, 0.16))
+                    drop-shadow(0 4px 12px rgba(60, 40, 20, 0.10));
         }
-
-        .lacy-frame {
-            background: rgba(255, 253, 248, 0.95);
-            border: 1px solid rgba(192, 180, 164, 0.55);
-            box-shadow:
-                0 0 0 7px rgba(255, 253, 248, 0.95),
-                0 0 0 8px rgba(192, 180, 164, 0.32),
-                inset 0 0 18px rgba(192, 180, 164, 0.08),
-                0 22px 64px rgba(60, 40, 20, 0.13),
-                0 6px 18px rgba(60, 40, 20, 0.08);
-            border-radius: 2px;
-            padding: 34px 30px;
-            text-align: center;
-            position: relative;
-        }
-
-        .lacy-frame::before, .lacy-frame::after {
-            content: '';
-            position: absolute;
-            pointer-events: none;
-            border-radius: 1px;
-        }
-        .lacy-frame::before {
-            inset: 10px;
-            border: 0.5px solid rgba(192, 180, 164, 0.38);
-        }
-        .lacy-frame::after {
-            inset: 15px;
-            border: 0.5px solid rgba(192, 180, 164, 0.18);
-        }
-
-        .lacy-corner {
-            position: absolute;
-            font-size: 14px;
-            color: rgba(192, 180, 164, 0.72);
-            line-height: 1;
-        }
-        .lacy-corner.tl { top: 19px; left: 21px; }
-        .lacy-corner.tr { top: 19px; right: 21px; transform: scaleX(-1); }
-        .lacy-corner.bl { bottom: 19px; left: 21px; transform: scaleY(-1); }
-        .lacy-corner.br { bottom: 19px; right: 21px; transform: scale(-1); }
-
-        .lacy-org {
-            font-family: 'Cinzel', serif;
-            font-size: 6px;
-            letter-spacing: 0.26em;
-            color: #b4a490;
-            text-transform: uppercase;
-            margin-bottom: 16px;
-        }
-        .lacy-you {
-            font-family: 'Great Vibes', cursive;
-            font-size: clamp(24px, 3.6vw, 40px);
-            color: #6a5a48;
-            line-height: 1.05;
-        }
-        .lacy-invited {
-            font-family: 'Great Vibes', cursive;
-            font-size: clamp(40px, 5.8vw, 62px);
-            color: #4a6e8a;
-            line-height: 1;
-            margin-bottom: 14px;
-        }
-        .lacy-rule {
-            display: flex;
-            align-items: center;
-            gap: 7px;
-            margin: 8px 0;
-        }
-        .lacy-rule hr {
-            flex: 1;
-            height: 0;
-            border: none;
-            border-top: 0.5px solid #c0b4a4;
-        }
-        .lacy-rule .dia { font-size: 6px; color: #c0b4a4; }
-        .lacy-event {
-            font-family: 'Cormorant Garamond', Georgia, serif;
-            font-size: 12px;
-            color: #6a5a48;
-            letter-spacing: 0.07em;
-            margin-top: 6px;
-        }
-        .lacy-theme {
-            font-family: 'Great Vibes', cursive;
-            font-size: 20px;
-            color: #4a6e8a;
-            margin-top: 2px;
+        .lacy-img {
+            width: 100%;
+            height: auto;
+            display: block;
         }
 
         /* ── Polaroid ── */
@@ -527,20 +445,10 @@
 
     <div class="invited-watermark" aria-hidden="true">You Are Invited</div>
 
-    <article class="lacy-card" aria-label="You are invited">
-            <div class="lacy-frame">
-                <span class="lacy-corner tl">❧</span>
-                <span class="lacy-corner tr">❧</span>
-                <span class="lacy-corner bl">❧</span>
-                <span class="lacy-corner br">❧</span>
-                <p class="lacy-org">Society of Asian Scientists &amp; Engineers</p>
-                <p class="lacy-you">You Are</p>
-                <p class="lacy-invited">Invited</p>
-                <div class="lacy-rule"><hr><span class="dia">◆</span><hr></div>
-                <p class="lacy-event">Annual Banquet &nbsp;·&nbsp; 2026</p>
-                <p class="lacy-theme">Friendship Gardens</p>
-            </div>
-        </article>
+    <div class="lacy-card" aria-label="You are invited">
+        <img src="{% static 'banquet/images/lacy invatation card.svg' %}"
+             alt="You Are Invited" class="lacy-img">
+    </div>
 
     <div class="polaroid">
             <div class="polaroid-photo"></div>
@@ -548,56 +456,9 @@
         </div>
 
     <div class="camera-wrap">
-            <svg class="camera-svg" viewBox="0 0 260 190" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <!-- Camera body -->
-                <rect x="5" y="44" width="250" height="141" rx="16"
-                      fill="#e8e4de" stroke="#ccc6bc" stroke-width="1.4"/>
-                <!-- Top grip -->
-                <rect x="5" y="24" width="88" height="32" rx="10"
-                      fill="#e2ddd6" stroke="#c6c0b8" stroke-width="1.4"/>
-                <!-- Shutter button -->
-                <ellipse cx="68" cy="22" rx="15" ry="8"
-                         fill="#dad6cf" stroke="#bcb6ae" stroke-width="1.2"/>
-                <!-- Mode dial -->
-                <circle cx="202" cy="44" r="14"
-                        fill="#d4d0ca" stroke="#bcb8b2" stroke-width="1.2"/>
-                <text x="202" y="49" text-anchor="middle" font-size="8"
-                      fill="#8a847c" font-family="'Courier New',monospace">A</text>
-                <!-- Lens outer ring -->
-                <circle cx="106" cy="117" r="58"
-                        fill="#e0dcd6" stroke="#c4c0b8" stroke-width="1.4"/>
-                <!-- Lens middle ring -->
-                <circle cx="106" cy="117" r="46"
-                        fill="#d8d4cc" stroke="#bab6ae" stroke-width="1"/>
-                <!-- Lens inner ring -->
-                <circle cx="106" cy="117" r="33"
-                        fill="#ccc8c0"/>
-                <!-- Lens glass -->
-                <circle cx="106" cy="117" r="24"
-                        fill="#252428"/>
-                <!-- Lens highlight -->
-                <circle cx="98" cy="109" r="5.5"
-                        fill="rgba(255,255,255,0.22)"/>
-                <circle cx="114" cy="124" r="2.8"
-                        fill="rgba(255,255,255,0.09)"/>
-                <!-- Flash housing -->
-                <rect x="18" y="57" width="36" height="24" rx="5"
-                      fill="#dedad4" stroke="#c2bcb4" stroke-width="1"/>
-                <rect x="21" y="60" width="30" height="18" rx="3"
-                      fill="#eae8e4"/>
-                <!-- Viewfinder -->
-                <rect x="182" y="55" width="42" height="28" rx="5"
-                      fill="#dad6d0" stroke="#bebab4" stroke-width="1"/>
-                <!-- Strap lugs -->
-                <rect x="1" y="72" width="7" height="22" rx="3.5"
-                      fill="#cac6be"/>
-                <rect x="252" y="72" width="7" height="22" rx="3.5"
-                      fill="#cac6be"/>
-                <!-- Brand text -->
-                <text x="174" y="158" text-anchor="end" font-size="6.5"
-                      fill="#aaa49c" font-family="'Cinzel',serif" letter-spacing="2.5">SASE</text>
-            </svg>
-        </div>
+        <img src="{% static 'banquet/images/camera.svg' %}"
+             alt="" class="camera-svg" aria-hidden="true">
+    </div>
 
 </div><!-- /.invited-inner -->
 </section><!-- /#invited -->

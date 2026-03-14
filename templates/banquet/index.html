@@ -10,20 +10,10 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        html {
-            height: 100%;
-            overflow: hidden;           /* lock viewport; body becomes the scroller */
-        }
-
         body {
             background: #f0ece3;
             font-family: 'Cormorant Garamond', Georgia, serif;
-            height: 100%;
             overflow-x: hidden;
-            overflow-y: scroll;
-            /* CSS perspective parallax — same technique as the article */
-            perspective: 1px;
-            transform-style: preserve-3d;
         }
 
         /* ═══════════════════════════
@@ -157,21 +147,24 @@
         }
 
         /* ═══════════════════════════
-           INVITED SECTION — CSS perspective parallax
-           Two layers at different Z depths:
-             Back  (lacy card + watermark): translateZ(-1px)   scale(2)   → 0.5×  scroll speed
-             Front (polaroid + camera):     translateZ(-0.5px) scale(1.5) → 0.67× scroll speed
-           scale() compensates for perspective foreshortening so each element
-           appears at its normal CSS size. No JavaScript needed.
+           INVITED SECTION — two-layer JS parallax
+           BG layer (lacy card + watermark): slow — travels less, appears far
+           FG layer (polaroid + camera):     fast — travels more, appears close
            ═══════════════════════════ */
         .invited-section {
             position: relative;
+            min-height: 180vh;   /* extra scroll room for the parallax to play out */
+        }
+
+        .invited-inner {
+            position: sticky;
+            top: 0;
             height: 100vh;
-            transform-style: preserve-3d;   /* pass body's perspective through */
+            overflow: hidden;
             background: #f0ece3;
         }
 
-        .invited-section::before {
+        .invited-inner::before {
             content: '';
             position: absolute;
             inset: 0;
@@ -181,28 +174,32 @@
             pointer-events: none;
         }
 
-        /* ── Watermark — back layer (0.5× scroll speed) ── */
+        /* ── Watermark ── */
         .invited-watermark {
             position: absolute;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%) translateZ(-1px) scale(2);
+            transform: translate3d(-50%, -50%, 0);
             font-family: 'Great Vibes', cursive;
             font-size: clamp(64px, 12vw, 144px);
             color: rgba(74, 110, 138, 0.07);
             white-space: nowrap;
             pointer-events: none;
             z-index: 1;
+            opacity: 0;
+            will-change: transform, opacity;
         }
 
-        /* ── Lacy invitation card — back layer (0.5× scroll speed) ── */
+        /* ── Lacy invitation card ── */
         .lacy-card {
             position: absolute;
             left: 50%;
             top: 50%;
-            transform: translate(-60%, -50%) translateZ(-1px) scale(2);
+            transform: translate3d(-60%, -50%, 0);
             width: clamp(230px, 27vw, 350px);
             z-index: 3;
+            opacity: 0;
+            will-change: transform, opacity;
         }
 
         .lacy-frame {
@@ -294,12 +291,14 @@
             margin-top: 2px;
         }
 
-        /* ── Polaroid — front layer (0.67× scroll speed) ── */
+        /* ── Polaroid ── */
         .polaroid {
             position: absolute;
             left: 9%;
             top: 50%;
-            transform: translateY(-46%) rotate(-5deg) translateZ(-0.5px) scale(1.5);
+            transform: translate3d(0, -46%, 0) rotate(-5deg);
+            opacity: 0;
+            will-change: transform, opacity;
             width: clamp(140px, 16vw, 220px);
             background: #fefdf9;
             padding: 8px 8px 28px;
@@ -331,12 +330,14 @@
             letter-spacing: 0.03em;
         }
 
-        /* ── Digital Camera — front layer (0.67× scroll speed) ── */
+        /* ── Digital Camera ── */
         .camera-wrap {
             position: absolute;
             right: 9%;
             top: 46%;
-            transform: translateY(-50%) rotate(5deg) translateZ(-0.5px) scale(1.5);
+            transform: translate3d(0, -50%, 0) rotate(5deg);
+            opacity: 0;
+            will-change: transform, opacity;
             width: clamp(130px, 18vw, 260px);
             z-index: 4;
         }
@@ -348,7 +349,7 @@
 
         /* ── Responsive: stack on small screens ── */
         @media (max-width: 640px) {
-            .lacy-card   { left: 50%; transform: translate(-50%, -50%) translateZ(-1px) scale(2); width: 78vw; }
+            .lacy-card   { left: 50%; width: 78vw; }
             .polaroid    { left: 5%; top: 30%; }
             .camera-wrap { right: 4%; top: 68%; }
         }
@@ -502,15 +503,16 @@
 </section><!-- /#hero -->
 
 <!-- ═══════════════════════════════════════════════════════
-     INVITED SECTION — CSS perspective parallax (no JS)
+     INVITED SECTION — two-layer parallax scroll reveal
      ═══════════════════════════════════════════════════════ -->
 <section class="invited-section" id="invited">
+<div class="invited-inner">
 
-        <!-- Watermark — back layer -->
-        <div class="invited-watermark" aria-hidden="true">You Are Invited</div>
+    <!-- BG layer: watermark + lacy card — scroll slow, appear far -->
+    <div class="invited-watermark" aria-hidden="true">You Are Invited</div>
 
-        <!-- Lacy invitation card — back layer -->
-        <article class="lacy-card" aria-label="You are invited">
+    <!-- Lacy invitation card -->
+    <article class="lacy-card" aria-label="You are invited">
             <div class="lacy-frame">
                 <span class="lacy-corner tl">❧</span>
                 <span class="lacy-corner tr">❧</span>
@@ -525,14 +527,13 @@
             </div>
         </article>
 
-        <!-- Polaroid — front layer -->
-        <div class="polaroid">
+    <!-- FG layer: polaroid + camera — scroll fast, appear close -->
+    <div class="polaroid">
             <div class="polaroid-photo"></div>
             <p class="polaroid-cap">/ sase banquet 2026</p>
         </div>
 
-        <!-- Camera — front layer -->
-        <div class="camera-wrap">
+    <div class="camera-wrap">
             <svg class="camera-svg" viewBox="0 0 260 190" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                 <!-- Camera body -->
                 <rect x="5" y="44" width="250" height="141" rx="16"
@@ -584,7 +585,7 @@
             </svg>
         </div>
 
-
+</div><!-- /.invited-inner -->
 </section><!-- /#invited -->
 
 <script>
@@ -642,7 +643,59 @@
     });
 }());
 
-/* Invited section parallax is pure CSS — no scroll JS needed. */
+/*
+ * INVITED SECTION — two-layer parallax
+ * ─────────────────────────────────────────────────────
+ *  BG layer (lacy card + watermark) travels BG_PX total.
+ *  FG layer (polaroid + camera)     travels FG_PX total.
+ *  FG > BG → foreground rushes up faster → depth illusion.
+ *  All DOM writes batched in one requestAnimationFrame per frame.
+ */
+(function () {
+    const section   = document.getElementById('invited');
+    if (!section) return;
+
+    const watermark = section.querySelector('.invited-watermark');
+    const lacy      = section.querySelector('.lacy-card');
+    const polaroid  = section.querySelector('.polaroid');
+    const camera    = section.querySelector('.camera-wrap');
+
+    const BG_PX = 90;   /* bg layer total travel (slow / far) */
+    const FG_PX = 240;  /* fg layer total travel (fast / close) */
+
+    let rafId = null;
+
+    function update() {
+        rafId = null;
+        const rect     = section.getBoundingClientRect();
+        const travel   = section.offsetHeight - window.innerHeight;
+        const raw      = travel > 0 ? Math.max(0, -rect.top) / travel : 1;
+        const p        = Math.min(1, raw * 1.25); /* settle before section ends */
+
+        const bgY = ((1 - p) * BG_PX).toFixed(1);
+        const fgY = ((1 - p) * FG_PX).toFixed(1);
+
+        /* BG layer */
+        watermark.style.transform = `translate3d(-50%, calc(-50% + ${bgY}px), 0)`;
+        watermark.style.opacity   = Math.min(0.08, p * 0.10).toFixed(3);
+        lacy.style.transform      = `translate3d(-60%, calc(-50% + ${bgY}px), 0)`;
+        lacy.style.opacity        = Math.min(1, p * 2.5).toFixed(3);
+
+        /* FG layer */
+        polaroid.style.transform  = `translate3d(0, calc(-46% + ${fgY}px), 0) rotate(-5deg)`;
+        polaroid.style.opacity    = Math.min(1, p * 2.0).toFixed(3);
+        camera.style.transform    = `translate3d(0, calc(-50% + ${fgY}px), 0) rotate(5deg)`;
+        camera.style.opacity      = Math.min(1, p * 2.0).toFixed(3);
+    }
+
+    function onScroll() {
+        if (!rafId) rafId = requestAnimationFrame(update);
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    update();
+}());
 
 </script>
 

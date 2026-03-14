@@ -194,10 +194,12 @@
                     <stop offset="100%" stop-color="black" stop-opacity="0.04"/>
                 </linearGradient>
 
-                <!-- Clip the entire card to a rounded rectangle -->
-                <clipPath id="card-clip">
-                    <rect x="0" y="0" width="720" height="720" rx="16"/>
-                </clipPath>
+                <!-- Mask shine layers to the envelope's actual shape (uses image alpha) -->
+                <mask id="envelope-mask" maskUnits="userSpaceOnUse">
+                    <image href="{% static 'banquet/envelope.svg' %}"
+                           x="0" y="0" width="720" height="720"
+                           preserveAspectRatio="xMidYMid meet"/>
+                </mask>
 
             </defs>
 
@@ -266,21 +268,21 @@
             <!-- 1. Always-on diagonal laminate sheen -->
             <rect x="0" y="0" width="720" height="720"
                   fill="url(#gloss-static)"
-                  clip-path="url(#card-clip)"
+                  mask="url(#envelope-mask)"
                   pointer-events="none"/>
 
             <!-- 2. Mouse-tracking radial spotlight (JS updates cx/cy) -->
             <rect id="gloss-overlay"
                   x="0" y="0" width="720" height="720"
                   fill="url(#shine-radial)"
-                  clip-path="url(#card-clip)"
+                  mask="url(#envelope-mask)"
                   pointer-events="none"/>
 
             <!-- 3. Hover sweep (CSS animation) -->
             <rect class="sweep-rect"
                   x="0" y="0" width="720" height="720"
                   fill="url(#sweep-grad)"
-                  clip-path="url(#card-clip)"
+                  mask="url(#envelope-mask)"
                   pointer-events="none"/>
 
         </svg>

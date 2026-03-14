@@ -147,13 +147,14 @@
         }
 
         /* ═══════════════════════════
-           INVITED SECTION — two-layer JS parallax
-           BG layer (lacy card + watermark): slow — travels less, appears far
-           FG layer (polaroid + camera):     fast — travels more, appears close
+           INVITED SECTION
+           Elements are visible from the start. As the user scrolls through
+           the section, BG layer (lacy card) drifts slowly; FG layer
+           (polaroid + camera) moves faster — pure depth parallax.
            ═══════════════════════════ */
         .invited-section {
             position: relative;
-            min-height: 180vh;   /* extra scroll room for the parallax to play out */
+            min-height: 180vh;
         }
 
         .invited-inner {
@@ -186,8 +187,7 @@
             white-space: nowrap;
             pointer-events: none;
             z-index: 1;
-            opacity: 0;
-            will-change: transform, opacity;
+            will-change: transform;
         }
 
         /* ── Lacy invitation card ── */
@@ -198,8 +198,7 @@
             transform: translate3d(-60%, -50%, 0);
             width: clamp(230px, 27vw, 350px);
             z-index: 3;
-            opacity: 0;
-            will-change: transform, opacity;
+            will-change: transform;
         }
 
         .lacy-frame {
@@ -297,8 +296,7 @@
             left: 9%;
             top: 50%;
             transform: translate3d(0, -46%, 0) rotate(-5deg);
-            opacity: 0;
-            will-change: transform, opacity;
+            will-change: transform;
             width: clamp(140px, 16vw, 220px);
             background: #fefdf9;
             padding: 8px 8px 28px;
@@ -336,8 +334,7 @@
             right: 9%;
             top: 46%;
             transform: translate3d(0, -50%, 0) rotate(5deg);
-            opacity: 0;
-            will-change: transform, opacity;
+            will-change: transform;
             width: clamp(130px, 18vw, 260px);
             z-index: 4;
         }
@@ -395,15 +392,29 @@
                 </linearGradient>
 
                 <!-- Static diagonal gloss (always-on laminate sheen) -->
-                <linearGradient id="gloss-static" x1="0%" y1="0%" x2="90%" y2="100%">
-                    <stop offset="0%"   stop-color="white" stop-opacity="0.20"/>
-                    <stop offset="40%"  stop-color="white" stop-opacity="0.06"/>
-                    <stop offset="55%"  stop-color="white" stop-opacity="0.01"/>
-                    <stop offset="100%" stop-color="black" stop-opacity="0.04"/>
+                <linearGradient id="gloss-static" x1="15%" y1="0%" x2="72%" y2="100%">
+                    <stop offset="0%"   stop-color="white" stop-opacity="0.42"/>
+                    <stop offset="30%"  stop-color="white" stop-opacity="0.16"/>
+                    <stop offset="50%"  stop-color="white" stop-opacity="0.04"/>
+                    <stop offset="100%" stop-color="black" stop-opacity="0.06"/>
                 </linearGradient>
 
-                <!-- Mask shine layers to the envelope's actual shape (uses image alpha) -->
-                <mask id="envelope-mask" maskUnits="userSpaceOnUse">
+                <!-- Holographic foil strip — diagonal rainbow band; angle shifts with tilt via JS -->
+                <linearGradient id="holo-foil" gradientUnits="userSpaceOnUse"
+                                x1="0" y1="180" x2="720" y2="540">
+                    <stop offset="0%"   stop-color="#d4af37" stop-opacity="0.00"/>
+                    <stop offset="28%"  stop-color="#d4af37" stop-opacity="0.00"/>
+                    <stop offset="34%"  stop-color="#d4af37" stop-opacity="0.30"/>
+                    <stop offset="39%"  stop-color="#48c9b0" stop-opacity="0.26"/>
+                    <stop offset="44%"  stop-color="#c39bd3" stop-opacity="0.24"/>
+                    <stop offset="49%"  stop-color="#7fb3d3" stop-opacity="0.26"/>
+                    <stop offset="54%"  stop-color="#f9e79f" stop-opacity="0.22"/>
+                    <stop offset="60%"  stop-color="#f9e79f" stop-opacity="0.00"/>
+                    <stop offset="100%" stop-color="#f9e79f" stop-opacity="0.00"/>
+                </linearGradient>
+
+                <!-- Mask shine layers to the envelope's actual shape (alpha channel) -->
+                <mask id="envelope-mask" maskUnits="userSpaceOnUse" style="mask-type: alpha">
                     <image href="{% static 'banquet/envelope.svg' %}"
                            x="0" y="0" width="720" height="720"
                            preserveAspectRatio="xMidYMid meet"/>
@@ -479,6 +490,12 @@
                   mask="url(#envelope-mask)"
                   pointer-events="none"/>
 
+            <!-- 1b. Holographic foil strip — angle shifts with card tilt via JS -->
+            <rect x="0" y="0" width="720" height="720"
+                  fill="url(#holo-foil)"
+                  mask="url(#envelope-mask)"
+                  pointer-events="none"/>
+
             <!-- 2. Mouse-tracking radial spotlight (JS updates cx/cy) -->
             <rect id="gloss-overlay"
                   x="0" y="0" width="720" height="720"
@@ -503,15 +520,13 @@
 </section><!-- /#hero -->
 
 <!-- ═══════════════════════════════════════════════════════
-     INVITED SECTION — two-layer parallax scroll reveal
+     INVITED SECTION
      ═══════════════════════════════════════════════════════ -->
 <section class="invited-section" id="invited">
 <div class="invited-inner">
 
-    <!-- BG layer: watermark + lacy card — scroll slow, appear far -->
     <div class="invited-watermark" aria-hidden="true">You Are Invited</div>
 
-    <!-- Lacy invitation card -->
     <article class="lacy-card" aria-label="You are invited">
             <div class="lacy-frame">
                 <span class="lacy-corner tl">❧</span>
@@ -527,7 +542,6 @@
             </div>
         </article>
 
-    <!-- FG layer: polaroid + camera — scroll fast, appear close -->
     <div class="polaroid">
             <div class="polaroid-photo"></div>
             <p class="polaroid-cap">/ sase banquet 2026</p>
@@ -600,6 +614,7 @@
 (function () {
     const card  = document.getElementById('envelopeCard');
     const shine = document.getElementById('shine-radial');
+    const foil  = document.getElementById('holo-foil');
 
     const REST_TRANSFORM =
         'perspective(1100px) rotateX(5deg) rotateY(-8deg) rotateZ(-1deg)';
@@ -627,6 +642,14 @@
         shine.setAttribute('cx', (x * 100).toFixed(1) + '%');
         shine.setAttribute('cy', (y * 100).toFixed(1) + '%');
 
+        /* Rotate holographic foil gradient angle with card tilt */
+        const tilt = (45 + parseFloat(rY) * 1.8 + parseFloat(rX) * 0.6) * Math.PI / 180;
+        const r2 = 390;
+        foil.setAttribute('x1', (360 - r2 * Math.cos(tilt)).toFixed(0));
+        foil.setAttribute('y1', (360 + r2 * Math.sin(tilt)).toFixed(0));
+        foil.setAttribute('x2', (360 + r2 * Math.cos(tilt)).toFixed(0));
+        foil.setAttribute('y2', (360 - r2 * Math.sin(tilt)).toFixed(0));
+
         const sX = (8  + x * 20).toFixed(0);
         const sY = (14 + y * 18).toFixed(0);
         card.style.filter =
@@ -640,16 +663,19 @@
         card.style.filter     = REST_FILTER;
         shine.setAttribute('cx', '50%');
         shine.setAttribute('cy', '50%');
+        foil.setAttribute('x1', '0');
+        foil.setAttribute('y1', '180');
+        foil.setAttribute('x2', '720');
+        foil.setAttribute('y2', '540');
     });
 }());
 
 /*
- * INVITED SECTION — two-layer parallax
- * ─────────────────────────────────────────────────────
- *  BG layer (lacy card + watermark) travels BG_PX total.
- *  FG layer (polaroid + camera)     travels FG_PX total.
- *  FG > BG → foreground rushes up faster → depth illusion.
- *  All DOM writes batched in one requestAnimationFrame per frame.
+ * INVITED SECTION — depth parallax
+ * Elements are visible immediately. As you scroll through the section
+ * each layer drifts at a different speed, creating depth:
+ *   BG (lacy card + watermark) → barely moves  → feels far/still
+ *   FG (polaroid + camera)     → drifts faster → feels close
  */
 (function () {
     const section   = document.getElementById('invited');
@@ -660,32 +686,21 @@
     const polaroid  = section.querySelector('.polaroid');
     const camera    = section.querySelector('.camera-wrap');
 
-    const BG_PX = 90;   /* bg layer total travel (slow / far) */
-    const FG_PX = 240;  /* fg layer total travel (fast / close) */
-
     let rafId = null;
 
     function update() {
         rafId = null;
-        const rect     = section.getBoundingClientRect();
-        const travel   = section.offsetHeight - window.innerHeight;
-        const raw      = travel > 0 ? Math.max(0, -rect.top) / travel : 1;
-        const p        = Math.min(1, raw * 1.25); /* settle before section ends */
+        const scrolled = Math.max(0, -section.getBoundingClientRect().top);
 
-        const bgY = ((1 - p) * BG_PX).toFixed(1);
-        const fgY = ((1 - p) * FG_PX).toFixed(1);
+        /* BG layer — 12% of scroll speed (nearly stationary) */
+        const bgY = -(scrolled * 0.12);
+        watermark.style.transform = `translate3d(-50%, calc(-50% + ${bgY.toFixed(1)}px), 0)`;
+        lacy.style.transform      = `translate3d(-60%, calc(-50% + ${bgY.toFixed(1)}px), 0)`;
 
-        /* BG layer */
-        watermark.style.transform = `translate3d(-50%, calc(-50% + ${bgY}px), 0)`;
-        watermark.style.opacity   = Math.min(0.08, p * 0.10).toFixed(3);
-        lacy.style.transform      = `translate3d(-60%, calc(-50% + ${bgY}px), 0)`;
-        lacy.style.opacity        = Math.min(1, p * 2.5).toFixed(3);
-
-        /* FG layer */
-        polaroid.style.transform  = `translate3d(0, calc(-46% + ${fgY}px), 0) rotate(-5deg)`;
-        polaroid.style.opacity    = Math.min(1, p * 2.0).toFixed(3);
-        camera.style.transform    = `translate3d(0, calc(-50% + ${fgY}px), 0) rotate(5deg)`;
-        camera.style.opacity      = Math.min(1, p * 2.0).toFixed(3);
+        /* FG layer — 40% of scroll speed (drifts upward noticeably) */
+        const polY = -(scrolled * 0.40);
+        polaroid.style.transform  = `translate3d(0, calc(-46% + ${polY.toFixed(1)}px), 0) rotate(-5deg)`;
+        camera.style.transform    = `translate3d(0, calc(-50% + ${polY.toFixed(1)}px), 0) rotate(5deg)`;
     }
 
     function onScroll() {

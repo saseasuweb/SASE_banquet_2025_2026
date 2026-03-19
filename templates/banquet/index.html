@@ -1,3 +1,4 @@
+
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
@@ -9,7 +10,6 @@
           rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
         body {
             background: #f0ece3;
             font-family: 'Cormorant Garamond', Georgia, serif;
@@ -28,8 +28,6 @@
             padding: 48px 24px 80px;
             position: relative;
         }
-
-        /* Subtle radial depth on background */
         .hero::before {
             content: '';
             position: absolute;
@@ -39,8 +37,6 @@
                 radial-gradient(ellipse 50% 45% at 28% 75%, rgba(190,175,155,0.10) 0%, transparent 60%);
             pointer-events: none;
         }
-
-        /* ── Heading ── */
         .hero-heading {
             text-align: center;
             margin-bottom: 0px;
@@ -70,30 +66,21 @@
             width: 100%;
             max-width: 680px;
             z-index: 10;
-
-            /* Resting tilt */
             transform: perspective(1100px) rotateX(5deg) rotateY(-8deg) rotateZ(-1deg);
-
-            /* Floating shadow */
             filter:
                 drop-shadow(18px 26px 40px rgba(60, 40, 20, 0.22))
                 drop-shadow(4px  8px  14px rgba(60, 40, 20, 0.13));
-
             transition:
                 transform 0.55s cubic-bezier(0.25, 0.8, 0.25, 1),
                 filter    0.55s ease;
-
             cursor: pointer;
         }
-
         .envelope-card svg {
             display: block;
             width: 100%;
             height: auto;
             overflow: visible;
         }
-
-        /* ── Sweep-shine animation ── */
         @keyframes card-sweep {
             from { transform: skewX(-18deg) translateX(-800px); }
             to   { transform: skewX(-18deg) translateX(1600px); }
@@ -123,10 +110,7 @@
             z-index: 5;
             transition: background 0.3s, color 0.3s;
         }
-        .rsvp-btn:hover {
-            background: #4a6e8a;
-            color: #fff;
-        }
+        .rsvp-btn:hover { background: #4a6e8a; color: #fff; }
 
         /* ── Scroll hint ── */
         .scroll-hint {
@@ -148,15 +132,11 @@
 
         /* ═══════════════════════════
            INVITED SECTION
-           Elements are visible from the start. As the user scrolls through
-           the section, BG layer (lacy card) drifts slowly; FG layer
-           (polaroid + camera) moves faster — pure depth parallax.
            ═══════════════════════════ */
         .invited-section {
             position: relative;
             min-height: 180vh;
         }
-
         .invited-inner {
             position: sticky;
             top: 0;
@@ -164,7 +144,6 @@
             overflow: hidden;
             background: #f0ece3;
         }
-
         .invited-inner::before {
             content: '';
             position: absolute;
@@ -174,8 +153,6 @@
                 radial-gradient(ellipse 45% 50% at 72% 38%, rgba(160,190,215,0.09) 0%, transparent 60%);
             pointer-events: none;
         }
-
-        /* ── Watermark ── */
         .invited-watermark {
             position: absolute;
             top: 50%;
@@ -189,8 +166,6 @@
             z-index: 1;
             will-change: transform;
         }
-
-        /* ── Lacy invitation card  (LEFT) ── */
         .lacy-card {
             position: absolute;
             left: 5%;
@@ -202,13 +177,7 @@
             filter: drop-shadow(0 22px 48px rgba(60, 40, 20, 0.18))
                     drop-shadow(0 4px 12px rgba(60, 40, 20, 0.10));
         }
-        .lacy-img {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-
-        /* ── Polaroid  (RIGHT, in front of camera) ── */
+        .lacy-img { width: 100%; height: auto; display: block; }
         .polaroid {
             position: absolute;
             right: 32%;
@@ -245,8 +214,6 @@
             margin-top: 10px;
             letter-spacing: 0.03em;
         }
-
-        /* ── Camera  (RIGHT, behind polaroid) ── */
         .camera-wrap {
             position: absolute;
             right: 3%;
@@ -262,227 +229,43 @@
             filter: drop-shadow(6px 14px 32px rgba(60, 40, 20, 0.18));
         }
         .camera-screen-photo {
-        position: absolute;
-        top: 22%;
-        left: 18%;
-        width: 42%;
-        height: 54%;
-        object-fit: cover;
-        border-radius: 6px;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+            position: absolute;
+            top: 22%;
+            left: 18%;
+            width: 42%;
+            height: 54%;
+            object-fit: cover;
+            border-radius: 6px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
         }
-
-
-
-        /* ── Responsive: stack on small screens ── */
         @media (max-width: 640px) {
             .lacy-card   { left: 4%; width: 62vw; top: 50%; }
             .polaroid    { right: 4%; top: 32%; width: 52vw; }
             .camera-wrap { right: 2%; top: 65%; width: 58vw; }
         }
-        /* Blue Knot Divider */
-        .knot-divider { display: flex; justify-content: center; padding: 52px 0 44px; background: #f0ece3; }
+
+        /* ═══════════════════════════
+           BLUE KNOT DIVIDER
+           ═══════════════════════════ */
+        .knot-divider {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            padding: 52px 0 44px;
+            background: #f0ece3;
+        }
+        .knot-divider-line {
+            flex: 1;
+            max-width: 160px;
+            height: 1px;
+            background: linear-gradient(to var(--dir, right), transparent, #c0b4a4);
+        }
         .knot-svg { width: 68px; height: auto; }
-    </style>
-</head>
-<body>
 
-<!-- ═══════════════════════════════════════════════════════
-     HERO SECTION
-     ═══════════════════════════════════════════════════════ -->
-<section class="hero" id="hero">
-
-    <div class="hero-heading">
-        <h1>SASE Annual Banquet &nbsp;·&nbsp; 2026</h1>
-        <p class="tagline">Friendship Gardens</p>
-    </div>
-
-    <!-- ─── 3-D Shiny Envelope Card ─── -->
-    <div class="envelope-card" id="envelopeCard">
-        <!--
-            Card SVG 720 × 720 (square to match the user's 1024×1024 envelope art).
-            The artwork fills the card; text + shine layers float above.
-        -->
-        <svg viewBox="0 0 720 720" xmlns="http://www.w3.org/2000/svg"
-             xmlns:xlink="http://www.w3.org/1999/xlink" overflow="visible">
-            <defs>
-
-                <!-- Mouse-tracking radial gloss -->
-                <radialGradient id="shine-radial" cx="50%" cy="50%" r="55%"
-                                gradientUnits="objectBoundingBox">
-                    <stop offset="0%"   stop-color="#fffff5" stop-opacity="0.55"/>
-                    <stop offset="38%"  stop-color="#fffff5" stop-opacity="0.16"/>
-                    <stop offset="100%" stop-color="#fffff5" stop-opacity="0"/>
-                </radialGradient>
-
-                <!-- Diagonal sweep band -->
-                <linearGradient id="sweep-grad" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%"   stop-color="white" stop-opacity="0"/>
-                    <stop offset="43%"  stop-color="white" stop-opacity="0"/>
-                    <stop offset="50%"  stop-color="white" stop-opacity="0.65"/>
-                    <stop offset="57%"  stop-color="white" stop-opacity="0"/>
-                    <stop offset="100%" stop-color="white" stop-opacity="0"/>
-                </linearGradient>
-
-                <!-- Static diagonal gloss (always-on laminate sheen) -->
-                <linearGradient id="gloss-static" x1="15%" y1="0%" x2="72%" y2="100%">
-                    <stop offset="0%"   stop-color="white" stop-opacity="0.42"/>
-                    <stop offset="30%"  stop-color="white" stop-opacity="0.16"/>
-                    <stop offset="50%"  stop-color="white" stop-opacity="0.04"/>
-                    <stop offset="100%" stop-color="black" stop-opacity="0.06"/>
-                </linearGradient>
-
-                <!-- Holographic foil strip — diagonal rainbow band; angle shifts with tilt via JS -->
-                <linearGradient id="holo-foil" gradientUnits="userSpaceOnUse"
-                                x1="0" y1="180" x2="720" y2="540">
-                    <stop offset="0%"   stop-color="#d4af37" stop-opacity="0.00"/>
-                    <stop offset="28%"  stop-color="#d4af37" stop-opacity="0.00"/>
-                    <stop offset="34%"  stop-color="#d4af37" stop-opacity="0.30"/>
-                    <stop offset="39%"  stop-color="#48c9b0" stop-opacity="0.26"/>
-                    <stop offset="44%"  stop-color="#c39bd3" stop-opacity="0.24"/>
-                    <stop offset="49%"  stop-color="#7fb3d3" stop-opacity="0.26"/>
-                    <stop offset="54%"  stop-color="#f9e79f" stop-opacity="0.22"/>
-                    <stop offset="60%"  stop-color="#f9e79f" stop-opacity="0.00"/>
-                    <stop offset="100%" stop-color="#f9e79f" stop-opacity="0.00"/>
-                </linearGradient>
-
-                <!-- Mask shine layers to the envelope's actual shape (alpha channel) -->
-                <mask id="envelope-mask" maskUnits="userSpaceOnUse" style="mask-type: alpha">
-                    <image href="{% static 'banquet/envelope.svg' %}"
-                           x="0" y="0" width="720" height="720"
-                           preserveAspectRatio="xMidYMid meet"/>
-                </mask>
-
-            </defs>
-
-            <!-- ══════════════ ARTWORK ══════════════ -->
-            <!--
-                The user's 1024×1024 envelope/border illustration,
-                scaled to fill the 720×720 card and clipped to rounded corners.
-            -->
-            <image href="{% static 'banquet/envelope.svg' %}"
-                   x="0" y="0" width="720" height="720"
-                   preserveAspectRatio="xMidYMid meet"/>
-
-            <!-- ══════════════ EVENT DETAILS ══════════════ -->
-
-            <!-- Top accent rule -->
-            <line x1="180" y1="310" x2="540" y2="310"
-                  stroke="#c0b4a4" stroke-width="0.8"/>
-            <circle cx="360" cy="310" r="3.5" fill="#c0b4a4"/>
-
-            <!-- Main script title -->
-            <text x="360" y="368" text-anchor="middle"
-                  font-family="'Great Vibes', cursive"
-                  font-size="52" fill="#2c2018">SASE Banquet</text>
-
-            <!-- Script subtitle in dusty blue -->
-            <text x="360" y="413" text-anchor="middle"
-                  font-family="'Great Vibes', cursive"
-                  font-size="34" fill="#4a6e8a">Friendship Gardens</text>
-
-            <!-- Diamond divider -->
-            <line x1="210" y1="432" x2="346" y2="432"
-                  stroke="#c0b4a4" stroke-width="0.7"/>
-            <path d="M360,427 L366,432 L360,437 L354,432 Z" fill="#c0b4a4"/>
-            <line x1="374" y1="432" x2="510" y2="432"
-                  stroke="#c0b4a4" stroke-width="0.7"/>
-
-            <!-- Location -->
-            <text x="360" y="458" text-anchor="middle"
-                  font-family="'Cormorant Garamond', Georgia, serif"
-                  font-size="14.5" fill="#4a3828">
-                Student Pavilion · Senita Ballroom BC
-            </text>
-
-            <!-- Date + Time -->
-            <text x="360" y="482" text-anchor="middle"
-                  font-family="'Cormorant Garamond', Georgia, serif"
-                  font-size="14.5" fill="#4a3828">
-                April 18<tspan baseline-shift="super" font-size="9">th</tspan>,
-                2026 &nbsp;·&nbsp; 5:00 – 8:00 PM
-            </text>
-
-            <!-- Dress + RSVP -->
-            <text x="360" y="506" text-anchor="middle"
-                  font-family="'Cormorant Garamond', Georgia, serif"
-                  font-size="13" font-style="italic" fill="#7a6a58">
-                Semi-formal &nbsp;·&nbsp; Must RSVP
-            </text>
-
-            <!-- Bottom accent rule -->
-            <line x1="180" y1="524" x2="540" y2="524"
-                  stroke="#c0b4a4" stroke-width="0.8"/>
-            <circle cx="360" cy="524" r="3.5" fill="#c0b4a4"/>
-
-            <!-- ══════════════ SHINE LAYERS ══════════════ -->
-
-            <!-- 1. Always-on diagonal laminate sheen -->
-            <rect x="0" y="0" width="720" height="720"
-                  fill="url(#gloss-static)"
-                  mask="url(#envelope-mask)"
-                  pointer-events="none"/>
-
-            <!-- 1b. Holographic foil strip — angle shifts with card tilt via JS -->
-            <rect x="0" y="0" width="720" height="720"
-                  fill="url(#holo-foil)"
-                  mask="url(#envelope-mask)"
-                  pointer-events="none"/>
-
-            <!-- 2. Mouse-tracking radial spotlight (JS updates cx/cy) -->
-            <rect id="gloss-overlay"
-                  x="0" y="0" width="720" height="720"
-                  fill="url(#shine-radial)"
-                  mask="url(#envelope-mask)"
-                  pointer-events="none"/>
-
-            <!-- 3. Hover sweep (CSS animation) -->
-            <rect class="sweep-rect"
-                  x="0" y="0" width="720" height="720"
-                  fill="url(#sweep-grad)"
-                  mask="url(#envelope-mask)"
-                  pointer-events="none"/>
-
-        </svg>
-    </div><!-- /.envelope-card -->
-
-    <a href="#rsvp" class="rsvp-btn">RSVP Now</a>
-
-    <div class="scroll-hint">↓ &nbsp; scroll</div>
-
-</section><!-- /#hero -->
-
-<!-- ═══════════════════════════════════════════════════════
-     INVITED SECTION
-     ═══════════════════════════════════════════════════════ -->
-<section class="invited-section" id="invited">
-<div class="invited-inner">
-
-    <div class="invited-watermark" aria-hidden="true">You Are Invited</div>
-
-    <div class="lacy-card" aria-label="You are invited">
-        <img src="{% static 'banquet/images/lacy invatation card.svg' %}"
-             alt="You Are Invited" class="lacy-img">
-    </div>
-
-    <div class="polaroid">
-            <div class="polaroid-photo"><img src="{% static 'banquet/images/polaroid-photo.jpeg' %}" alt="SASE Banquet" style="width:100%; height:100%; object-fit:cover; display:block;"></div>
-            <p class="polaroid-cap">/ sase banquet 2026</p>
-        </div>
-
-    <div class="camera-wrap">
-        <img src="{% static 'banquet/images/camera.svg' %}" alt="camera" class="camera-svg">
-    <img src="{% static 'banquet/images/camera-photo.jpeg' %}" alt="SASE Banquet 2026" class="camera-screen-photo">
-        <img src="{% static 'banquet/images/camera-photo.jpeg' %}"
-         alt="SASE Banquet 2026" class="camera-screen-photo">
-    </div>
-
-</div><!-- /.invited-inner -->
-</section><!-- /#invited -->
-
-
-<section class="details-section" id="details">
-    <style>
+        /* ═══════════════════════════
+           DETAILS SECTION
+           ═══════════════════════════ */
         .details-section {
             background: #f0ece3;
             min-height: 100vh;
@@ -498,9 +281,9 @@
             height: 280px;
         }
         .fan { position: absolute; width: 130px; }
-        .fan-blue  { top: 0;    left: 0;    transform: rotate(-10deg); }
-        .fan-red   { top: 0;    left: 120px; transform: rotate(10deg); }
-        .fan-pink  { top: 130px; left: 40px; transform: rotate(-5deg); }
+        .fan-blue  { top: 0;     left: 0;     transform: rotate(-10deg); }
+        .fan-red   { top: 0;     left: 120px; transform: rotate(10deg); }
+        .fan-pink  { top: 130px; left: 40px;  transform: rotate(-5deg); }
         .dress-code-label {
             position: absolute;
             bottom: -20px; left: 0;
@@ -532,13 +315,173 @@
             transition: background 0.3s, color 0.3s;
         }
         .pay-btn:hover { background: #4a6e8a; color: #fff; }
-
-        /* Blue Knot Divider */
-        .knot-divider { display: flex; justify-content: center; padding: 52px 0 44px; background: #f0ece3; }
-        .knot-svg { width: 68px; height: auto; }
     </style>
-    <div class="fans-group">
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════
+     HERO SECTION
+     ═══════════════════════════════════════════════════════ -->
+<section class="hero" id="hero">
+    <div class="hero-heading">
+        <h1>SASE Annual Banquet &nbsp;·&nbsp; 2026</h1>
+        <p class="tagline">Friendship Gardens</p>
     </div>
+
+    <div class="envelope-card" id="envelopeCard">
+        <svg viewBox="0 0 720 720" xmlns="http://www.w3.org/2000/svg"
+             xmlns:xlink="http://www.w3.org/1999/xlink" overflow="visible">
+            <defs>
+                <radialGradient id="shine-radial" cx="50%" cy="50%" r="55%"
+                                gradientUnits="objectBoundingBox">
+                    <stop offset="0%"   stop-color="#fffff5" stop-opacity="0.55"/>
+                    <stop offset="38%"  stop-color="#fffff5" stop-opacity="0.16"/>
+                    <stop offset="100%" stop-color="#fffff5" stop-opacity="0"/>
+                </radialGradient>
+                <linearGradient id="sweep-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%"   stop-color="white" stop-opacity="0"/>
+                    <stop offset="43%"  stop-color="white" stop-opacity="0"/>
+                    <stop offset="50%"  stop-color="white" stop-opacity="0.65"/>
+                    <stop offset="57%"  stop-color="white" stop-opacity="0"/>
+                    <stop offset="100%" stop-color="white" stop-opacity="0"/>
+                </linearGradient>
+                <linearGradient id="gloss-static" x1="15%" y1="0%" x2="72%" y2="100%">
+                    <stop offset="0%"   stop-color="white" stop-opacity="0.42"/>
+                    <stop offset="30%"  stop-color="white" stop-opacity="0.16"/>
+                    <stop offset="50%"  stop-color="white" stop-opacity="0.04"/>
+                    <stop offset="100%" stop-color="black" stop-opacity="0.06"/>
+                </linearGradient>
+                <linearGradient id="holo-foil" gradientUnits="userSpaceOnUse"
+                                x1="0" y1="180" x2="720" y2="540">
+                    <stop offset="0%"   stop-color="#d4af37" stop-opacity="0.00"/>
+                    <stop offset="28%"  stop-color="#d4af37" stop-opacity="0.00"/>
+                    <stop offset="34%"  stop-color="#d4af37" stop-opacity="0.30"/>
+                    <stop offset="39%"  stop-color="#48c9b0" stop-opacity="0.26"/>
+                    <stop offset="44%"  stop-color="#c39bd3" stop-opacity="0.24"/>
+                    <stop offset="49%"  stop-color="#7fb3d3" stop-opacity="0.26"/>
+                    <stop offset="54%"  stop-color="#f9e79f" stop-opacity="0.22"/>
+                    <stop offset="60%"  stop-color="#f9e79f" stop-opacity="0.00"/>
+                    <stop offset="100%" stop-color="#f9e79f" stop-opacity="0.00"/>
+                </linearGradient>
+                <mask id="envelope-mask" maskUnits="userSpaceOnUse" style="mask-type: alpha">
+                    <image href="{% static 'banquet/envelope.svg' %}"
+                           x="0" y="0" width="720" height="720"
+                           preserveAspectRatio="xMidYMid meet"/>
+                </mask>
+            </defs>
+
+            <!-- Artwork -->
+            <image href="{% static 'banquet/envelope.svg' %}"
+                   x="0" y="0" width="720" height="720"
+                   preserveAspectRatio="xMidYMid meet"/>
+
+            <!-- Event details -->
+            <line x1="180" y1="310" x2="540" y2="310" stroke="#c0b4a4" stroke-width="0.8"/>
+            <circle cx="360" cy="310" r="3.5" fill="#c0b4a4"/>
+            <text x="360" y="368" text-anchor="middle"
+                  font-family="'Great Vibes', cursive"
+                  font-size="52" fill="#2c2018">SASE Banquet</text>
+            <text x="360" y="413" text-anchor="middle"
+                  font-family="'Great Vibes', cursive"
+                  font-size="34" fill="#4a6e8a">Friendship Gardens</text>
+            <line x1="210" y1="432" x2="346" y2="432" stroke="#c0b4a4" stroke-width="0.7"/>
+            <path d="M360,427 L366,432 L360,437 L354,432 Z" fill="#c0b4a4"/>
+            <line x1="374" y1="432" x2="510" y2="432" stroke="#c0b4a4" stroke-width="0.7"/>
+            <text x="360" y="458" text-anchor="middle"
+                  font-family="'Cormorant Garamond', Georgia, serif"
+                  font-size="14.5" fill="#4a3828">
+                Student Pavilion · Senita Ballroom BC
+            </text>
+            <text x="360" y="482" text-anchor="middle"
+                  font-family="'Cormorant Garamond', Georgia, serif"
+                  font-size="14.5" fill="#4a3828">
+                April 18<tspan baseline-shift="super" font-size="9">th</tspan>,
+                2026 &nbsp;·&nbsp; 5:00 – 8:00 PM
+            </text>
+            <text x="360" y="506" text-anchor="middle"
+                  font-family="'Cormorant Garamond', Georgia, serif"
+                  font-size="13" font-style="italic" fill="#7a6a58">
+                Semi-formal &nbsp;·&nbsp; Must RSVP
+            </text>
+            <line x1="180" y1="524" x2="540" y2="524" stroke="#c0b4a4" stroke-width="0.8"/>
+            <circle cx="360" cy="524" r="3.5" fill="#c0b4a4"/>
+
+            <!-- Shine layers -->
+            <rect x="0" y="0" width="720" height="720"
+                  fill="url(#gloss-static)" mask="url(#envelope-mask)" pointer-events="none"/>
+            <rect x="0" y="0" width="720" height="720"
+                  fill="url(#holo-foil)" mask="url(#envelope-mask)" pointer-events="none"/>
+            <rect id="gloss-overlay" x="0" y="0" width="720" height="720"
+                  fill="url(#shine-radial)" mask="url(#envelope-mask)" pointer-events="none"/>
+            <rect class="sweep-rect" x="0" y="0" width="720" height="720"
+                  fill="url(#sweep-grad)" mask="url(#envelope-mask)" pointer-events="none"/>
+        </svg>
+    </div>
+
+    <a href="#rsvp" class="rsvp-btn">RSVP Now</a>
+    <div class="scroll-hint">↓ &nbsp; scroll</div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     INVITED SECTION
+     ═══════════════════════════════════════════════════════ -->
+<section class="invited-section" id="invited">
+    <div class="invited-inner">
+        <div class="invited-watermark" aria-hidden="true">You Are Invited</div>
+        <div class="lacy-card" aria-label="You are invited">
+            <img src="{% static 'banquet/images/lacy invatation card.svg' %}"
+                 alt="You Are Invited" class="lacy-img">
+        </div>
+        <div class="polaroid">
+            <div class="polaroid-photo">
+                <img src="{% static 'banquet/images/polaroid-photo.jpeg' %}"
+                     alt="SASE Banquet"
+                     style="width:100%; height:100%; object-fit:cover; display:block;">
+            </div>
+            <p class="polaroid-cap">/ sase banquet 2026</p>
+        </div>
+        <div class="camera-wrap">
+            <img src="{% static 'banquet/images/camera.svg' %}" alt="camera" class="camera-svg">
+            <img src="{% static 'banquet/images/camera-photo.jpeg' %}"
+                 alt="SASE Banquet 2026" class="camera-screen-photo">
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     BLUE KNOT DIVIDER
+     ═══════════════════════════════════════════════════════ -->
+<div class="knot-divider" aria-hidden="true">
+    <div class="knot-divider-line" style="--dir: right"></div>
+    <svg class="knot-svg" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg"
+         fill="none" stroke="#4a6e8a" stroke-linecap="round" stroke-linejoin="round">
+        <!-- Four outer loops -->
+        <path d="M60,14 C80,14 92,28 84,40 C76,52 44,52 36,40 C28,28 40,14 60,14" stroke-width="3.2"/>
+        <path d="M60,106 C80,106 92,92 84,80 C76,68 44,68 36,80 C28,92 40,106 60,106" stroke-width="3.2"/>
+        <path d="M14,60 C14,40 28,28 40,36 C52,44 52,76 40,84 C28,92 14,80 14,60" stroke-width="3.2"/>
+        <path d="M106,60 C106,40 92,28 80,36 C68,44 68,76 80,84 C92,92 106,80 106,60" stroke-width="3.2"/>
+        <!-- Centre weave -->
+        <path d="M36,54 C44,56 52,58 60,60 C68,62 76,64 84,66" stroke-width="3.2"/>
+        <path d="M54,36 C56,44 58,50 60,55" stroke-width="3.2"/>
+        <path d="M60,65 C62,70 64,76 66,84" stroke-width="3.2"/>
+        <path d="M66,36 C64,44 62,50 60,55" stroke-width="3.2"/>
+        <path d="M60,65 C58,70 56,76 54,84" stroke-width="3.2"/>
+        <!-- Centre diamond -->
+        <path d="M60,50 L65,60 L60,70 L55,60 Z" stroke-width="1.8" stroke-opacity="0.55"/>
+        <!-- Compass dots -->
+        <circle cx="60"  cy="6"   r="2.5" fill="#4a6e8a" stroke="none"/>
+        <circle cx="60"  cy="114" r="2.5" fill="#4a6e8a" stroke="none"/>
+        <circle cx="6"   cy="60"  r="2.5" fill="#4a6e8a" stroke="none"/>
+        <circle cx="114" cy="60"  r="2.5" fill="#4a6e8a" stroke="none"/>
+    </svg>
+    <div class="knot-divider-line" style="--dir: left"></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     DETAILS SECTION
+     ═══════════════════════════════════════════════════════ -->
+<section class="details-section" id="details">
+    <div class="fans-group"></div>
     <div class="center-group">
         <a href="#payment" class="pay-btn">Pay Now</a>
     </div>
@@ -546,20 +489,13 @@
         <div class="polaroid-frame"></div>
     </div>
 </section>
+
 <script>
-/*
- * ENVELOPE CARD INTERACTIVITY
- * ─────────────────────────────────────────────────────
- *  • Mouse-tracking 3-D tilt  (rotateX / rotateY)
- *  • Radial shine spotlight   (SVG radialGradient cx/cy)
- *  • Dynamic shadow shift     (drop-shadow follows tilt)
- *  • Smooth return on leave   (CSS transition re-enabled)
- */
+/* ── Envelope card 3-D tilt + shine ── */
 (function () {
     const card  = document.getElementById('envelopeCard');
     const shine = document.getElementById('shine-radial');
     const foil  = document.getElementById('holo-foil');
-
     const REST_TRANSFORM =
         'perspective(1100px) rotateX(5deg) rotateY(-8deg) rotateZ(-1deg)';
     const REST_FILTER =
@@ -568,40 +504,32 @@
     const SLOW_TRANSITION =
         'transform 0.55s cubic-bezier(0.25,0.8,0.25,1), filter 0.55s ease';
 
-    card.addEventListener('mouseenter', function () {
+    card.addEventListener('mouseenter', () => {
         card.style.transition = 'filter 0.12s ease';
     });
-
-    card.addEventListener('mousemove', function (e) {
-        const r = card.getBoundingClientRect();
-        const x = (e.clientX - r.left) / r.width;
-        const y = (e.clientY - r.top)  / r.height;
-
+    card.addEventListener('mousemove', (e) => {
+        const r  = card.getBoundingClientRect();
+        const x  = (e.clientX - r.left) / r.width;
+        const y  = (e.clientY - r.top)  / r.height;
         const rX = (5  + (y - 0.5) * -12).toFixed(1);
         const rY = (-8 + (x - 0.5) *  20).toFixed(1);
-
         card.style.transform =
             `perspective(1100px) rotateX(${rX}deg) rotateY(${rY}deg) rotateZ(-1deg)`;
-
         shine.setAttribute('cx', (x * 100).toFixed(1) + '%');
         shine.setAttribute('cy', (y * 100).toFixed(1) + '%');
-
-        /* Rotate holographic foil gradient angle with card tilt */
         const tilt = (45 + parseFloat(rY) * 1.8 + parseFloat(rX) * 0.6) * Math.PI / 180;
-        const r2 = 390;
+        const r2   = 390;
         foil.setAttribute('x1', (360 - r2 * Math.cos(tilt)).toFixed(0));
         foil.setAttribute('y1', (360 + r2 * Math.sin(tilt)).toFixed(0));
         foil.setAttribute('x2', (360 + r2 * Math.cos(tilt)).toFixed(0));
         foil.setAttribute('y2', (360 - r2 * Math.sin(tilt)).toFixed(0));
-
         const sX = (8  + x * 20).toFixed(0);
         const sY = (14 + y * 18).toFixed(0);
         card.style.filter =
             `drop-shadow(${sX}px ${sY}px 38px rgba(60,40,20,0.25)) ` +
             `drop-shadow(3px 6px 12px rgba(60,40,20,0.13))`;
     });
-
-    card.addEventListener('mouseleave', function () {
+    card.addEventListener('mouseleave', () => {
         card.style.transition = SLOW_TRANSITION;
         card.style.transform  = REST_TRANSFORM;
         card.style.filter     = REST_FILTER;
@@ -614,49 +542,31 @@
     });
 }());
 
-/*
- * INVITED SECTION — depth parallax
- * Elements are visible immediately. As you scroll through the section
- * each layer drifts at a different speed, creating depth:
- *   BG (lacy card + watermark) → barely moves  → feels far/still
- *   FG (polaroid + camera)     → drifts faster → feels close
- */
+/* ── Invited section depth parallax ── */
 (function () {
-    const section   = document.getElementById('invited');
+    const section  = document.getElementById('invited');
     if (!section) return;
-
     const watermark = section.querySelector('.invited-watermark');
     const lacy      = section.querySelector('.lacy-card');
     const polaroid  = section.querySelector('.polaroid');
     const camera    = section.querySelector('.camera-wrap');
-
     let rafId = null;
 
     function update() {
         rafId = null;
         const scrolled = Math.max(0, -section.getBoundingClientRect().top);
-
-        /* BG layer — 12% of scroll speed (nearly stationary) */
-        const bgY = -(scrolled * 0.12);
+        const bgY  = -(scrolled * 0.12);
+        const polY = -(scrolled * 0.40);
         watermark.style.transform = `translate3d(-50%, calc(-50% + ${bgY.toFixed(1)}px), 0)`;
         lacy.style.transform      = `translate3d(0, calc(-50% + ${bgY.toFixed(1)}px), 0) rotate(-2deg)`;
-
-        /* FG layer — 40% of scroll speed (drifts upward noticeably) */
-        const polY = -(scrolled * 0.40);
         polaroid.style.transform  = `translate3d(0, calc(-50% + ${polY.toFixed(1)}px), 0) rotate(-8deg)`;
         camera.style.transform    = `translate3d(0, calc(-50% + ${polY.toFixed(1)}px), 0) rotate(8deg)`;
     }
-
-    function onScroll() {
-        if (!rafId) rafId = requestAnimationFrame(update);
-    }
-
+    function onScroll() { if (!rafId) rafId = requestAnimationFrame(update); }
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onScroll, { passive: true });
     update();
 }());
-
 </script>
-
 </body>
 </html>

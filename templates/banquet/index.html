@@ -312,6 +312,19 @@
             }
         }
 
+        /* ── page3.png illustration background ── */
+        .details-illustration {
+            position: absolute;
+            inset: 0;
+            background:
+                url("{% static 'banquet/images/page3.png' %}")
+                right bottom / 65% auto no-repeat;
+            mix-blend-mode: multiply;
+            opacity: 0.72;
+            pointer-events: none;
+            z-index: 0;
+        }
+
         /* ── Countdown (left column) ── */
         .countdown-wrap {
             position: relative;
@@ -756,6 +769,10 @@
      DETAILS SECTION — Countdown · Pay Now · Calendar
      ═══════════════════════════════════════════════════════ -->
 <section class="details-section" id="details">
+
+    <!-- page3.png illustration — black bg becomes transparent via multiply -->
+    <div class="details-illustration" aria-hidden="true"></div>
+
     <!-- ── LEFT: COUNTDOWN ── -->
     <div class="countdown-wrap">
         <div class="mon-sho" aria-hidden="true">
@@ -828,7 +845,6 @@
 <script>
 /* ══════════════════════════════════════════
    GLOBAL FALLING SAKURA PETALS
-   (spawned once, fixed over the whole page)
 ══════════════════════════════════════════ */
 (function () {
     const canvas = document.getElementById('petalCanvas');
@@ -971,18 +987,16 @@
     const YEAR        = 2026;
     const MONTH       = 3;       /* 0-indexed → April */
     const BANQUET_DAY = 18;
-    const DAYS_TOTAL  = new Date(YEAR, MONTH + 1, 0).getDate(); /* 30 */
-    const FIRST_DOW   = new Date(YEAR, MONTH, 1).getDay();      /* 3 = Wed */
+    const DAYS_TOTAL  = new Date(YEAR, MONTH + 1, 0).getDate();
+    const FIRST_DOW   = new Date(YEAR, MONTH, 1).getDay();
     const today       = new Date();
 
-    /* eventMap[day] = tooltip string */
     const eventMap = {};
     eventMap[BANQUET_DAY] = 'SASE Annual Banquet · 5 – 8 PM';
 
     function buildCalendar() {
         const container = document.getElementById('calDays');
         container.innerHTML = '';
-        /* blank leading cells */
         for (let b = 0; b < FIRST_DOW; b++) {
             const blank = document.createElement('span');
             blank.className = 'cal-day empty';
@@ -1041,8 +1055,8 @@
         buildCalendar();
     }
 
-    buildCalendar(); /* render immediately */
-    loadSheet();     /* enrich from sheet  */
+    buildCalendar();
+    loadSheet();
 }());
 </script>
 </body>

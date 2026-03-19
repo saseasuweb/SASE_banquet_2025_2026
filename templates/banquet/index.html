@@ -16,6 +16,35 @@
         }
 
         /* ═══════════════════════════
+           GLOBAL PETAL CANVAS (fixed, full-page)
+           ═══════════════════════════ */
+        .petal-canvas {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 9999;
+        }
+        .petal {
+            position: absolute;
+            top: -40px;
+            width: 14px;
+            height: 12px;
+            background: radial-gradient(ellipse at 40% 35%,
+                #ffc2d4 0%, #ffadc4 55%, rgba(255,140,180,0.0) 100%);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            opacity: 0;
+            animation: petal-fall linear infinite;
+            transform-origin: center;
+        }
+        @keyframes petal-fall {
+            0%   { opacity: 0;    transform: translateY(0)      rotate(0deg)   translateX(0); }
+            8%   { opacity: 0.85; }
+            90%  { opacity: 0.6;  }
+            100% { opacity: 0;    transform: translateY(110vh)  rotate(540deg) translateX(60px); }
+        }
+
+        /* ═══════════════════════════
            HERO
            ═══════════════════════════ */
         .hero {
@@ -283,33 +312,6 @@
             }
         }
 
-        /* ── Falling sakura petals ── */
-        .petal-canvas {
-            position: absolute;
-            inset: 0;
-            pointer-events: none;
-            overflow: hidden;
-            z-index: 0;
-        }
-        .petal {
-            position: absolute;
-            top: -40px;
-            width: 14px;
-            height: 12px;
-            background: radial-gradient(ellipse at 40% 35%,
-                #ffc2d4 0%, #ffadc4 55%, rgba(255,140,180,0.0) 100%);
-            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-            opacity: 0;
-            animation: petal-fall linear infinite;
-            transform-origin: center;
-        }
-        @keyframes petal-fall {
-            0%   { opacity: 0;    transform: translateY(0)      rotate(0deg)   translateX(0); }
-            8%   { opacity: 0.85; }
-            90%  { opacity: 0.6;  }
-            100% { opacity: 0;    transform: translateY(110vh)  rotate(540deg) translateX(60px); }
-        }
-
         /* ── Countdown (left column) ── */
         .countdown-wrap {
             position: relative;
@@ -402,13 +404,6 @@
             letter-spacing: 0.05em;
             text-align: center;
         }
-        .cd-kanji {
-            font-size: 11px;
-            color: #b5222a;
-            opacity: 0.65;
-            display: block;
-            margin-top: 1px;
-        }
         .cd-info {
             text-align: center;
             font-family: 'Cormorant Garamond', Georgia, serif;
@@ -473,14 +468,6 @@
         }
         .pay-btn:hover { color: #fff; }
         .pay-btn:hover::before { transform: translateX(0); }
-        .pay-kanji {
-            font-family: 'Cormorant Garamond', Georgia, serif;
-            font-size: 11px;
-            color: rgba(181,34,42,0.55);
-            letter-spacing: 0.15em;
-            margin-top: 10px;
-            text-align: center;
-        }
 
         /* ── Calendar (right column) ── */
         .cal-wrap {
@@ -507,12 +494,6 @@
             font-family: 'Cinzel', serif;
             font-size: 13px;
             letter-spacing: 0.18em;
-        }
-        .cal-header-kanji {
-            font-family: 'Cormorant Garamond', Georgia, serif;
-            font-size: 11px;
-            opacity: 0.75;
-            letter-spacing: 0.1em;
         }
         .cal-sheet-link {
             font-family: 'Cinzel', serif;
@@ -573,7 +554,7 @@
             box-shadow: 0 2px 8px rgba(181,34,42,0.35);
         }
         .cal-day.event-day::after {
-            content: '桜';
+            content: '✿';
             position: absolute;
             bottom: 1px;
             font-size: 7px;
@@ -621,6 +602,11 @@
 <body>
 
 <!-- ═══════════════════════════════════════════════════════
+     GLOBAL FALLING SAKURA PETALS (fixed, covers all sections)
+     ═══════════════════════════════════════════════════════ -->
+<div class="petal-canvas" id="petalCanvas" aria-hidden="true"></div>
+
+<!-- ═══════════════════════════════════════════════════════
      HERO SECTION
      ═══════════════════════════════════════════════════════ -->
 <section class="hero" id="hero">
@@ -628,7 +614,6 @@
         <h1>SASE Annual Banquet &nbsp;·&nbsp; 2026</h1>
         <p class="tagline">Friendship Gardens</p>
     </div>
-
     <div class="envelope-card" id="envelopeCard">
         <svg viewBox="0 0 720 720" xmlns="http://www.w3.org/2000/svg"
              xmlns:xlink="http://www.w3.org/1999/xlink" overflow="visible">
@@ -670,11 +655,9 @@
                            preserveAspectRatio="xMidYMid meet"/>
                 </mask>
             </defs>
-
             <image href="{% static 'banquet/envelope.svg' %}"
                    x="0" y="0" width="720" height="720"
                    preserveAspectRatio="xMidYMid meet"/>
-
             <line x1="180" y1="310" x2="540" y2="310" stroke="#c0b4a4" stroke-width="0.8"/>
             <circle cx="360" cy="310" r="3.5" fill="#c0b4a4"/>
             <text x="360" y="368" text-anchor="middle"
@@ -704,7 +687,6 @@
             </text>
             <line x1="180" y1="524" x2="540" y2="524" stroke="#c0b4a4" stroke-width="0.8"/>
             <circle cx="360" cy="524" r="3.5" fill="#c0b4a4"/>
-
             <rect x="0" y="0" width="720" height="720"
                   fill="url(#gloss-static)" mask="url(#envelope-mask)" pointer-events="none"/>
             <rect x="0" y="0" width="720" height="720"
@@ -715,7 +697,6 @@
                   fill="url(#sweep-grad)" mask="url(#envelope-mask)" pointer-events="none"/>
         </svg>
     </div>
-
     <a href="#rsvp" class="rsvp-btn">RSVP Now</a>
     <div class="scroll-hint">↓ &nbsp; scroll</div>
 </section>
@@ -775,14 +756,10 @@
      DETAILS SECTION — Countdown · Pay Now · Calendar
      ═══════════════════════════════════════════════════════ -->
 <section class="details-section" id="details">
-
-    <!-- Falling sakura petals -->
-    <div class="petal-canvas" id="petalCanvas" aria-hidden="true"></div>
-
     <!-- ── LEFT: COUNTDOWN ── -->
     <div class="countdown-wrap">
         <div class="mon-sho" aria-hidden="true">
-            <span class="mon-sho-inner">桜</span>
+            <span class="mon-sho-inner">✿</span>
         </div>
         <div class="countdown-heading">
             <small>Until the Banquet</small>
@@ -791,19 +768,19 @@
         <div class="countdown-grid" id="countdownGrid">
             <div class="cd-cell">
                 <span class="cd-num" id="cd-days">--</span>
-                <span class="cd-label">Days<span class="cd-kanji">日</span></span>
+                <span class="cd-label">Days</span>
             </div>
             <div class="cd-cell">
                 <span class="cd-num" id="cd-hours">--</span>
-                <span class="cd-label">Hours<span class="cd-kanji">時</span></span>
+                <span class="cd-label">Hours</span>
             </div>
             <div class="cd-cell">
                 <span class="cd-num" id="cd-mins">--</span>
-                <span class="cd-label">Minutes<span class="cd-kanji">分</span></span>
+                <span class="cd-label">Minutes</span>
             </div>
             <div class="cd-cell">
                 <span class="cd-num" id="cd-secs">--</span>
-                <span class="cd-label">Seconds<span class="cd-kanji">秒</span></span>
+                <span class="cd-label">Seconds</span>
             </div>
         </div>
         <div class="cd-info">
@@ -818,7 +795,6 @@
     <!-- ── CENTER: PAY NOW ── -->
     <div class="pay-col">
         <a href="#payment" class="pay-btn">Pay Now</a>
-        <span class="pay-kanji">お支払い</span>
     </div>
 
     <!-- ── RIGHT: CALENDAR ── -->
@@ -826,12 +802,7 @@
         <div class="cal-header">
             <div>
                 <div class="cal-header-title">April 2026</div>
-                <div class="cal-header-kanji">四月 &nbsp;·&nbsp; 令和八年</div>
             </div>
-            <!--
-                Replace the href below with your Google Sheet URL.
-                File → Share → Publish to web → then paste the link here.
-            -->
             <a class="cal-sheet-link"
                href="https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/edit"
                target="_blank" rel="noopener">
@@ -852,10 +823,28 @@
         </div>
         <div class="cal-status" id="calStatus">Loading events…</div>
     </div>
-
 </section>
 
 <script>
+/* ══════════════════════════════════════════
+   GLOBAL FALLING SAKURA PETALS
+   (spawned once, fixed over the whole page)
+══════════════════════════════════════════ */
+(function () {
+    const canvas = document.getElementById('petalCanvas');
+    for (let i = 0; i < 28; i++) {
+        const p     = document.createElement('div');
+        p.className = 'petal';
+        const size  = (10 + Math.random() * 8).toFixed(1);
+        p.style.cssText =
+            `left:${(Math.random() * 100).toFixed(1)}%;` +
+            `width:${size}px; height:${(parseFloat(size) * 0.85).toFixed(1)}px;` +
+            `animation-duration:${(8 + Math.random() * 12).toFixed(2)}s;` +
+            `animation-delay:-${(Math.random() * 20).toFixed(2)}s;`;
+        canvas.appendChild(p);
+    }
+}());
+
 /* ══════════════════════════════════════════
    ENVELOPE CARD — 3-D tilt + holographic shine
 ══════════════════════════════════════════ */
@@ -938,24 +927,6 @@
 }());
 
 /* ══════════════════════════════════════════
-   FALLING SAKURA PETALS
-══════════════════════════════════════════ */
-(function () {
-    const canvas = document.getElementById('petalCanvas');
-    for (let i = 0; i < 18; i++) {
-        const p        = document.createElement('div');
-        p.className    = 'petal';
-        const size     = (10 + Math.random() * 8).toFixed(1);
-        p.style.cssText =
-            `left:${(Math.random() * 100).toFixed(1)}%;` +
-            `width:${size}px; height:${(parseFloat(size) * 0.85).toFixed(1)}px;` +
-            `animation-duration:${(8 + Math.random() * 12).toFixed(2)}s;` +
-            `animation-delay:-${(Math.random() * 14).toFixed(2)}s;`;
-        canvas.appendChild(p);
-    }
-}());
-
-/* ══════════════════════════════════════════
    COUNTDOWN TIMER  →  April 18 2026, 5:00 PM
 ══════════════════════════════════════════ */
 (function () {
@@ -967,14 +938,12 @@
         secs:  document.getElementById('cd-secs'),
     };
     const grid = document.getElementById('countdownGrid');
-
     function pad(n) { return String(Math.floor(n)).padStart(2, '0'); }
-
     function tick() {
         const diff = TARGET - Date.now();
         if (diff <= 0) {
             grid.innerHTML =
-                '<p class="cd-expired" style="grid-column:1/-1">The Banquet Has Arrived 🌸</p>';
+                '<p class="cd-expired" style="grid-column:1/-1">The Banquet Has Arrived ✿</p>';
             return;
         }
         const s = Math.floor(diff / 1000);
@@ -999,7 +968,6 @@
 (function () {
     const SHEET_CSV_URL =
         'https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/pub?output=csv';
-
     const YEAR        = 2026;
     const MONTH       = 3;       /* 0-indexed → April */
     const BANQUET_DAY = 18;
@@ -1014,14 +982,12 @@
     function buildCalendar() {
         const container = document.getElementById('calDays');
         container.innerHTML = '';
-
         /* blank leading cells */
         for (let b = 0; b < FIRST_DOW; b++) {
             const blank = document.createElement('span');
             blank.className = 'cal-day empty';
             container.appendChild(blank);
         }
-
         for (let d = 1; d <= DAYS_TOTAL; d++) {
             const cell    = document.createElement('span');
             cell.textContent = d;
@@ -1060,7 +1026,7 @@
     async function loadSheet() {
         const status = document.getElementById('calStatus');
         if (SHEET_CSV_URL.includes('YOUR_SHEET_ID')) {
-            status.textContent = '🌸 Banquet highlighted — add your Sheet URL to load more events';
+            status.textContent = '✿ Banquet highlighted — add your Sheet URL to load more events';
             buildCalendar();
             return;
         }
@@ -1068,7 +1034,7 @@
             const res = await fetch(SHEET_CSV_URL);
             if (!res.ok) throw new Error('HTTP ' + res.status);
             parseCSV(await res.text());
-            status.textContent = '🌸 Events loaded from Google Sheet';
+            status.textContent = '✿ Events loaded from Google Sheet';
         } catch {
             status.textContent = '⚠ Could not load sheet — showing banquet date only';
         }

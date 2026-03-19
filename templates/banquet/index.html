@@ -477,6 +477,78 @@
 </div><!-- /.invited-inner -->
 </section><!-- /#invited -->
 
+
+<section class="details-section" id="details">
+    <style>
+        .details-section {
+            background: #dde8a0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            padding: 60px 40px;
+            position: relative;
+        }
+        .fans-group {
+            position: relative;
+            width: 280px;
+            height: 280px;
+        }
+        .fan { position: absolute; width: 130px; }
+        .fan-blue  { top: 0;    left: 0;    transform: rotate(-10deg); }
+        .fan-red   { top: 0;    left: 120px; transform: rotate(10deg); }
+        .fan-pink  { top: 130px; left: 40px; transform: rotate(-5deg); }
+        .dress-code-label {
+            position: absolute;
+            bottom: -20px; left: 0;
+            font-family: "Great Vibes", cursive;
+            font-size: 28px;
+            color: #4a3828;
+            text-decoration: underline;
+        }
+        .center-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+        .cherry-blossoms { width: 100px; margin-bottom: -10px; z-index: 2; position: relative; }
+        .oval-plate {
+            width: 220px; height: 140px;
+            background: #3a8a70;
+            border-radius: 50%;
+            border: 6px solid #2a6a50;
+            box-shadow: 0 0 0 8px rgba(255,255,255,0.3);
+        }
+        .more-pics-group { display: flex; flex-direction: column; align-items: center; }
+        .polaroid-frame {
+            width: 150px; height: 190px;
+            background: #fefdf9;
+            border: 2px solid #d0c8b8;
+            padding: 10px 10px 40px;
+            box-shadow: 4px 8px 24px rgba(0,0,0,0.15);
+        }
+        .more-pics-label {
+            font-family: "Cormorant Garamond", Georgia, serif;
+            font-size: 16px; color: #4a6e8a;
+            margin-top: 12px; font-style: italic;
+        }
+    </style>
+    <div class="fans-group">
+        <img src="{% static 'banquet/images/blue-knot.svg' %}" class="fan fan-blue" alt="blue fan">
+        <img src="{% static 'banquet/images/music-picture.svg' %}" class="fan fan-red" alt="red fan">
+        <img src="{% static 'banquet/images/pink-cherry-flower.svg' %}" class="fan fan-pink" alt="pink fan">
+        <p class="dress-code-label">dress code</p>
+    </div>
+    <div class="center-group">
+        <img src="{% static 'banquet/images/pink-cherry-flower.svg' %}" class="cherry-blossoms" alt="cherry blossoms">
+        <div class="oval-plate"></div>
+    </div>
+    <div class="more-pics-group">
+        <div class="polaroid-frame"></div>
+        <p class="more-pics-label">→ more pics</p>
+    </div>
+</section>
 <script>
 /*
  * ENVELOPE CARD INTERACTIVITY

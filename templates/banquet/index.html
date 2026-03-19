@@ -1,4 +1,3 @@
-
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
@@ -85,9 +84,7 @@
             from { transform: skewX(-18deg) translateX(-800px); }
             to   { transform: skewX(-18deg) translateX(1600px); }
         }
-        .sweep-rect {
-            transform: skewX(-18deg) translateX(-800px);
-        }
+        .sweep-rect { transform: skewX(-18deg) translateX(-800px); }
         .envelope-card:hover .sweep-rect {
             animation: card-sweep 0.85s cubic-bezier(0.4, 0, 0.2, 1) forwards;
             animation-delay: 0.04s;
@@ -245,7 +242,7 @@
         }
 
         /* ═══════════════════════════
-           BLUE KNOT DIVIDER
+           KNOT DIVIDER
            ═══════════════════════════ */
         .knot-divider {
             display: flex;
@@ -269,52 +266,356 @@
         .details-section {
             background: #f0ece3;
             min-height: 100vh;
-            display: flex;
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
             align-items: center;
-            justify-content: space-around;
-            padding: 60px 40px;
+            gap: 48px;
+            padding: 72px 48px;
             position: relative;
+            overflow: hidden;
         }
-        .fans-group {
-            position: relative;
-            width: 280px;
-            height: 280px;
+        @media (max-width: 900px) {
+            .details-section {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto auto auto;
+                padding: 48px 24px;
+                gap: 36px;
+            }
         }
-        .fan { position: absolute; width: 130px; }
-        .fan-blue  { top: 0;     left: 0;     transform: rotate(-10deg); }
-        .fan-red   { top: 0;     left: 120px; transform: rotate(10deg); }
-        .fan-pink  { top: 130px; left: 40px;  transform: rotate(-5deg); }
-        .dress-code-label {
+
+        /* ── Falling sakura petals ── */
+        .petal-canvas {
             position: absolute;
-            bottom: -20px; left: 0;
-            font-family: "Great Vibes", cursive;
-            font-size: 28px;
-            color: #4a3828;
-            text-decoration: underline;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 0;
         }
-        .center-group {
+        .petal {
+            position: absolute;
+            top: -40px;
+            width: 14px;
+            height: 12px;
+            background: radial-gradient(ellipse at 40% 35%,
+                #ffc2d4 0%, #ffadc4 55%, rgba(255,140,180,0.0) 100%);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            opacity: 0;
+            animation: petal-fall linear infinite;
+            transform-origin: center;
+        }
+        @keyframes petal-fall {
+            0%   { opacity: 0;    transform: translateY(0)      rotate(0deg)   translateX(0); }
+            8%   { opacity: 0.85; }
+            90%  { opacity: 0.6;  }
+            100% { opacity: 0;    transform: translateY(110vh)  rotate(540deg) translateX(60px); }
+        }
+
+        /* ── Countdown (left column) ── */
+        .countdown-wrap {
+            position: relative;
+            z-index: 2;
             display: flex;
             flex-direction: column;
             align-items: center;
+            gap: 18px;
+        }
+        .mon-sho {
+            width: 64px;
+            height: 64px;
+            border: 1.5px solid #b5222a;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             position: relative;
         }
-        .cherry-blossoms { width: 100px; margin-bottom: -10px; z-index: 2; position: relative; }
+        .mon-sho::before {
+            content: '';
+            position: absolute;
+            inset: 5px;
+            border: 1px solid rgba(181,34,42,0.35);
+            border-radius: 50%;
+        }
+        .mon-sho-inner {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 22px;
+            color: #b5222a;
+            line-height: 1;
+            user-select: none;
+        }
+        .countdown-heading {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(24px, 3.5vw, 36px);
+            color: #2c2018;
+            text-align: center;
+            line-height: 1.1;
+        }
+        .countdown-heading small {
+            display: block;
+            font-family: 'Cinzel', serif;
+            font-size: 9px;
+            letter-spacing: 0.3em;
+            color: #b5222a;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+        .countdown-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+        .cd-cell {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: rgba(255,255,255,0.55);
+            border: 1px solid rgba(181,34,42,0.18);
+            border-radius: 4px;
+            padding: 14px 12px 10px;
+            min-width: 64px;
+            position: relative;
+            overflow: hidden;
+        }
+        .cd-cell::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: #b5222a;
+            opacity: 0.85;
+        }
+        .cd-num {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(28px, 4vw, 42px);
+            color: #2c2018;
+            line-height: 1;
+            font-variant-numeric: tabular-nums;
+            min-width: 2ch;
+            text-align: center;
+            display: block;
+        }
+        .cd-label {
+            margin-top: 6px;
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 10px;
+            color: #7a6a58;
+            letter-spacing: 0.05em;
+            text-align: center;
+        }
+        .cd-kanji {
+            font-size: 11px;
+            color: #b5222a;
+            opacity: 0.65;
+            display: block;
+            margin-top: 1px;
+        }
+        .cd-info {
+            text-align: center;
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 13.5px;
+            color: #6a5a48;
+            line-height: 1.75;
+            border-top: 1px solid rgba(181,34,42,0.18);
+            padding-top: 14px;
+            width: 100%;
+        }
+        .cd-info strong { color: #2c2018; font-weight: 600; }
+        .cd-expired {
+            font-family: 'Great Vibes', cursive;
+            font-size: 26px;
+            color: #b5222a;
+            text-align: center;
+        }
+
+        /* ── Pay Now (center column) ── */
+        .pay-col {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0;
+        }
+        .pay-col::before,
+        .pay-col::after {
+            content: '';
+            display: block;
+            width: 1px;
+            height: 48px;
+            background: linear-gradient(to bottom, transparent, rgba(181,34,42,0.35), transparent);
+            margin: 8px 0;
+        }
         .pay-btn {
             display: inline-block;
-            margin-top: 16px;
-            padding: 13px 46px;
+            padding: 14px 48px;
             background: transparent;
-            border: 1.5px solid #4a6e8a;
-            color: #4a6e8a;
-            font-family: "Cinzel", serif;
+            border: 1.5px solid #b5222a;
+            color: #b5222a;
+            font-family: 'Cinzel', serif;
             font-size: 12px;
-            letter-spacing: 0.25em;
+            letter-spacing: 0.28em;
             text-transform: uppercase;
             text-decoration: none;
             border-radius: 2px;
-            transition: background 0.3s, color 0.3s;
+            position: relative;
+            overflow: hidden;
+            transition: color 0.3s;
+            white-space: nowrap;
         }
-        .pay-btn:hover { background: #4a6e8a; color: #fff; }
+        .pay-btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: #b5222a;
+            transform: translateX(-101%);
+            transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: -1;
+        }
+        .pay-btn:hover { color: #fff; }
+        .pay-btn:hover::before { transform: translateX(0); }
+        .pay-kanji {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 11px;
+            color: rgba(181,34,42,0.55);
+            letter-spacing: 0.15em;
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        /* ── Calendar (right column) ── */
+        .cal-wrap {
+            position: relative;
+            z-index: 2;
+            background: rgba(255,255,255,0.58);
+            border: 1px solid rgba(181,34,42,0.18);
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 4px 24px rgba(60,40,20,0.09);
+            max-width: 360px;
+            width: 100%;
+            margin: 0 auto;
+        }
+        .cal-header {
+            background: #b5222a;
+            color: #fff;
+            padding: 12px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .cal-header-title {
+            font-family: 'Cinzel', serif;
+            font-size: 13px;
+            letter-spacing: 0.18em;
+        }
+        .cal-header-kanji {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 11px;
+            opacity: 0.75;
+            letter-spacing: 0.1em;
+        }
+        .cal-sheet-link {
+            font-family: 'Cinzel', serif;
+            font-size: 9px;
+            letter-spacing: 0.15em;
+            color: rgba(255,255,255,0.75);
+            text-decoration: none;
+            border-bottom: 1px solid rgba(255,255,255,0.4);
+            transition: color 0.2s;
+        }
+        .cal-sheet-link:hover { color: #fff; }
+        .cal-grid { padding: 10px 14px 16px; }
+        .cal-dow-row {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            margin-bottom: 4px;
+        }
+        .cal-dow {
+            font-family: 'Cinzel', serif;
+            font-size: 8.5px;
+            letter-spacing: 0.08em;
+            text-align: center;
+            padding: 4px 0;
+            color: #9a8a78;
+        }
+        .cal-dow:first-child { color: #b5222a; }
+        .cal-dow:last-child  { color: #4a6e8a; }
+        .cal-days-row {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 2px;
+        }
+        .cal-day {
+            aspect-ratio: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 13px;
+            color: #4a3828;
+            border-radius: 50%;
+            position: relative;
+            transition: background 0.15s;
+        }
+        .cal-day.empty { cursor: default; }
+        .cal-day.sunday { color: #b5222a; }
+        .cal-day.saturday { color: #4a6e8a; }
+        .cal-day.today {
+            background: rgba(74,110,138,0.12);
+            font-weight: 600;
+        }
+        .cal-day.event-day {
+            background: #b5222a;
+            color: #fff !important;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(181,34,42,0.35);
+        }
+        .cal-day.event-day::after {
+            content: '桜';
+            position: absolute;
+            bottom: 1px;
+            font-size: 7px;
+            opacity: 0.75;
+        }
+        .cal-day.has-event:not(.event-day) {
+            background: rgba(181,34,42,0.10);
+            cursor: pointer;
+        }
+        .cal-day.has-event:not(.event-day)::after {
+            content: '•';
+            position: absolute;
+            bottom: 0px;
+            font-size: 10px;
+            color: #b5222a;
+            line-height: 1;
+        }
+        .cal-day[data-tip]:hover::before {
+            content: attr(data-tip);
+            position: absolute;
+            bottom: calc(100% + 6px);
+            left: 50%;
+            transform: translateX(-50%);
+            background: #2c2018;
+            color: #f0ece3;
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 11px;
+            white-space: nowrap;
+            padding: 4px 8px;
+            border-radius: 3px;
+            z-index: 99;
+            pointer-events: none;
+        }
+        .cal-status {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 11px;
+            font-style: italic;
+            color: #9a8a78;
+            text-align: center;
+            padding: 6px 14px 10px;
+            border-top: 1px solid rgba(181,34,42,0.10);
+        }
     </style>
 </head>
 <body>
@@ -370,12 +671,10 @@
                 </mask>
             </defs>
 
-            <!-- Artwork -->
             <image href="{% static 'banquet/envelope.svg' %}"
                    x="0" y="0" width="720" height="720"
                    preserveAspectRatio="xMidYMid meet"/>
 
-            <!-- Event details -->
             <line x1="180" y1="310" x2="540" y2="310" stroke="#c0b4a4" stroke-width="0.8"/>
             <circle cx="360" cy="310" r="3.5" fill="#c0b4a4"/>
             <text x="360" y="368" text-anchor="middle"
@@ -406,7 +705,6 @@
             <line x1="180" y1="524" x2="540" y2="524" stroke="#c0b4a4" stroke-width="0.8"/>
             <circle cx="360" cy="524" r="3.5" fill="#c0b4a4"/>
 
-            <!-- Shine layers -->
             <rect x="0" y="0" width="720" height="720"
                   fill="url(#gloss-static)" mask="url(#envelope-mask)" pointer-events="none"/>
             <rect x="0" y="0" width="720" height="720"
@@ -449,26 +747,22 @@
 </section>
 
 <!-- ═══════════════════════════════════════════════════════
-     BLUE KNOT DIVIDER
+     KNOT DIVIDER
      ═══════════════════════════════════════════════════════ -->
 <div class="knot-divider" aria-hidden="true">
     <div class="knot-divider-line" style="--dir: right"></div>
     <svg class="knot-svg" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg"
          fill="none" stroke="#4a6e8a" stroke-linecap="round" stroke-linejoin="round">
-        <!-- Four outer loops -->
-        <path d="M60,14 C80,14 92,28 84,40 C76,52 44,52 36,40 C28,28 40,14 60,14" stroke-width="3.2"/>
+        <path d="M60,14 C80,14 92,28 84,40 C76,52 44,52 36,40 C28,28 40,14 60,14"   stroke-width="3.2"/>
         <path d="M60,106 C80,106 92,92 84,80 C76,68 44,68 36,80 C28,92 40,106 60,106" stroke-width="3.2"/>
-        <path d="M14,60 C14,40 28,28 40,36 C52,44 52,76 40,84 C28,92 14,80 14,60" stroke-width="3.2"/>
+        <path d="M14,60 C14,40 28,28 40,36 C52,44 52,76 40,84 C28,92 14,80 14,60"   stroke-width="3.2"/>
         <path d="M106,60 C106,40 92,28 80,36 C68,44 68,76 80,84 C92,92 106,80 106,60" stroke-width="3.2"/>
-        <!-- Centre weave -->
         <path d="M36,54 C44,56 52,58 60,60 C68,62 76,64 84,66" stroke-width="3.2"/>
-        <path d="M54,36 C56,44 58,50 60,55" stroke-width="3.2"/>
-        <path d="M60,65 C62,70 64,76 66,84" stroke-width="3.2"/>
-        <path d="M66,36 C64,44 62,50 60,55" stroke-width="3.2"/>
-        <path d="M60,65 C58,70 56,76 54,84" stroke-width="3.2"/>
-        <!-- Centre diamond -->
+        <path d="M54,36 C56,44 58,50 60,55"  stroke-width="3.2"/>
+        <path d="M60,65 C62,70 64,76 66,84"  stroke-width="3.2"/>
+        <path d="M66,36 C64,44 62,50 60,55"  stroke-width="3.2"/>
+        <path d="M60,65 C58,70 56,76 54,84"  stroke-width="3.2"/>
         <path d="M60,50 L65,60 L60,70 L55,60 Z" stroke-width="1.8" stroke-opacity="0.55"/>
-        <!-- Compass dots -->
         <circle cx="60"  cy="6"   r="2.5" fill="#4a6e8a" stroke="none"/>
         <circle cx="60"  cy="114" r="2.5" fill="#4a6e8a" stroke="none"/>
         <circle cx="6"   cy="60"  r="2.5" fill="#4a6e8a" stroke="none"/>
@@ -478,20 +772,93 @@
 </div>
 
 <!-- ═══════════════════════════════════════════════════════
-     DETAILS SECTION
+     DETAILS SECTION — Countdown · Pay Now · Calendar
      ═══════════════════════════════════════════════════════ -->
 <section class="details-section" id="details">
-    <div class="fans-group"></div>
-    <div class="center-group">
+
+    <!-- Falling sakura petals -->
+    <div class="petal-canvas" id="petalCanvas" aria-hidden="true"></div>
+
+    <!-- ── LEFT: COUNTDOWN ── -->
+    <div class="countdown-wrap">
+        <div class="mon-sho" aria-hidden="true">
+            <span class="mon-sho-inner">桜</span>
+        </div>
+        <div class="countdown-heading">
+            <small>Until the Banquet</small>
+            Counting Down
+        </div>
+        <div class="countdown-grid" id="countdownGrid">
+            <div class="cd-cell">
+                <span class="cd-num" id="cd-days">--</span>
+                <span class="cd-label">Days<span class="cd-kanji">日</span></span>
+            </div>
+            <div class="cd-cell">
+                <span class="cd-num" id="cd-hours">--</span>
+                <span class="cd-label">Hours<span class="cd-kanji">時</span></span>
+            </div>
+            <div class="cd-cell">
+                <span class="cd-num" id="cd-mins">--</span>
+                <span class="cd-label">Minutes<span class="cd-kanji">分</span></span>
+            </div>
+            <div class="cd-cell">
+                <span class="cd-num" id="cd-secs">--</span>
+                <span class="cd-label">Seconds<span class="cd-kanji">秒</span></span>
+            </div>
+        </div>
+        <div class="cd-info">
+            <strong>Student Pavilion · Senita Ballroom BC</strong><br>
+            April 18<sup>th</sup>, 2026 &nbsp;·&nbsp; 5:00 – 8:00 PM<br>
+            <span style="font-style:italic; color:#9a8a78; font-size:12px;">
+                Semi-formal &nbsp;·&nbsp; Must RSVP
+            </span>
+        </div>
+    </div>
+
+    <!-- ── CENTER: PAY NOW ── -->
+    <div class="pay-col">
         <a href="#payment" class="pay-btn">Pay Now</a>
+        <span class="pay-kanji">お支払い</span>
     </div>
-    <div class="more-pics-group">
-        <div class="polaroid-frame"></div>
+
+    <!-- ── RIGHT: CALENDAR ── -->
+    <div class="cal-wrap">
+        <div class="cal-header">
+            <div>
+                <div class="cal-header-title">April 2026</div>
+                <div class="cal-header-kanji">四月 &nbsp;·&nbsp; 令和八年</div>
+            </div>
+            <!--
+                Replace the href below with your Google Sheet URL.
+                File → Share → Publish to web → then paste the link here.
+            -->
+            <a class="cal-sheet-link"
+               href="https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/edit"
+               target="_blank" rel="noopener">
+                View Sheet ↗
+            </a>
+        </div>
+        <div class="cal-grid">
+            <div class="cal-dow-row">
+                <span class="cal-dow">SUN</span>
+                <span class="cal-dow">MON</span>
+                <span class="cal-dow">TUE</span>
+                <span class="cal-dow">WED</span>
+                <span class="cal-dow">THU</span>
+                <span class="cal-dow">FRI</span>
+                <span class="cal-dow">SAT</span>
+            </div>
+            <div class="cal-days-row" id="calDays"></div>
+        </div>
+        <div class="cal-status" id="calStatus">Loading events…</div>
     </div>
+
 </section>
 
 <script>
-/* ── Envelope card 3-D tilt + shine ── */
+/* ══════════════════════════════════════════
+   ENVELOPE CARD — 3-D tilt + holographic shine
+══════════════════════════════════════════ */
 (function () {
     const card  = document.getElementById('envelopeCard');
     const shine = document.getElementById('shine-radial');
@@ -542,9 +909,11 @@
     });
 }());
 
-/* ── Invited section depth parallax ── */
+/* ══════════════════════════════════════════
+   INVITED SECTION — depth parallax
+══════════════════════════════════════════ */
 (function () {
-    const section  = document.getElementById('invited');
+    const section   = document.getElementById('invited');
     if (!section) return;
     const watermark = section.querySelector('.invited-watermark');
     const lacy      = section.querySelector('.lacy-card');
@@ -566,6 +935,148 @@
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onScroll, { passive: true });
     update();
+}());
+
+/* ══════════════════════════════════════════
+   FALLING SAKURA PETALS
+══════════════════════════════════════════ */
+(function () {
+    const canvas = document.getElementById('petalCanvas');
+    for (let i = 0; i < 18; i++) {
+        const p        = document.createElement('div');
+        p.className    = 'petal';
+        const size     = (10 + Math.random() * 8).toFixed(1);
+        p.style.cssText =
+            `left:${(Math.random() * 100).toFixed(1)}%;` +
+            `width:${size}px; height:${(parseFloat(size) * 0.85).toFixed(1)}px;` +
+            `animation-duration:${(8 + Math.random() * 12).toFixed(2)}s;` +
+            `animation-delay:-${(Math.random() * 14).toFixed(2)}s;`;
+        canvas.appendChild(p);
+    }
+}());
+
+/* ══════════════════════════════════════════
+   COUNTDOWN TIMER  →  April 18 2026, 5:00 PM
+══════════════════════════════════════════ */
+(function () {
+    const TARGET = new Date('2026-04-18T17:00:00');
+    const els = {
+        days:  document.getElementById('cd-days'),
+        hours: document.getElementById('cd-hours'),
+        mins:  document.getElementById('cd-mins'),
+        secs:  document.getElementById('cd-secs'),
+    };
+    const grid = document.getElementById('countdownGrid');
+
+    function pad(n) { return String(Math.floor(n)).padStart(2, '0'); }
+
+    function tick() {
+        const diff = TARGET - Date.now();
+        if (diff <= 0) {
+            grid.innerHTML =
+                '<p class="cd-expired" style="grid-column:1/-1">The Banquet Has Arrived 🌸</p>';
+            return;
+        }
+        const s = Math.floor(diff / 1000);
+        els.days.textContent  = pad(Math.floor(s / 86400));
+        els.hours.textContent = pad(Math.floor((s % 86400) / 3600));
+        els.mins.textContent  = pad(Math.floor((s % 3600)  / 60));
+        els.secs.textContent  = pad(s % 60);
+    }
+    tick();
+    setInterval(tick, 1000);
+}());
+
+/* ══════════════════════════════════════════
+   APRIL 2026 CALENDAR  +  Google Sheet events
+   ─────────────────────────────────────────
+   HOW TO CONNECT YOUR SHEET:
+     1. Open your Google Sheet
+     2. File ▸ Share ▸ Publish to web ▸ CSV ▸ copy URL
+     3. Paste it into SHEET_CSV_URL below
+     4. Sheet columns:  A = date (YYYY-MM-DD)   B = event title
+══════════════════════════════════════════ */
+(function () {
+    const SHEET_CSV_URL =
+        'https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/pub?output=csv';
+
+    const YEAR        = 2026;
+    const MONTH       = 3;       /* 0-indexed → April */
+    const BANQUET_DAY = 18;
+    const DAYS_TOTAL  = new Date(YEAR, MONTH + 1, 0).getDate(); /* 30 */
+    const FIRST_DOW   = new Date(YEAR, MONTH, 1).getDay();      /* 3 = Wed */
+    const today       = new Date();
+
+    /* eventMap[day] = tooltip string */
+    const eventMap = {};
+    eventMap[BANQUET_DAY] = 'SASE Annual Banquet · 5 – 8 PM';
+
+    function buildCalendar() {
+        const container = document.getElementById('calDays');
+        container.innerHTML = '';
+
+        /* blank leading cells */
+        for (let b = 0; b < FIRST_DOW; b++) {
+            const blank = document.createElement('span');
+            blank.className = 'cal-day empty';
+            container.appendChild(blank);
+        }
+
+        for (let d = 1; d <= DAYS_TOTAL; d++) {
+            const cell    = document.createElement('span');
+            cell.textContent = d;
+            const classes = ['cal-day'];
+            const dow     = (FIRST_DOW + d - 1) % 7;
+            if (dow === 0) classes.push('sunday');
+            if (dow === 6) classes.push('saturday');
+            const isToday =
+                today.getFullYear() === YEAR &&
+                today.getMonth()    === MONTH &&
+                today.getDate()     === d;
+            if (isToday) classes.push('today');
+            if (d === BANQUET_DAY) {
+                classes.push('event-day');
+                cell.setAttribute('data-tip', eventMap[BANQUET_DAY]);
+            } else if (eventMap[d]) {
+                classes.push('has-event');
+                cell.setAttribute('data-tip', eventMap[d]);
+            }
+            cell.className = classes.join(' ');
+            container.appendChild(cell);
+        }
+    }
+
+    function parseCSV(text) {
+        text.trim().split(/\r?\n/).slice(1).forEach(line => {
+            const cols = line.split(',').map(c => c.trim().replace(/^"|"$/g, ''));
+            if (!cols[0]) return;
+            const dt = new Date(cols[0]);
+            if (isNaN(dt) || dt.getFullYear() !== YEAR || dt.getMonth() !== MONTH) return;
+            const day = dt.getDate();
+            eventMap[day] = (eventMap[day] ? eventMap[day] + ' / ' : '') + (cols[1] || '');
+        });
+    }
+
+    async function loadSheet() {
+        const status = document.getElementById('calStatus');
+        if (SHEET_CSV_URL.includes('YOUR_SHEET_ID')) {
+            status.textContent = '🌸 Banquet highlighted — add your Sheet URL to load more events';
+            buildCalendar();
+            return;
+        }
+        try {
+            const res = await fetch(SHEET_CSV_URL);
+            if (!res.ok) throw new Error('HTTP ' + res.status);
+            parseCSV(await res.text());
+            status.textContent = '🌸 Events loaded from Google Sheet';
+        } catch {
+            status.textContent = '⚠ Could not load sheet — showing banquet date only';
+        }
+        buildCalendar();
+    }
+
+    buildCalendar(); /* render immediately */
+    loadSheet();     /* enrich from sheet  */
 }());
 </script>
 </body>

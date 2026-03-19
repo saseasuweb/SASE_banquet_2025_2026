@@ -513,26 +513,23 @@
             position: relative;
         }
         .cherry-blossoms { width: 100px; margin-bottom: -10px; z-index: 2; position: relative; }
-        .oval-plate {
-            width: 220px; height: 140px;
-            background: #3a8a70;
-            border-radius: 50%;
-            border: 6px solid #2a6a50;
-            box-shadow: 0 0 0 8px rgba(255,255,255,0.3);
+        .pay-btn {
+            display: inline-block;
+            margin-top: 16px;
+            padding: 13px 46px;
+            background: transparent;
+            border: 1.5px solid #4a6e8a;
+            color: #4a6e8a;
+            font-family: "Cinzel", serif;
+            font-size: 12px;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            text-decoration: none;
+            border-radius: 2px;
+            transition: background 0.3s, color 0.3s;
         }
-        .more-pics-group { display: flex; flex-direction: column; align-items: center; }
-        .polaroid-frame {
-            width: 150px; height: 190px;
-            background: #fefdf9;
-            border: 2px solid #d0c8b8;
-            padding: 10px 10px 40px;
-            box-shadow: 4px 8px 24px rgba(0,0,0,0.15);
-        }
-        .more-pics-label {
-            font-family: "Cormorant Garamond", Georgia, serif;
-            font-size: 16px; color: #4a6e8a;
-            margin-top: 12px; font-style: italic;
-        }
+        .pay-btn:hover { background: #4a6e8a; color: #fff; }
+
     </style>
     <div class="fans-group">
         <img src="{% static 'banquet/images/blue-knot.svg' %}" class="fan fan-blue" alt="blue fan">
@@ -542,7 +539,7 @@
     </div>
     <div class="center-group">
         <img src="{% static 'banquet/images/pink-cherry-flower.svg' %}" class="cherry-blossoms" alt="cherry blossoms">
-        <div class="oval-plate"></div>
+        <a href="#payment" class="pay-btn">Pay Now</a>
     </div>
     <div class="more-pics-group">
         <div class="polaroid-frame"></div>

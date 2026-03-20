@@ -190,7 +190,7 @@
                 url("{% static 'banquet/images/page2.png' %}")
                 center center / 100% auto no-repeat;
             mix-blend-mode: multiply;
-            opacity: 0.90;
+            opacity: 1.00;
             pointer-events: none;
             z-index: 0;
         }
@@ -225,13 +225,13 @@
         }
         .lacy-overlay {
             position: absolute;
-            top: -8%;
+            top: 7%;
             left: 8%;
             width: 85%;
-            height: auto;
-            object-fit: contain;
-            filter: drop-shadow(6px 12px 28px rgba(60,40,20,0.28));
-            border-radius: 4px;
+            height: 85%;
+            object-fit: cover;
+            /* filter: drop-shadow(6px 12px 28px rgba(60,40,20,0.28)); */
+            /*border-radius: 4px;*/
             z-index: 2;
         }
         .polaroid {
@@ -824,7 +824,7 @@
 
     <!-- CENTER: PAY NOW -->
     <div class="pay-col">
-        <a href="#payment" class="pay-btn">Pay Now</a>
+        <a href="#payment" class="pay-btn">get your tickets</a>
     </div>
 
     <!-- RIGHT: CALENDAR -->

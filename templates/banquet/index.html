@@ -14,10 +14,6 @@
             font-family: 'Cormorant Garamond', Georgia, serif;
             overflow-x: hidden;
         }
-
-        /* ═══════════════════════════
-           GLOBAL PETAL CANVAS
-           ═══════════════════════════ */
         .petal-canvas {
             position: fixed;
             inset: 0;
@@ -65,6 +61,20 @@
                 radial-gradient(ellipse 50% 45% at 28% 75%, rgba(190,175,155,0.10) 0%, transparent 60%);
             pointer-events: none;
         }
+
+        /* ── page 1.png background ── */
+        .hero-illustration {
+            position: absolute;
+            inset: 0;
+            background:
+                url("{% static 'banquet/images/page 1.png' %}")
+                center center / 85% auto no-repeat;
+            mix-blend-mode: multiply;
+            opacity: 0.90;
+            pointer-events: none;
+            z-index: 0;
+        }
+
         .hero-heading {
             text-align: center;
             margin-bottom: 0px;
@@ -286,14 +296,14 @@
         .knot-svg { width: 68px; height: auto; }
 
         /* ═══════════════════════════
-           DETAILS SECTION  ← KEY CHANGES
+           DETAILS SECTION
            ═══════════════════════════ */
         .details-section {
             background: #f0ece3;
-            min-height: 65vh;          /* shorter, landscape feel */
+            min-height: 65vh;
             display: grid;
-            grid-template-columns: 38% auto 1fr;   /* countdown wider, calendar fills right */
-            align-items: center;       /* countdown + pay-now stay vertically centered */
+            grid-template-columns: 38% auto 1fr;
+            align-items: center;
             gap: 0 32px;
             padding: 52px 52px 52px 56px;
             position: relative;
@@ -308,27 +318,25 @@
                 min-height: unset;
             }
         }
-
-        /* ── page3.png — FULL COVER ── */
         .details-illustration {
             position: absolute;
             inset: 0;
             background:
                 url("{% static 'banquet/images/page3.png' %}")
-                 center center / 65% auto no-repeat;   /* covers the whole section */
+                center center / 85% auto no-repeat;
             mix-blend-mode: multiply;
-            opacity: 0.88i;
+            opacity: 0.88;
             pointer-events: none;
             z-index: 0;
         }
 
-        /* ── Countdown (left column) ── */
+        /* ── Countdown ── */
         .countdown-wrap {
             position: relative;
             z-index: 2;
             display: flex;
             flex-direction: column;
-            align-items: flex-start;   /* left-align to match screenshot */
+            align-items: flex-start;
             gap: 14px;
         }
         .mon-sho {
@@ -433,7 +441,7 @@
             text-align: center;
         }
 
-        /* ── Pay Now (center column) ── */
+        /* ── Pay Now ── */
         .pay-col {
             position: relative;
             z-index: 2;
@@ -480,11 +488,11 @@
         .pay-btn:hover { color: #fff; }
         .pay-btn:hover::before { transform: translateX(0); }
 
-        /* ── Calendar (right column) — pinned to TOP ── */
+        /* ── Calendar ── */
         .cal-wrap {
             position: relative;
             z-index: 2;
-            align-self: start;         /* ← pins calendar to top of its row */
+            align-self: start;
             background: rgba(255,255,255,0.58);
             border: 1px solid rgba(181,34,42,0.18);
             border-radius: 6px;
@@ -492,7 +500,7 @@
             box-shadow: 0 4px 24px rgba(60,40,20,0.09);
             max-width: 320px;
             width: 100%;
-            margin: 0 0 0 auto;        /* flush to right */
+            margin: 0 0 0 auto;
         }
         .cal-header {
             background: #b5222a;
@@ -554,10 +562,7 @@
         .cal-day.empty { cursor: default; }
         .cal-day.sunday { color: #b5222a; }
         .cal-day.saturday { color: #4a6e8a; }
-        .cal-day.today {
-            background: rgba(74,110,138,0.12);
-            font-weight: 600;
-        }
+        .cal-day.today { background: rgba(74,110,138,0.12); font-weight: 600; }
         .cal-day.event-day {
             background: #b5222a;
             color: #fff !important;
@@ -619,6 +624,8 @@
      HERO SECTION
      ═══════════════════════════════════════════════════════ -->
 <section class="hero" id="hero">
+    <div class="hero-illustration" aria-hidden="true"></div>  <!-- page 1.png -->
+
     <div class="hero-heading">
         <h1>SASE Annual Banquet &nbsp;·&nbsp; 2026</h1>
         <p class="tagline">Friendship Gardens</p>
@@ -775,29 +782,15 @@
             Counting Down
         </div>
         <div class="countdown-grid" id="countdownGrid">
-            <div class="cd-cell">
-                <span class="cd-num" id="cd-days">--</span>
-                <span class="cd-label">Days</span>
-            </div>
-            <div class="cd-cell">
-                <span class="cd-num" id="cd-hours">--</span>
-                <span class="cd-label">Hours</span>
-            </div>
-            <div class="cd-cell">
-                <span class="cd-num" id="cd-mins">--</span>
-                <span class="cd-label">Minutes</span>
-            </div>
-            <div class="cd-cell">
-                <span class="cd-num" id="cd-secs">--</span>
-                <span class="cd-label">Seconds</span>
-            </div>
+            <div class="cd-cell"><span class="cd-num" id="cd-days">--</span><span class="cd-label">Days</span></div>
+            <div class="cd-cell"><span class="cd-num" id="cd-hours">--</span><span class="cd-label">Hours</span></div>
+            <div class="cd-cell"><span class="cd-num" id="cd-mins">--</span><span class="cd-label">Minutes</span></div>
+            <div class="cd-cell"><span class="cd-num" id="cd-secs">--</span><span class="cd-label">Seconds</span></div>
         </div>
         <div class="cd-info">
             <strong>Student Pavilion · Senita Ballroom BC</strong><br>
             April 18<sup>th</sup>, 2026 &nbsp;·&nbsp; 5:00 – 8:00 PM<br>
-            <span style="font-style:italic; color:#9a8a78; font-size:12px;">
-                Semi-formal &nbsp;·&nbsp; Must RSVP
-            </span>
+            <span style="font-style:italic; color:#9a8a78; font-size:12px;">Semi-formal &nbsp;·&nbsp; Must RSVP</span>
         </div>
     </div>
 
@@ -806,26 +799,19 @@
         <a href="#payment" class="pay-btn">Pay Now</a>
     </div>
 
-    <!-- RIGHT: CALENDAR (align-self: start → sticks to top) -->
+    <!-- RIGHT: CALENDAR -->
     <div class="cal-wrap">
         <div class="cal-header">
-            <div>
-                <div class="cal-header-title">April 2026</div>
-            </div>
+            <div><div class="cal-header-title">April 2026</div></div>
             <a class="cal-sheet-link"
                href="https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/edit"
-               target="_blank" rel="noopener">
-                View Sheet ↗
-            </a>
+               target="_blank" rel="noopener">View Sheet ↗</a>
         </div>
         <div class="cal-grid">
             <div class="cal-dow-row">
-                <span class="cal-dow">SUN</span>
-                <span class="cal-dow">MON</span>
-                <span class="cal-dow">TUE</span>
-                <span class="cal-dow">WED</span>
-                <span class="cal-dow">THU</span>
-                <span class="cal-dow">FRI</span>
+                <span class="cal-dow">SUN</span><span class="cal-dow">MON</span>
+                <span class="cal-dow">TUE</span><span class="cal-dow">WED</span>
+                <span class="cal-dow">THU</span><span class="cal-dow">FRI</span>
                 <span class="cal-dow">SAT</span>
             </div>
             <div class="cal-days-row" id="calDays"></div>
@@ -835,15 +821,12 @@
 </section>
 
 <script>
-/* ══════════════════════════════════════════
-   GLOBAL FALLING SAKURA PETALS
-══════════════════════════════════════════ */
 (function () {
     const canvas = document.getElementById('petalCanvas');
     for (let i = 0; i < 28; i++) {
-        const p     = document.createElement('div');
+        const p = document.createElement('div');
         p.className = 'petal';
-        const size  = (10 + Math.random() * 8).toFixed(1);
+        const size = (10 + Math.random() * 8).toFixed(1);
         p.style.cssText =
             `left:${(Math.random() * 100).toFixed(1)}%;` +
             `width:${size}px; height:${(parseFloat(size) * 0.85).toFixed(1)}px;` +
@@ -853,20 +836,15 @@
     }
 }());
 
-/* ══════════════════════════════════════════
-   ENVELOPE CARD — 3-D tilt + holographic shine
-══════════════════════════════════════════ */
 (function () {
     const card  = document.getElementById('envelopeCard');
     const shine = document.getElementById('shine-radial');
     const foil  = document.getElementById('holo-foil');
-    const REST_TRANSFORM =
-        'perspective(1100px) rotateX(5deg) rotateY(-8deg) rotateZ(-1deg)';
+    const REST_TRANSFORM = 'perspective(1100px) rotateX(5deg) rotateY(-8deg) rotateZ(-1deg)';
     const REST_FILTER =
         'drop-shadow(18px 26px 40px rgba(60,40,20,0.22)) ' +
         'drop-shadow(4px  8px  14px rgba(60,40,20,0.13))';
-    const SLOW_TRANSITION =
-        'transform 0.55s cubic-bezier(0.25,0.8,0.25,1), filter 0.55s ease';
+    const SLOW_TRANSITION = 'transform 0.55s cubic-bezier(0.25,0.8,0.25,1), filter 0.55s ease';
     card.addEventListener('mouseenter', () => { card.style.transition = 'filter 0.12s ease'; });
     card.addEventListener('mousemove', (e) => {
         const r  = card.getBoundingClientRect();
@@ -874,8 +852,7 @@
         const y  = (e.clientY - r.top)  / r.height;
         const rX = (5  + (y - 0.5) * -12).toFixed(1);
         const rY = (-8 + (x - 0.5) *  20).toFixed(1);
-        card.style.transform =
-            `perspective(1100px) rotateX(${rX}deg) rotateY(${rY}deg) rotateZ(-1deg)`;
+        card.style.transform = `perspective(1100px) rotateX(${rX}deg) rotateY(${rY}deg) rotateZ(-1deg)`;
         shine.setAttribute('cx', (x * 100).toFixed(1) + '%');
         shine.setAttribute('cy', (y * 100).toFixed(1) + '%');
         const tilt = (45 + parseFloat(rY) * 1.8 + parseFloat(rX) * 0.6) * Math.PI / 180;
@@ -900,9 +877,6 @@
     });
 }());
 
-/* ══════════════════════════════════════════
-   INVITED SECTION — depth parallax
-══════════════════════════════════════════ */
 (function () {
     const section   = document.getElementById('invited');
     if (!section) return;
@@ -927,9 +901,6 @@
     update();
 }());
 
-/* ══════════════════════════════════════════
-   COUNTDOWN TIMER  →  April 18 2026, 5:00 PM
-══════════════════════════════════════════ */
 (function () {
     const TARGET = new Date('2026-04-18T17:00:00');
     const els = {
@@ -956,19 +927,13 @@
     setInterval(tick, 1000);
 }());
 
-/* ══════════════════════════════════════════
-   APRIL 2026 CALENDAR  +  Google Sheet events
-══════════════════════════════════════════ */
 (function () {
-    const SHEET_CSV_URL =
-        'https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/pub?output=csv';
-    const YEAR        = 2026;
-    const MONTH       = 3;
-    const BANQUET_DAY = 18;
-    const DAYS_TOTAL  = new Date(YEAR, MONTH + 1, 0).getDate();
-    const FIRST_DOW   = new Date(YEAR, MONTH, 1).getDay();
-    const today       = new Date();
-    const eventMap    = {};
+    const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/pub?output=csv';
+    const YEAR = 2026, MONTH = 3, BANQUET_DAY = 18;
+    const DAYS_TOTAL = new Date(YEAR, MONTH + 1, 0).getDate();
+    const FIRST_DOW  = new Date(YEAR, MONTH, 1).getDay();
+    const today      = new Date();
+    const eventMap   = {};
     eventMap[BANQUET_DAY] = 'SASE Annual Banquet · 5 – 8 PM';
 
     function buildCalendar() {
@@ -980,17 +945,14 @@
             container.appendChild(blank);
         }
         for (let d = 1; d <= DAYS_TOTAL; d++) {
-            const cell    = document.createElement('span');
+            const cell = document.createElement('span');
             cell.textContent = d;
             const classes = ['cal-day'];
-            const dow     = (FIRST_DOW + d - 1) % 7;
+            const dow = (FIRST_DOW + d - 1) % 7;
             if (dow === 0) classes.push('sunday');
             if (dow === 6) classes.push('saturday');
-            const isToday =
-                today.getFullYear() === YEAR &&
-                today.getMonth()    === MONTH &&
-                today.getDate()     === d;
-            if (isToday) classes.push('today');
+            if (today.getFullYear() === YEAR && today.getMonth() === MONTH && today.getDate() === d)
+                classes.push('today');
             if (d === BANQUET_DAY) {
                 classes.push('event-day');
                 cell.setAttribute('data-tip', eventMap[BANQUET_DAY]);

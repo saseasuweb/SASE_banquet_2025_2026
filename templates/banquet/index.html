@@ -9,11 +9,14 @@
           rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body {
             background: #f0ece3;
             font-family: 'Cormorant Garamond', Georgia, serif;
             overflow-x: hidden;
         }
+
+        /* ── Falling Petals ── */
         .petal-canvas {
             position: fixed;
             inset: 0;
@@ -230,8 +233,6 @@
             width: 85%;
             height: 85%;
             object-fit: cover;
-            /* filter: drop-shadow(6px 12px 28px rgba(60,40,20,0.28)); */
-            /*border-radius: 4px;*/
             z-index: 2;
         }
         .polaroid {
@@ -648,11 +649,14 @@
      HERO SECTION
      ═══════════════════════════════════════════════════════ -->
 <section class="hero" id="hero">
+
     <div class="hero-illustration" aria-hidden="true"></div>
+
     <div class="hero-heading">
         <h1>SASE Annual Banquet &nbsp;·&nbsp; 2026</h1>
         <p class="tagline">Friendship Gardens</p>
     </div>
+
     <div class="envelope-card" id="envelopeCard">
         <svg viewBox="0 0 720 720" xmlns="http://www.w3.org/2000/svg"
              xmlns:xlink="http://www.w3.org/1999/xlink" overflow="visible">
@@ -694,34 +698,46 @@
                            preserveAspectRatio="xMidYMid meet"/>
                 </mask>
             </defs>
+
             <image href="{% static 'banquet/envelope.svg' %}"
                    x="0" y="0" width="720" height="720"
                    preserveAspectRatio="xMidYMid meet"/>
+
             <line x1="180" y1="310" x2="540" y2="310" stroke="#c0b4a4" stroke-width="0.8"/>
             <circle cx="360" cy="310" r="3.5" fill="#c0b4a4"/>
+
             <text x="360" y="368" text-anchor="middle"
                   font-family="'Great Vibes', cursive" font-size="52" fill="#2c2018">SASE Banquet</text>
+
             <text x="360" y="413" text-anchor="middle"
                   font-family="'Great Vibes', cursive" font-size="34" fill="#4a6e8a">Friendship Gardens</text>
+
             <line x1="210" y1="432" x2="346" y2="432" stroke="#c0b4a4" stroke-width="0.7"/>
             <path d="M360,427 L366,432 L360,437 L354,432 Z" fill="#c0b4a4"/>
             <line x1="374" y1="432" x2="510" y2="432" stroke="#c0b4a4" stroke-width="0.7"/>
+
             <text x="360" y="458" text-anchor="middle"
-                  font-family="'Cormorant Garamond', Georgia, serif" font-size="14.5" fill="#4a3828">
+                  font-family="'Cormorant Garamond', Georgia, serif"
+                  font-size="14.5" fill="#4a3828">
                 Student Pavilion · Senita Ballroom BC
             </text>
+
             <text x="360" y="482" text-anchor="middle"
-                  font-family="'Cormorant Garamond', Georgia, serif" font-size="14.5" fill="#4a3828">
+                  font-family="'Cormorant Garamond', Georgia, serif"
+                  font-size="14.5" fill="#4a3828">
                 April 18<tspan baseline-shift="super" font-size="9">th</tspan>,
                 2026 &nbsp;·&nbsp; 5:00 – 8:00 PM
             </text>
+
             <text x="360" y="506" text-anchor="middle"
                   font-family="'Cormorant Garamond', Georgia, serif"
                   font-size="13" font-style="italic" fill="#7a6a58">
                 Semi-formal &nbsp;·&nbsp; Must RSVP
             </text>
+
             <line x1="180" y1="524" x2="540" y2="524" stroke="#c0b4a4" stroke-width="0.8"/>
             <circle cx="360" cy="524" r="3.5" fill="#c0b4a4"/>
+
             <rect x="0" y="0" width="720" height="720"
                   fill="url(#gloss-static)" mask="url(#envelope-mask)" pointer-events="none"/>
             <rect x="0" y="0" width="720" height="720"
@@ -732,41 +748,45 @@
                   fill="url(#sweep-grad)" mask="url(#envelope-mask)" pointer-events="none"/>
         </svg>
     </div>
-    <a href="#rsvp" class="rsvp-btn">RSVP Now</a>
+
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLScGIcYJ-SCRGU-dZq4b7-SwhcLNLMbJG3PEkVG6wcqUjXM3xQ/viewform" class="rsvp-btn" target="_blank" rel="noopener">RSVP Now</a>
+
     <div class="scroll-hint">↓ &nbsp; scroll</div>
+
 </section>
 
 <!-- ═══════════════════════════════════════════════════════
      INVITED SECTION
      ═══════════════════════════════════════════════════════ -->
 <section class="invited-section" id="invited">
-    <div class="invited-inner">
-        <div class="invited-illustration" aria-hidden="true"></div>
-        <div class="invited-watermark" aria-hidden="true">You Are Invited</div>
+<div class="invited-inner">
 
-        <!-- Lacy card with flyer overlaid on top -->
-        <div class="lacy-card" aria-label="You are invited">
-            <img src="{% static 'banquet/images/lacy invatation card.svg' %}"
-                 alt="You Are Invited" class="lacy-img">
-            <img src="{% static 'banquet/images/flyer.png' %}"
-                 alt="SASE Banquet Flyer" class="lacy-overlay">
-        </div>
+    <div class="invited-illustration" aria-hidden="true"></div>
+    <div class="invited-watermark" aria-hidden="true">You Are Invited</div>
 
-        <div class="polaroid">
-            <div class="polaroid-photo">
-                <img src="{% static 'banquet/images/polaroid-photo.jpeg' %}"
-                     alt="SASE Banquet"
-                     style="width:100%; height:100%; object-fit:cover; display:block;">
-            </div>
-            <p class="polaroid-cap">/ sase banquet 2026</p>
-        </div>
-
-        <div class="camera-wrap">
-            <img src="{% static 'banquet/images/camera.svg' %}" alt="camera" class="camera-svg">
-            <img src="{% static 'banquet/images/camera-photo.jpeg' %}"
-                 alt="SASE Banquet 2026" class="camera-screen-photo">
-        </div>
+    <div class="lacy-card" aria-label="You are invited">
+        <img src="{% static 'banquet/images/lacy invatation card.svg' %}"
+             alt="You Are Invited" class="lacy-img">
+        <img src="{% static 'banquet/images/flyer.png' %}"
+             alt="SASE Banquet Flyer" class="lacy-overlay">
     </div>
+
+    <div class="polaroid">
+        <div class="polaroid-photo">
+            <img src="{% static 'banquet/images/polaroid-photo.jpeg' %}"
+                 alt="SASE Banquet"
+                 style="width:100%; height:100%; object-fit:cover; display:block;">
+        </div>
+        <p class="polaroid-cap">/ sase banquet 2026</p>
+    </div>
+
+    <div class="camera-wrap">
+        <img src="{% static 'banquet/images/camera.svg' %}" alt="camera" class="camera-svg">
+        <img src="{% static 'banquet/images/camera-photo.jpeg' %}"
+             alt="SASE Banquet 2026" class="camera-screen-photo">
+    </div>
+
+</div>
 </section>
 
 <!-- ═══════════════════════════════════════════════════════
@@ -798,6 +818,7 @@
      DETAILS SECTION — Countdown · Pay Now · Calendar
      ═══════════════════════════════════════════════════════ -->
 <section class="details-section" id="details">
+
     <div class="details-illustration" aria-hidden="true"></div>
 
     <!-- LEFT: COUNTDOWN -->
@@ -824,9 +845,22 @@
 
     <!-- CENTER: PAY NOW -->
     <div class="pay-col">
-        <a href="#payment" class="pay-btn">get your tickets</a>
+        <a href="https://account.venmo.com/u/CVV_27" class="pay-btn">Get Your Tickets</a>
+        <p style="
+        font-family: 'Cormorant Garamond', Georgia, serif;
+        font-size: 12px;
+        font-style: italic;
+        color: #b5222a;
+        font-weight: bold;
+        text-align: center;
+        margin-top: 10px;
+        line-height: 1.6;
+    ">
+        or Venmo @CVV_27<br>
+        or contact Loretta (President) for Zelle info
+    </p>
     </div>
-
+    
     <!-- RIGHT: CALENDAR -->
     <div class="cal-wrap">
         <div class="cal-header">
@@ -846,9 +880,11 @@
         </div>
         <div class="cal-status" id="calStatus">Loading events…</div>
     </div>
+
 </section>
 
 <script>
+/* ── Falling Petals ── */
 (function () {
     const canvas = document.getElementById('petalCanvas');
     for (let i = 0; i < 28; i++) {
@@ -864,16 +900,20 @@
     }
 }());
 
+/* ── Envelope Card 3-D tilt + shine ── */
 (function () {
     const card  = document.getElementById('envelopeCard');
     const shine = document.getElementById('shine-radial');
     const foil  = document.getElementById('holo-foil');
+
     const REST_TRANSFORM = 'perspective(1100px) rotateX(5deg) rotateY(-8deg) rotateZ(-1deg)';
     const REST_FILTER =
         'drop-shadow(18px 26px 40px rgba(60,40,20,0.22)) ' +
         'drop-shadow(4px  8px  14px rgba(60,40,20,0.13))';
     const SLOW_TRANSITION = 'transform 0.55s cubic-bezier(0.25,0.8,0.25,1), filter 0.55s ease';
+
     card.addEventListener('mouseenter', () => { card.style.transition = 'filter 0.12s ease'; });
+
     card.addEventListener('mousemove', (e) => {
         const r  = card.getBoundingClientRect();
         const x  = (e.clientX - r.left) / r.width;
@@ -895,6 +935,7 @@
             `drop-shadow(${sX}px ${sY}px 38px rgba(60,40,20,0.25)) ` +
             `drop-shadow(3px 6px 12px rgba(60,40,20,0.13))`;
     });
+
     card.addEventListener('mouseleave', () => {
         card.style.transition = SLOW_TRANSITION;
         card.style.transform  = REST_TRANSFORM;
@@ -905,6 +946,7 @@
     });
 }());
 
+/* ── Invited Section parallax ── */
 (function () {
     const section   = document.getElementById('invited');
     if (!section) return;
@@ -913,6 +955,7 @@
     const polaroid  = section.querySelector('.polaroid');
     const camera    = section.querySelector('.camera-wrap');
     let rafId = null;
+
     function update() {
         rafId = null;
         const scrolled = Math.max(0, -section.getBoundingClientRect().top);
@@ -923,12 +966,14 @@
         polaroid.style.transform  = `translate3d(0, calc(-50% + ${polY.toFixed(1)}px), 0) rotate(-8deg)`;
         camera.style.transform    = `translate3d(0, calc(-50% + ${polY.toFixed(1)}px), 0) rotate(8deg)`;
     }
+
     function onScroll() { if (!rafId) rafId = requestAnimationFrame(update); }
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onScroll, { passive: true });
     update();
 }());
 
+/* ── Countdown Timer ── */
 (function () {
     const TARGET = new Date('2026-04-18T17:00:00');
     const els = {
@@ -955,6 +1000,7 @@
     setInterval(tick, 1000);
 }());
 
+/* ── Calendar ── */
 (function () {
     const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/pub?output=csv';
     const YEAR = 2026, MONTH = 3, BANQUET_DAY = 18;
@@ -963,6 +1009,7 @@
     const today      = new Date();
     const eventMap   = {};
     eventMap[BANQUET_DAY] = 'SASE Annual Banquet · 5 – 8 PM';
+
     function buildCalendar() {
         const container = document.getElementById('calDays');
         container.innerHTML = '';
@@ -991,6 +1038,7 @@
             container.appendChild(cell);
         }
     }
+
     function parseCSV(text) {
         text.trim().split(/\r?\n/).slice(1).forEach(line => {
             const cols = line.split(',').map(c => c.trim().replace(/^"|"$/g, ''));
@@ -1001,6 +1049,7 @@
             eventMap[day] = (eventMap[day] ? eventMap[day] + ' / ' : '') + (cols[1] || '');
         });
     }
+
     async function loadSheet() {
         const status = document.getElementById('calStatus');
         if (SHEET_CSV_URL.includes('YOUR_SHEET_ID')) {
@@ -1018,9 +1067,11 @@
         }
         buildCalendar();
     }
+
     buildCalendar();
     loadSheet();
 }());
 </script>
+
 </body>
 </html>

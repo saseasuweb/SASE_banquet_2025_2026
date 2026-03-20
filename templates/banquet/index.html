@@ -183,7 +183,6 @@
             pointer-events: none;
             z-index: 0;
         }
-        /* ── page2.png background illustration ── */
         .invited-illustration {
             position: absolute;
             inset: 0;
@@ -219,7 +218,22 @@
             filter: drop-shadow(0 22px 48px rgba(60, 40, 20, 0.18))
                     drop-shadow(0 4px 12px rgba(60, 40, 20, 0.10));
         }
-        .lacy-img { width: 100%; height: auto; display: block; }
+        .lacy-img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        .lacy-overlay {
+            position: absolute;
+            top: -8%;
+            left: 8%;
+            width: 85%;
+            height: auto;
+            object-fit: contain;
+            filter: drop-shadow(6px 12px 28px rgba(60,40,20,0.28));
+            border-radius: 4px;
+            z-index: 2;
+        }
         .polaroid {
             position: absolute;
             right: 32%;
@@ -727,13 +741,17 @@
      ═══════════════════════════════════════════════════════ -->
 <section class="invited-section" id="invited">
     <div class="invited-inner">
-        <!-- page2.png background illustration -->
         <div class="invited-illustration" aria-hidden="true"></div>
         <div class="invited-watermark" aria-hidden="true">You Are Invited</div>
+
+        <!-- Lacy card with flyer overlaid on top -->
         <div class="lacy-card" aria-label="You are invited">
             <img src="{% static 'banquet/images/lacy invatation card.svg' %}"
                  alt="You Are Invited" class="lacy-img">
+            <img src="{% static 'banquet/images/flyer.png' %}"
+                 alt="SASE Banquet Flyer" class="lacy-overlay">
         </div>
+
         <div class="polaroid">
             <div class="polaroid-photo">
                 <img src="{% static 'banquet/images/polaroid-photo.jpeg' %}"
@@ -742,6 +760,7 @@
             </div>
             <p class="polaroid-cap">/ sase banquet 2026</p>
         </div>
+
         <div class="camera-wrap">
             <img src="{% static 'banquet/images/camera.svg' %}" alt="camera" class="camera-svg">
             <img src="{% static 'banquet/images/camera-photo.jpeg' %}"
@@ -780,6 +799,7 @@
      ═══════════════════════════════════════════════════════ -->
 <section class="details-section" id="details">
     <div class="details-illustration" aria-hidden="true"></div>
+
     <!-- LEFT: COUNTDOWN -->
     <div class="countdown-wrap">
         <div class="mon-sho" aria-hidden="true">
@@ -801,10 +821,12 @@
             <span style="font-style:italic; color:#9a8a78; font-size:12px;">Semi-formal &nbsp;·&nbsp; Must RSVP</span>
         </div>
     </div>
+
     <!-- CENTER: PAY NOW -->
     <div class="pay-col">
         <a href="#payment" class="pay-btn">Pay Now</a>
     </div>
+
     <!-- RIGHT: CALENDAR -->
     <div class="cal-wrap">
         <div class="cal-header">

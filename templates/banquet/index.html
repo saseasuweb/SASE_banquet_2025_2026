@@ -61,8 +61,6 @@
                 radial-gradient(ellipse 50% 45% at 28% 75%, rgba(190,175,155,0.10) 0%, transparent 60%);
             pointer-events: none;
         }
-
-        /* ── page 1.png background ── */
         .hero-illustration {
             position: absolute;
             inset: 0;
@@ -74,7 +72,6 @@
             pointer-events: none;
             z-index: 0;
         }
-
         .hero-heading {
             text-align: center;
             margin-bottom: 0px;
@@ -184,6 +181,19 @@
                 radial-gradient(ellipse 55% 50% at 32% 58%, rgba(190,175,155,0.10) 0%, transparent 65%),
                 radial-gradient(ellipse 45% 50% at 72% 38%, rgba(160,190,215,0.09) 0%, transparent 60%);
             pointer-events: none;
+            z-index: 0;
+        }
+        /* ── page2.png background illustration ── */
+        .invited-illustration {
+            position: absolute;
+            inset: 0;
+            background:
+                url("{% static 'banquet/images/page2.png' %}")
+                center center / 100% auto no-repeat;
+            mix-blend-mode: multiply;
+            opacity: 0.90;
+            pointer-events: none;
+            z-index: 0;
         }
         .invited-watermark {
             position: absolute;
@@ -624,13 +634,11 @@
      HERO SECTION
      ═══════════════════════════════════════════════════════ -->
 <section class="hero" id="hero">
-    <div class="hero-illustration" aria-hidden="true"></div>  <!-- page 1.png -->
-
+    <div class="hero-illustration" aria-hidden="true"></div>
     <div class="hero-heading">
         <h1>SASE Annual Banquet &nbsp;·&nbsp; 2026</h1>
         <p class="tagline">Friendship Gardens</p>
     </div>
-
     <div class="envelope-card" id="envelopeCard">
         <svg viewBox="0 0 720 720" xmlns="http://www.w3.org/2000/svg"
              xmlns:xlink="http://www.w3.org/1999/xlink" overflow="visible">
@@ -710,7 +718,6 @@
                   fill="url(#sweep-grad)" mask="url(#envelope-mask)" pointer-events="none"/>
         </svg>
     </div>
-
     <a href="#rsvp" class="rsvp-btn">RSVP Now</a>
     <div class="scroll-hint">↓ &nbsp; scroll</div>
 </section>
@@ -720,11 +727,12 @@
      ═══════════════════════════════════════════════════════ -->
 <section class="invited-section" id="invited">
     <div class="invited-inner">
+        <!-- page2.png background illustration -->
+        <div class="invited-illustration" aria-hidden="true"></div>
         <div class="invited-watermark" aria-hidden="true">You Are Invited</div>
         <div class="lacy-card" aria-label="You are invited">
             <img src="{% static 'banquet/images/lacy invatation card.svg' %}"
                  alt="You Are Invited" class="lacy-img">
-            <img src="{% static 'banquet/images/flyer.png' %}" class="lacy-overlay">
         </div>
         <div class="polaroid">
             <div class="polaroid-photo">
@@ -772,7 +780,6 @@
      ═══════════════════════════════════════════════════════ -->
 <section class="details-section" id="details">
     <div class="details-illustration" aria-hidden="true"></div>
-
     <!-- LEFT: COUNTDOWN -->
     <div class="countdown-wrap">
         <div class="mon-sho" aria-hidden="true">
@@ -794,12 +801,10 @@
             <span style="font-style:italic; color:#9a8a78; font-size:12px;">Semi-formal &nbsp;·&nbsp; Must RSVP</span>
         </div>
     </div>
-
     <!-- CENTER: PAY NOW -->
     <div class="pay-col">
         <a href="#payment" class="pay-btn">Pay Now</a>
     </div>
-
     <!-- RIGHT: CALENDAR -->
     <div class="cal-wrap">
         <div class="cal-header">
@@ -936,7 +941,6 @@
     const today      = new Date();
     const eventMap   = {};
     eventMap[BANQUET_DAY] = 'SASE Annual Banquet · 5 – 8 PM';
-
     function buildCalendar() {
         const container = document.getElementById('calDays');
         container.innerHTML = '';
@@ -965,7 +969,6 @@
             container.appendChild(cell);
         }
     }
-
     function parseCSV(text) {
         text.trim().split(/\r?\n/).slice(1).forEach(line => {
             const cols = line.split(',').map(c => c.trim().replace(/^"|"$/g, ''));
@@ -976,7 +979,6 @@
             eventMap[day] = (eventMap[day] ? eventMap[day] + ' / ' : '') + (cols[1] || '');
         });
     }
-
     async function loadSheet() {
         const status = document.getElementById('calStatus');
         if (SHEET_CSV_URL.includes('YOUR_SHEET_ID')) {
@@ -994,11 +996,9 @@
         }
         buildCalendar();
     }
-
     buildCalendar();
     loadSheet();
 }());
 </script>
-
 </body>
 </html>

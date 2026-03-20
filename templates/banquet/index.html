@@ -16,7 +16,7 @@
         }
 
         /* ═══════════════════════════
-           GLOBAL PETAL CANVAS (fixed, full-page)
+           GLOBAL PETAL CANVAS
            ═══════════════════════════ */
         .petal-canvas {
             position: fixed;
@@ -38,10 +38,10 @@
             transform-origin: center;
         }
         @keyframes petal-fall {
-            0%   { opacity: 0;    transform: translateY(0)      rotate(0deg)   translateX(0); }
+            0%   { opacity: 0;    transform: translateY(0)     rotate(0deg)   translateX(0); }
             8%   { opacity: 0.85; }
             90%  { opacity: 0.6;  }
-            100% { opacity: 0;    transform: translateY(110vh)  rotate(540deg) translateX(60px); }
+            100% { opacity: 0;    transform: translateY(110vh) rotate(540deg) translateX(60px); }
         }
 
         /* ═══════════════════════════
@@ -87,7 +87,7 @@
         }
 
         /* ═══════════════════════════
-           ENVELOPE CARD — 3-D + shine
+           ENVELOPE CARD
            ═══════════════════════════ */
         .envelope-card {
             position: relative;
@@ -118,8 +118,6 @@
             animation: card-sweep 0.85s cubic-bezier(0.4, 0, 0.2, 1) forwards;
             animation-delay: 0.04s;
         }
-
-        /* ── RSVP button ── */
         .rsvp-btn {
             display: inline-block;
             margin-top: 42px;
@@ -137,8 +135,6 @@
             transition: background 0.3s, color 0.3s;
         }
         .rsvp-btn:hover { background: #4a6e8a; color: #fff; }
-
-        /* ── Scroll hint ── */
         .scroll-hint {
             position: absolute;
             bottom: 26px;
@@ -290,16 +286,16 @@
         .knot-svg { width: 68px; height: auto; }
 
         /* ═══════════════════════════
-           DETAILS SECTION
+           DETAILS SECTION  ← KEY CHANGES
            ═══════════════════════════ */
         .details-section {
             background: #f0ece3;
-            min-height: 100vh;
+            min-height: 65vh;          /* shorter, landscape feel */
             display: grid;
-            grid-template-columns: 1fr auto 1fr;
-            align-items: center;
-            gap: 48px;
-            padding: 72px 48px;
+            grid-template-columns: 38% auto 1fr;   /* countdown wider, calendar fills right */
+            align-items: center;       /* countdown + pay-now stay vertically centered */
+            gap: 0 32px;
+            padding: 52px 52px 52px 56px;
             position: relative;
             overflow: hidden;
         }
@@ -309,18 +305,19 @@
                 grid-template-rows: auto auto auto;
                 padding: 48px 24px;
                 gap: 36px;
+                min-height: unset;
             }
         }
 
-        /* ── page3.png illustration background ── */
+        /* ── page3.png — FULL COVER ── */
         .details-illustration {
             position: absolute;
             inset: 0;
             background:
-                url("{% static '/workspaces/SASEASU/static/banquet/images/page3.png' %}")
-                right bottom / 65% auto no-repeat;
+                url("{% static 'banquet/images/page3.png' %}")
+                 center center / 55% auto no-repeat;   /* covers the whole section */
             mix-blend-mode: multiply;
-            opacity: 0.72;
+            opacity: 0.78;
             pointer-events: none;
             z-index: 0;
         }
@@ -331,12 +328,12 @@
             z-index: 2;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            gap: 18px;
+            align-items: flex-start;   /* left-align to match screenshot */
+            gap: 14px;
         }
         .mon-sho {
-            width: 64px;
-            height: 64px;
+            width: 56px;
+            height: 56px;
             border: 1.5px solid #b5222a;
             border-radius: 50%;
             display: flex;
@@ -353,31 +350,32 @@
         }
         .mon-sho-inner {
             font-family: 'Cormorant Garamond', Georgia, serif;
-            font-size: 22px;
+            font-size: 20px;
             color: #b5222a;
             line-height: 1;
             user-select: none;
         }
         .countdown-heading {
             font-family: 'Great Vibes', cursive;
-            font-size: clamp(24px, 3.5vw, 36px);
+            font-size: clamp(22px, 3vw, 34px);
             color: #2c2018;
-            text-align: center;
+            text-align: left;
             line-height: 1.1;
         }
         .countdown-heading small {
             display: block;
             font-family: 'Cinzel', serif;
-            font-size: 9px;
+            font-size: 8px;
             letter-spacing: 0.3em;
             color: #b5222a;
             text-transform: uppercase;
-            margin-bottom: 4px;
+            margin-bottom: 2px;
         }
         .countdown-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
+            gap: 8px;
+            width: 100%;
         }
         .cd-cell {
             display: flex;
@@ -386,8 +384,8 @@
             background: rgba(255,255,255,0.55);
             border: 1px solid rgba(181,34,42,0.18);
             border-radius: 4px;
-            padding: 14px 12px 10px;
-            min-width: 64px;
+            padding: 10px 8px 8px;
+            min-width: 52px;
             position: relative;
             overflow: hidden;
         }
@@ -401,7 +399,7 @@
         }
         .cd-num {
             font-family: 'Cinzel', serif;
-            font-size: clamp(28px, 4vw, 42px);
+            font-size: clamp(22px, 3vw, 36px);
             color: #2c2018;
             line-height: 1;
             font-variant-numeric: tabular-nums;
@@ -410,21 +408,21 @@
             display: block;
         }
         .cd-label {
-            margin-top: 6px;
+            margin-top: 4px;
             font-family: 'Cormorant Garamond', Georgia, serif;
-            font-size: 10px;
+            font-size: 9px;
             color: #7a6a58;
             letter-spacing: 0.05em;
             text-align: center;
         }
         .cd-info {
-            text-align: center;
+            text-align: left;
             font-family: 'Cormorant Garamond', Georgia, serif;
-            font-size: 13.5px;
+            font-size: 12.5px;
             color: #6a5a48;
-            line-height: 1.75;
+            line-height: 1.7;
             border-top: 1px solid rgba(181,34,42,0.18);
-            padding-top: 14px;
+            padding-top: 12px;
             width: 100%;
         }
         .cd-info strong { color: #2c2018; font-weight: 600; }
@@ -455,12 +453,12 @@
         }
         .pay-btn {
             display: inline-block;
-            padding: 14px 48px;
+            padding: 13px 40px;
             background: transparent;
             border: 1.5px solid #b5222a;
             color: #b5222a;
             font-family: 'Cinzel', serif;
-            font-size: 12px;
+            font-size: 11px;
             letter-spacing: 0.28em;
             text-transform: uppercase;
             text-decoration: none;
@@ -482,35 +480,36 @@
         .pay-btn:hover { color: #fff; }
         .pay-btn:hover::before { transform: translateX(0); }
 
-        /* ── Calendar (right column) ── */
+        /* ── Calendar (right column) — pinned to TOP ── */
         .cal-wrap {
             position: relative;
             z-index: 2;
+            align-self: start;         /* ← pins calendar to top of its row */
             background: rgba(255,255,255,0.58);
             border: 1px solid rgba(181,34,42,0.18);
             border-radius: 6px;
             overflow: hidden;
             box-shadow: 0 4px 24px rgba(60,40,20,0.09);
-            max-width: 360px;
+            max-width: 320px;
             width: 100%;
-            margin: 0 auto;
+            margin: 0 0 0 auto;        /* flush to right */
         }
         .cal-header {
             background: #b5222a;
             color: #fff;
-            padding: 12px 18px;
+            padding: 10px 16px;
             display: flex;
             align-items: center;
             justify-content: space-between;
         }
         .cal-header-title {
             font-family: 'Cinzel', serif;
-            font-size: 13px;
+            font-size: 12px;
             letter-spacing: 0.18em;
         }
         .cal-sheet-link {
             font-family: 'Cinzel', serif;
-            font-size: 9px;
+            font-size: 8px;
             letter-spacing: 0.15em;
             color: rgba(255,255,255,0.75);
             text-decoration: none;
@@ -518,18 +517,18 @@
             transition: color 0.2s;
         }
         .cal-sheet-link:hover { color: #fff; }
-        .cal-grid { padding: 10px 14px 16px; }
+        .cal-grid { padding: 8px 12px 12px; }
         .cal-dow-row {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
-            margin-bottom: 4px;
+            margin-bottom: 3px;
         }
         .cal-dow {
             font-family: 'Cinzel', serif;
-            font-size: 8.5px;
-            letter-spacing: 0.08em;
+            font-size: 7.5px;
+            letter-spacing: 0.06em;
             text-align: center;
-            padding: 4px 0;
+            padding: 3px 0;
             color: #9a8a78;
         }
         .cal-dow:first-child { color: #b5222a; }
@@ -546,7 +545,7 @@
             align-items: center;
             justify-content: center;
             font-family: 'Cormorant Garamond', Georgia, serif;
-            font-size: 13px;
+            font-size: 12px;
             color: #4a3828;
             border-radius: 50%;
             position: relative;
@@ -570,7 +569,7 @@
             content: '✿';
             position: absolute;
             bottom: 1px;
-            font-size: 7px;
+            font-size: 6px;
             opacity: 0.75;
         }
         .cal-day.has-event:not(.event-day) {
@@ -603,20 +602,17 @@
         }
         .cal-status {
             font-family: 'Cormorant Garamond', Georgia, serif;
-            font-size: 11px;
+            font-size: 10px;
             font-style: italic;
             color: #9a8a78;
             text-align: center;
-            padding: 6px 14px 10px;
+            padding: 5px 12px 9px;
             border-top: 1px solid rgba(181,34,42,0.10);
         }
     </style>
 </head>
 <body>
 
-<!-- ═══════════════════════════════════════════════════════
-     GLOBAL FALLING SAKURA PETALS (fixed, covers all sections)
-     ═══════════════════════════════════════════════════════ -->
 <div class="petal-canvas" id="petalCanvas" aria-hidden="true"></div>
 
 <!-- ═══════════════════════════════════════════════════════
@@ -627,6 +623,7 @@
         <h1>SASE Annual Banquet &nbsp;·&nbsp; 2026</h1>
         <p class="tagline">Friendship Gardens</p>
     </div>
+
     <div class="envelope-card" id="envelopeCard">
         <svg viewBox="0 0 720 720" xmlns="http://www.w3.org/2000/svg"
              xmlns:xlink="http://www.w3.org/1999/xlink" overflow="visible">
@@ -674,22 +671,18 @@
             <line x1="180" y1="310" x2="540" y2="310" stroke="#c0b4a4" stroke-width="0.8"/>
             <circle cx="360" cy="310" r="3.5" fill="#c0b4a4"/>
             <text x="360" y="368" text-anchor="middle"
-                  font-family="'Great Vibes', cursive"
-                  font-size="52" fill="#2c2018">SASE Banquet</text>
+                  font-family="'Great Vibes', cursive" font-size="52" fill="#2c2018">SASE Banquet</text>
             <text x="360" y="413" text-anchor="middle"
-                  font-family="'Great Vibes', cursive"
-                  font-size="34" fill="#4a6e8a">Friendship Gardens</text>
+                  font-family="'Great Vibes', cursive" font-size="34" fill="#4a6e8a">Friendship Gardens</text>
             <line x1="210" y1="432" x2="346" y2="432" stroke="#c0b4a4" stroke-width="0.7"/>
             <path d="M360,427 L366,432 L360,437 L354,432 Z" fill="#c0b4a4"/>
             <line x1="374" y1="432" x2="510" y2="432" stroke="#c0b4a4" stroke-width="0.7"/>
             <text x="360" y="458" text-anchor="middle"
-                  font-family="'Cormorant Garamond', Georgia, serif"
-                  font-size="14.5" fill="#4a3828">
+                  font-family="'Cormorant Garamond', Georgia, serif" font-size="14.5" fill="#4a3828">
                 Student Pavilion · Senita Ballroom BC
             </text>
             <text x="360" y="482" text-anchor="middle"
-                  font-family="'Cormorant Garamond', Georgia, serif"
-                  font-size="14.5" fill="#4a3828">
+                  font-family="'Cormorant Garamond', Georgia, serif" font-size="14.5" fill="#4a3828">
                 April 18<tspan baseline-shift="super" font-size="9">th</tspan>,
                 2026 &nbsp;·&nbsp; 5:00 – 8:00 PM
             </text>
@@ -710,6 +703,7 @@
                   fill="url(#sweep-grad)" mask="url(#envelope-mask)" pointer-events="none"/>
         </svg>
     </div>
+
     <a href="#rsvp" class="rsvp-btn">RSVP Now</a>
     <div class="scroll-hint">↓ &nbsp; scroll</div>
 </section>
@@ -769,11 +763,9 @@
      DETAILS SECTION — Countdown · Pay Now · Calendar
      ═══════════════════════════════════════════════════════ -->
 <section class="details-section" id="details">
-
-    <!-- page3.png illustration — black bg becomes transparent via multiply -->
     <div class="details-illustration" aria-hidden="true"></div>
 
-    <!-- ── LEFT: COUNTDOWN ── -->
+    <!-- LEFT: COUNTDOWN -->
     <div class="countdown-wrap">
         <div class="mon-sho" aria-hidden="true">
             <span class="mon-sho-inner">✿</span>
@@ -809,12 +801,12 @@
         </div>
     </div>
 
-    <!-- ── CENTER: PAY NOW ── -->
+    <!-- CENTER: PAY NOW -->
     <div class="pay-col">
         <a href="#payment" class="pay-btn">Pay Now</a>
     </div>
 
-    <!-- ── RIGHT: CALENDAR ── -->
+    <!-- RIGHT: CALENDAR (align-self: start → sticks to top) -->
     <div class="cal-wrap">
         <div class="cal-header">
             <div>
@@ -875,10 +867,7 @@
         'drop-shadow(4px  8px  14px rgba(60,40,20,0.13))';
     const SLOW_TRANSITION =
         'transform 0.55s cubic-bezier(0.25,0.8,0.25,1), filter 0.55s ease';
-
-    card.addEventListener('mouseenter', () => {
-        card.style.transition = 'filter 0.12s ease';
-    });
+    card.addEventListener('mouseenter', () => { card.style.transition = 'filter 0.12s ease'; });
     card.addEventListener('mousemove', (e) => {
         const r  = card.getBoundingClientRect();
         const x  = (e.clientX - r.left) / r.width;
@@ -890,7 +879,7 @@
         shine.setAttribute('cx', (x * 100).toFixed(1) + '%');
         shine.setAttribute('cy', (y * 100).toFixed(1) + '%');
         const tilt = (45 + parseFloat(rY) * 1.8 + parseFloat(rX) * 0.6) * Math.PI / 180;
-        const r2   = 390;
+        const r2 = 390;
         foil.setAttribute('x1', (360 - r2 * Math.cos(tilt)).toFixed(0));
         foil.setAttribute('y1', (360 + r2 * Math.sin(tilt)).toFixed(0));
         foil.setAttribute('x2', (360 + r2 * Math.cos(tilt)).toFixed(0));
@@ -905,12 +894,9 @@
         card.style.transition = SLOW_TRANSITION;
         card.style.transform  = REST_TRANSFORM;
         card.style.filter     = REST_FILTER;
-        shine.setAttribute('cx', '50%');
-        shine.setAttribute('cy', '50%');
-        foil.setAttribute('x1', '0');
-        foil.setAttribute('y1', '180');
-        foil.setAttribute('x2', '720');
-        foil.setAttribute('y2', '540');
+        shine.setAttribute('cx', '50%'); shine.setAttribute('cy', '50%');
+        foil.setAttribute('x1', '0');   foil.setAttribute('y1', '180');
+        foil.setAttribute('x2', '720'); foil.setAttribute('y2', '540');
     });
 }());
 
@@ -925,7 +911,6 @@
     const polaroid  = section.querySelector('.polaroid');
     const camera    = section.querySelector('.camera-wrap');
     let rafId = null;
-
     function update() {
         rafId = null;
         const scrolled = Math.max(0, -section.getBoundingClientRect().top);
@@ -958,8 +943,7 @@
     function tick() {
         const diff = TARGET - Date.now();
         if (diff <= 0) {
-            grid.innerHTML =
-                '<p class="cd-expired" style="grid-column:1/-1">The Banquet Has Arrived ✿</p>';
+            grid.innerHTML = '<p class="cd-expired" style="grid-column:1/-1">The Banquet Has Arrived ✿</p>';
             return;
         }
         const s = Math.floor(diff / 1000);
@@ -974,24 +958,17 @@
 
 /* ══════════════════════════════════════════
    APRIL 2026 CALENDAR  +  Google Sheet events
-   ─────────────────────────────────────────
-   HOW TO CONNECT YOUR SHEET:
-     1. Open your Google Sheet
-     2. File ▸ Share ▸ Publish to web ▸ CSV ▸ copy URL
-     3. Paste it into SHEET_CSV_URL below
-     4. Sheet columns:  A = date (YYYY-MM-DD)   B = event title
 ══════════════════════════════════════════ */
 (function () {
     const SHEET_CSV_URL =
         'https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/pub?output=csv';
     const YEAR        = 2026;
-    const MONTH       = 3;       /* 0-indexed → April */
+    const MONTH       = 3;
     const BANQUET_DAY = 18;
     const DAYS_TOTAL  = new Date(YEAR, MONTH + 1, 0).getDate();
     const FIRST_DOW   = new Date(YEAR, MONTH, 1).getDay();
     const today       = new Date();
-
-    const eventMap = {};
+    const eventMap    = {};
     eventMap[BANQUET_DAY] = 'SASE Annual Banquet · 5 – 8 PM';
 
     function buildCalendar() {
@@ -1059,5 +1036,6 @@
     loadSheet();
 }());
 </script>
+
 </body>
 </html>

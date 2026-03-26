@@ -68,7 +68,7 @@
             position: absolute;
             inset: 0;
             background:
-                url("{% static 'banquet/images/page1.png' %}")
+                url("static/banquet/images/page1.png")
                 center center / 90% auto no-repeat;
             mix-blend-mode: multiply;
             opacity: 0.90;
@@ -190,7 +190,7 @@
             position: absolute;
             inset: 0;
             background:
-                url("{% static 'banquet/images/page2.png' %}")
+                url("static/banquet/images/page2.png")
                 center 35% / 55% auto no-repeat;
             mix-blend-mode: multiply;
             opacity: 1.00;
@@ -347,7 +347,7 @@
             position: absolute;
             inset: 0;
             background:
-                url("{% static 'banquet/images/page3.png' %}")
+                url("static/banquet/images/page3.png")
                 center center / 85% auto no-repeat;
             mix-blend-mode: multiply;
             opacity: 0.88;
@@ -693,13 +693,13 @@
                     <stop offset="100%" stop-color="#f9e79f" stop-opacity="0.00"/>
                 </linearGradient>
                 <mask id="envelope-mask" maskUnits="userSpaceOnUse" style="mask-type: alpha">
-                    <image href="{% static 'banquet/envelope.svg' %}"
+                    <image href="static/banquet/envelope.svg"
                            x="0" y="0" width="720" height="720"
                            preserveAspectRatio="xMidYMid meet"/>
                 </mask>
             </defs>
 
-            <image href="{% static 'banquet/envelope.svg' %}"
+            <image href="static/banquet/envelope.svg"
                    x="0" y="0" width="720" height="720"
                    preserveAspectRatio="xMidYMid meet"/>
 
